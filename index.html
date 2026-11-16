@@ -1,0 +1,451 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V24.5｜五世界冒險地圖</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071521;color:#fff;font-family:system-ui,-apple-system,'PingFang TC','Noto Sans TC',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}#game{display:block;width:100vw;height:100dvh;touch-action:none}#hud{position:fixed;top:env(safe-area-inset-top);left:0;right:0;padding:4px 10px;display:none;pointer-events:none;text-shadow:0 2px 4px #000}#hud .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:900;font-size:clamp(12px,2.2vw,20px)}#q{font-size:clamp(18px,3.2vw,30px);background:#0b203be3;border:1px solid #78dad488;border-radius:9px;text-align:center;min-width:32%;padding:2px 10px}#health{display:flex;align-items:center;gap:5px}#bar{height:11px;width:100px;border-radius:6px;background:#331929;overflow:hidden;border:1px solid #fff6}#bar i{display:block;height:100%;background:#5ce0ae}#health.danger #bar{animation:blink .4s infinite alternate}#health.danger #bar i{background:#ff4141}@keyframes blink{to{filter:brightness(2.3)}}#sub{display:flex;align-items:center;justify-content:space-between;font-size:clamp(11px,1.6vw,14px);gap:10px}#energyTrack{height:9px;background:#223d4a;width:130px;border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle}#energyFill{height:100%;width:0%;background:linear-gradient(90deg,#45e2d0,#ffcc69);display:block}#controls{position:fixed;bottom:calc(8px + env(safe-area-inset-bottom));left:0;right:0;display:none;justify-content:space-between;align-items:flex-end;padding:0 clamp(10px,2.4vw,30px);pointer-events:none;gap:12px;z-index:3}#move{width:clamp(164px,25vw,235px);height:92px;display:flex;align-items:center;gap:8px;pointer-events:auto;touch-action:none}#move .direction{flex:1;height:90px;border:2px solid #78d8d9bb;background:#123d58dc;border-radius:22px;color:#dcffff;font-size:35px;font-weight:900;box-shadow:0 5px 0 #092637,0 0 18px #45ddbe33;touch-action:none;-webkit-tap-highlight-color:transparent}#move .direction.pressed{background:#2f9e9b;border-color:#ddffed;transform:translateY(3px);box-shadow:0 2px 0 #092637}#actions{display:flex;flex-direction:row;align-items:flex-end;gap:10px;pointer-events:auto}#actions button{border:2px solid #bce9eb91;border-radius:20px;background:#184665ed;color:#fff;font-weight:900;padding:4px;min-height:74px;min-width:76px;font-size:14px;text-shadow:0 2px #000;touch-action:none;-webkit-tap-highlight-color:transparent;box-shadow:0 5px 0 #0b243a;white-space:nowrap}#actions button:active,#actions button.pressed{transform:translateY(3px);box-shadow:0 2px 0 #0b243a;background:#2e8b9d}#actions #attackHold{width:118px;height:118px;min-width:118px;border-radius:50%;font-size:15px;line-height:1.5;border:3px solid #f8c87f;background:radial-gradient(circle at 35% 25%,#ce8447,#8c4118 78%);position:relative;isolation:isolate;overflow:hidden;box-shadow:0 0 20px #ffb23d66,0 5px 0 #52290f}#actions #attackHold::before{content:'';position:absolute;inset:0;background:conic-gradient(#ffe281 calc(var(--charge,0) * 1%),transparent 0);opacity:.52;z-index:-1}#actions #attackHold.ready{border-color:#fff1a7;box-shadow:0 0 22px 5px #ffe07b,0 5px 0 #52290f}#actions #attackHold.charging{border-color:#fff2a0;filter:brightness(1.15);transform:scale(1.025)}#actions #attackHold .attack-state{display:block;font-size:11px;color:#fff7c9;line-height:1.25;margin-top:3px}#actions .aux{display:flex;flex-direction:column;gap:10px}#actions .aux button{width:81px;height:65px;min-height:65px}#controls .control-hint{position:absolute;bottom:100%;font-size:12px;color:#e0f8fa;font-weight:800;text-shadow:0 2px 4px #000;padding-bottom:5px;pointer-events:none}#controls .hint-left{left:clamp(10px,2.4vw,30px)}#controls .hint-right{right:clamp(10px,2.4vw,30px)}@media(max-height:460px){#controls{bottom:calc(4px + env(safe-area-inset-bottom));padding:0 clamp(8px,1.8vw,22px)}#move{height:74px;width:clamp(152px,23vw,195px);gap:7px}#move .direction{height:73px;font-size:29px;border-radius:19px}#actions{gap:7px}#actions #attackHold{width:94px;height:94px;min-width:94px;font-size:13px}#actions #attackHold .attack-state{font-size:10px}#actions .aux{gap:7px}#actions .aux button{width:69px;height:52px;min-width:69px;min-height:52px;font-size:12px;border-radius:15px}#controls .control-hint{font-size:10px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}@media(orientation:portrait){#controls{gap:6px;padding:0 7px}#move{width:145px;height:72px;gap:6px}#move .direction{height:68px;font-size:28px;border-radius:14px}#actions{gap:5px}#actions #attackHold{width:81px;height:81px;min-width:81px;font-size:11px;line-height:1.2}#actions #attackHold .attack-state{font-size:9px}#actions .aux{gap:5px}#actions .aux button{width:54px;height:46px;min-width:54px;min-height:46px;font-size:11px;border-radius:12px}#controls .control-hint{display:none}}#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#071322ef,#13314fe8);padding:14px;z-index:4}#panel.hide{display:none}#card{max-width:640px;width:100%;max-height:96dvh;overflow:auto;text-align:center;padding:clamp(14px,3vw,26px);border:2px solid #75c7d780;background:#0b1b2df5;border-radius:22px;box-shadow:0 0 75px #32d7cd26}#card h1{font-size:clamp(24px,5vw,41px);margin:3px 0 10px;color:#f6d38f}#card h2{font-size:clamp(20px,3vw,28px)}#card p{line-height:1.55;margin:8px 0}#card button,#card select,#card input{background:#18354a;border:1px solid #80dbd0;color:#fff;border-radius:10px;padding:9px 16px;font-size:16px;margin:5px}#card button.primary{background:linear-gradient(120deg,#b76d29,#6b4226);border:2px solid #f5ce79;font-weight:900}#card .desc{color:#bcdbe2;font-size:14px}#card .choice{display:inline-block;margin:4px 8px}#card .version{color:#83e7dc;font-weight:900;letter-spacing:2px}#card .expl{background:#142f42;border-radius:12px;padding:12px;margin:12px 0;text-align:left}#card .key{color:#ffda78}#mute{position:fixed;top:92px;right:8px;z-index:2;display:none;border:1px solid #8dc;pointer-events:auto;background:#102e3ddc;border-radius:12px;color:white;padding:4px 8px}#banner{position:fixed;top:23%;width:100%;text-align:center;pointer-events:none;font-weight:900;font-size:clamp(19px,3.5vw,34px);color:#ffe9a4;text-shadow:0 0 15px #ff843e,0 3px 3px #000;opacity:0;transition:opacity .16s}#banner.show{opacity:1}@media(max-height:460px){#controls{padding:0 18px}#move{width:100px;height:100px}#stick{left:27px;top:27px}#actions{grid-template-columns:80px 66px}#actions #attackHold{min-height:90px;font-size:12px}#actions button{min-height:42px;padding:5px;font-size:12px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}
+
+/* V22.3 restored start screen with large touch targets and preview cards */
+#card.start-card{max-width:920px;padding:clamp(10px,2.2vw,24px);border-color:#e0b96d;box-shadow:0 0 80px #2bcaca40;background:linear-gradient(165deg,#0d273e,#091625 75%)}
+.start-title{font-size:clamp(26px,4.8vw,46px);font-weight:950;letter-spacing:2px;color:#ffe7a4;text-shadow:0 0 26px #f99d3b55;margin:3px 0 8px}
+.start-hint{font-size:clamp(12px,1.7vw,16px);color:#d9f4ef;margin:4px 0 10px}
+.pick-label{text-align:left;font-size:clamp(14px,2.1vw,19px);color:#f7dfa9;font-weight:850;margin:6px 0 4px}
+.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:8px}
+#card .pick{border:2px solid #538798;background:#142e44;border-radius:13px;margin:0;padding:6px;min-width:0;display:flex;gap:9px;align-items:center;text-align:left;min-height:75px;box-shadow:none;transition:border-color .12s,background .12s;touch-action:manipulation}
+#card .pick[aria-pressed="true"]{border:3px solid #ffd175;background:#34516a;box-shadow:0 0 0 2px #ffd17535 inset}
+.pick img{width:82px;height:64px;object-fit:contain;border-radius:7px;background:#193647;flex-shrink:0}
+.pick.scene img{object-fit:cover}
+.pick strong{display:block;font-size:clamp(14px,1.9vw,18px);color:#fff4d1}
+.pick small{display:block;font-size:clamp(11px,1.4vw,13px);color:#bfdae1;line-height:1.4}
+#card .start-now{width:min(440px,100%);font-size:clamp(18px,3vw,23px);font-weight:900;padding:12px 22px;margin:7px auto;background:linear-gradient(110deg,#b56d28,#b93437);border:2px solid #ffe0a0;touch-action:manipulation}
+#card.start-card .desc{font-size:clamp(11px,1.4vw,13px);line-height:1.4;margin:3px 0}
+@media(max-height:490px){#card.start-card{max-height:98dvh;padding:6px 16px}.start-title{font-size:25px;margin:0}.pick-grid{gap:6px;margin-bottom:3px}#card .pick{min-height:53px;padding:3px}.pick img{width:54px;height:45px}.pick strong{font-size:13px}.pick small{font-size:10px}#card .start-now{padding:7px;font-size:17px;margin:3px}#card.start-card .desc{font-size:10px} .pick-label{font-size:13px;margin:1px}}
+
+/* V22.6: teacher touchscreen / one-person, compact central control cluster */
+#controls{left:50%;right:auto;transform:translateX(-50%);width:min(700px,98vw);max-width:700px;justify-content:center;gap:clamp(16px,3.6vw,48px);padding:0 8px;bottom:calc(8px + env(safe-area-inset-bottom));background:linear-gradient(90deg,transparent,#07182b80 14%,#07182b80 86%,transparent);border-radius:28px}
+#move{flex:0 0 auto;width:clamp(152px,20vw,190px);gap:7px}
+#move .direction{height:85px}
+#actions{flex:0 0 auto;gap:10px}
+#actions #attackHold{width:110px;height:110px;min-width:110px}
+#actions .aux{gap:8px}
+#actions .aux button{width:80px;height:51px;min-height:51px}
+#controls .hint-left{left:12px}#controls .hint-right{right:12px}
+#attackHold.lock-ready{box-shadow:0 0 0 4px #ffda677c,0 0 24px #ffd06b,0 5px 0 #52290f}
+@media(max-width:650px){#controls{width:min(99vw,520px);gap:clamp(8px,2vw,18px);padding:0 4px}#move{width:clamp(110px,30vw,156px);height:75px;gap:4px}#move .direction{height:71px;font-size:27px;border-radius:16px}#actions{gap:6px}#actions #attackHold{width:clamp(77px,20vw,95px);min-width:clamp(77px,20vw,95px);height:clamp(77px,20vw,95px);font-size:12px}#actions #attackHold .attack-state{font-size:9px}#actions .aux button{width:clamp(51px,14vw,65px);min-width:0;height:42px;min-height:42px;font-size:11px}#controls .control-hint{display:none}}
+@media(max-height:470px){#controls{bottom:calc(3px + env(safe-area-inset-bottom))}#move{height:72px}#move .direction{height:68px}#actions #attackHold{height:82px;width:82px;min-width:82px}#actions .aux button{height:37px;min-height:37px}}
+#audioPanel{display:none;position:fixed;z-index:5;right:8px;top:132px;width:148px;padding:8px 10px;border-radius:13px;border:1px solid #8ccad3a8;background:#092235e8;color:#f6ead0;box-shadow:0 3px 16px #0008;font-size:12px;pointer-events:auto;touch-action:pan-x}#audioPanel label{display:flex;justify-content:space-between;gap:5px;font-weight:750}#audioPanel input{display:block;width:100%;margin:3px 0 6px;accent-color:#f6c46c;touch-action:auto}#audioPanel output{font-variant-numeric:tabular-nums}#audioPanel label+input:last-child{margin-bottom:0}@media(max-height:470px){#audioPanel{top:89px;width:128px;padding:5px 8px;font-size:11px}#audioPanel input{margin:2px 0 3px}}
+
+/* V23.1 大屏單人觸控：跳躍與攻擊相鄰、同一水平線，減少伸手距離 */
+#controls{width:min(780px,99vw);max-width:780px;gap:clamp(12px,2.5vw,30px);align-items:center}
+#actions{display:flex;align-items:center;flex-direction:row;gap:8px}
+#actions .aux{display:contents}
+#actions .aux button[data-action="jump"]{order:0;width:94px;min-width:94px;height:94px;min-height:94px;border-radius:23px;background:#246b84;border:3px solid #95eef1;font-size:18px;box-shadow:0 0 16px #5df4e355,0 5px 0 #092837}
+#actions #attackHold{order:1;width:112px;min-width:112px;height:112px}
+#actions .aux button[data-action="dodge"]{order:2;width:76px;min-width:76px;height:76px;min-height:76px;border-radius:20px;font-size:15px}
+#actions .aux button[data-action="jump"]:active,#actions .aux button[data-action="jump"].pressed{background:#35a8ba}
+@media(max-width:680px){#controls{width:99vw;gap:8px;padding:0 4px}#move{width:clamp(112px,29vw,150px)}#actions{gap:5px}#actions .aux button[data-action="jump"]{width:clamp(52px,15vw,78px);min-width:clamp(52px,15vw,78px);height:clamp(58px,17vw,78px);min-height:clamp(58px,17vw,78px);font-size:12px;border-radius:14px}#actions #attackHold{width:clamp(72px,19vw,91px);height:clamp(72px,19vw,91px);min-width:clamp(72px,19vw,91px)}#actions .aux button[data-action="dodge"]{width:clamp(48px,13vw,65px);min-width:clamp(48px,13vw,65px);height:clamp(51px,15vw,68px);min-height:clamp(51px,15vw,68px);font-size:11px}}
+@media(max-height:470px){#actions .aux button[data-action="jump"]{height:70px;min-height:70px}#actions .aux button[data-action="dodge"]{height:59px;min-height:59px}}
+
+/* V24.0 five-region map selection */
+#card.start-card{max-width:1000px}
+.world-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:7px;border:1px solid #608c9c;border-radius:15px;background:linear-gradient(110deg,#294152,#113146,#304454);margin-bottom:8px}
+#card .world-option{margin:0;min-width:0;padding:7px 3px;border:2px solid #7395aa;background:#172a40dd;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:manipulation}
+#card .world-option[aria-pressed="true"]{border:3px solid #ffdd8b;background:#375c66;box-shadow:inset 0 0 14px #eed58155}
+.world-icon{font-size:27px;line-height:1.05;color:#ffdc98}.world-option strong{display:block;color:#fff3cb;font-size:clamp(11px,1.5vw,15px);white-space:normal}.world-option small{display:block;color:#c9dce3;font-size:clamp(9px,1vw,11px)}
+@media(max-width:750px){.world-map{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:5px}.world-icon{font-size:19px}#card .world-option{padding:4px 2px}#card .world-option strong{font-size:11px}#card .world-option small{font-size:9px}}
+@media(max-height:480px){.world-map{gap:3px;padding:3px;margin-bottom:4px}.world-icon{font-size:17px}#card .world-option{padding:2px 1px}.world-option small{display:none!important}}
+
+/* V24.3 visual hierarchy and dedicated classroom touchscreen control dock */
+body{--dock-height:clamp(116px,15dvh,148px)}
+body.big-screen.in-game #game{height:calc(100dvh - var(--dock-height));width:100vw}
+body.big-screen.in-game #controls{position:fixed;bottom:0;left:0;right:0;transform:none;width:100%;max-width:none;height:var(--dock-height);padding:8px 165px 9px;justify-content:center;align-items:center;gap:28px;border-top:2px solid #83b6c4;border-radius:0;background:linear-gradient(180deg,#102c40 0%,#061421 100%);box-shadow:0 -7px 22px #020b14a6;z-index:3}
+body.big-screen.in-game #move{height:92px;width:170px;flex:0 0 170px}
+body.big-screen.in-game #move .direction{height:84px}
+body.big-screen.in-game #actions{align-items:center;gap:12px}
+body.big-screen.in-game #actions #attackHold{height:100px;width:100px;min-width:100px}
+body.big-screen.in-game #actions .aux button[data-action="jump"],body.big-screen.in-game #actions .aux button[data-action="drop"]{height:80px;min-height:80px;width:76px;min-width:76px}
+body.big-screen.in-game #actions .aux button[data-action="dodge"]{height:73px;min-height:73px;width:78px;min-width:78px}
+body.big-screen.in-game #audioPanel{top:auto;bottom:12px;right:12px;width:137px;z-index:5;padding:5px 8px}
+body.big-screen.in-game #mute{top:auto;bottom:22px;left:13px;right:auto;z-index:5}
+body.big-screen.in-game #controls .control-hint{display:none}
+@media(max-height:560px){#audioPanel{display:none!important}#mute{top:54px;right:6px}}
+#card .world-option{overflow:hidden;min-height:138px;padding:0 0 7px;gap:4px;background:#102537;border-color:#5d8197;box-shadow:0 4px 12px #0006;transition:transform .15s,border-color .15s}
+#card .world-option:focus-visible{outline:3px solid #fff2b4;outline-offset:2px}
+#card .world-option[aria-pressed="true"]{background:#1e4554;border-color:#ffe19b;box-shadow:0 0 0 2px #f5ca6d4a,0 7px 20px #0009}
+.world-option .scene-art{width:100%;height:78px;object-fit:cover;display:block;filter:saturate(.95)}
+.world-option strong{padding:0 4px;font-size:clamp(12px,1.4vw,16px)}
+.world-option small{padding:0 5px;font-size:clamp(10px,1.1vw,12px)}
+#card.start-card{background:linear-gradient(160deg,#112d40,#0b1c30 70%);border-color:#d3b97b}
+#card .pick{background:#142e42;border-color:#537f8b}
+#card .pick[aria-pressed="true"]{background:#275365}
+#screenModeWrap{display:flex;align-items:center;justify-content:center;gap:9px;margin:5px auto 2px;color:#d8eef1;font-size:14px}
+#screenModeWrap input{width:20px;height:20px;margin:0;accent-color:#e7c67f}
+@media(max-width:980px){body.big-screen.in-game #controls{padding-left:9px;padding-right:9px;gap:14px}body.big-screen.in-game #audioPanel{display:none!important}body.big-screen.in-game #mute{display:none!important}}
+@media(max-height:560px){body.big-screen.in-game #game{height:100dvh}body.big-screen.in-game #controls{position:fixed;bottom:calc(4px + env(safe-area-inset-bottom));left:50%;right:auto;transform:translateX(-50%);height:auto;width:min(700px,99vw);max-width:700px;padding:3px 6px;border-radius:20px;border:1px solid #5c9eae;background:#07182bbb;gap:10px}body.big-screen.in-game #move{width:130px;flex:0 0 130px;height:75px}body.big-screen.in-game #move .direction{height:72px}body.big-screen.in-game #actions #attackHold{width:85px;height:85px;min-width:85px}body.big-screen.in-game #actions .aux button[data-action="jump"],body.big-screen.in-game #actions .aux button[data-action="drop"]{height:67px;min-height:67px;width:61px;min-width:61px}body.big-screen.in-game #actions .aux button[data-action="dodge"]{height:59px;min-height:59px;width:63px;min-width:63px}body.big-screen.in-game #audioPanel{display:none!important}}
+@media(max-height:490px){#card .world-option{min-height:78px;padding-bottom:2px}.world-option .scene-art{height:48px}.world-option strong{font-size:11px}.world-option small{display:none}#screenModeWrap{font-size:11px;margin:1px}}
+
+/* V24.5: REAL docked controls for every mode & every viewport size.
+   Important: overrides the historical <=560px floating controls. */
+body.in-game{--dock-height:clamp(94px,22dvh,152px)}
+body.in-game #game,body.big-screen.in-game #game{display:block;position:absolute;top:0;left:0;width:100vw;height:calc(100dvh - var(--dock-height))!important}
+body.in-game #controls,body.big-screen.in-game #controls{
+ position:fixed!important;top:auto!important;bottom:0!important;left:0!important;right:0!important;
+ transform:none!important;width:100%!important;max-width:none!important;
+ height:var(--dock-height)!important;min-height:0!important;
+ display:flex;align-items:center;justify-content:center;gap:clamp(9px,3vw,34px);
+ padding:4px max(7px,env(safe-area-inset-right)) calc(5px + env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left))!important;
+ border:0!important;border-top:2px solid #b1d9e4!important;border-radius:0!important;
+ background:linear-gradient(180deg,#173e57 0%,#092437 55%,#071521 100%)!important;
+ box-shadow:0 -9px 25px #0317239e;z-index:5!important
+}
+body.in-game #controls:before{content:'操作區';position:absolute;left:14px;top:5px;color:#c8e3e7;font-size:11px;letter-spacing:.14em;font-weight:800;pointer-events:none}
+body.in-game #move,body.big-screen.in-game #move{height:min(82px,calc(var(--dock-height) - 15px))!important;width:clamp(108px,22vw,166px)!important;flex:0 0 auto!important;gap:6px}
+body.in-game #move .direction,body.big-screen.in-game #move .direction{height:min(75px,calc(var(--dock-height) - 20px))!important;min-height:0!important;font-size:clamp(23px,3vw,32px)}
+body.in-game #actions,body.big-screen.in-game #actions{display:flex;flex-direction:row;align-items:center;gap:clamp(4px,1.6vw,11px)!important}
+body.in-game #actions #attackHold,body.big-screen.in-game #actions #attackHold{width:clamp(66px,9.8dvh,105px)!important;min-width:clamp(66px,9.8dvh,105px)!important;height:clamp(66px,9.8dvh,105px)!important;min-height:0!important;font-size:clamp(11px,1.5vw,14px)}
+body.in-game #actions .aux,body.big-screen.in-game #actions .aux{display:flex;flex-direction:row;gap:clamp(4px,1vw,9px)}
+body.in-game #actions .aux button,body.big-screen.in-game #actions .aux button,
+body.in-game #actions .aux button[data-action="jump"],body.in-game #actions .aux button[data-action="drop"],body.in-game #actions .aux button[data-action="dodge"],
+body.big-screen.in-game #actions .aux button[data-action="jump"],body.big-screen.in-game #actions .aux button[data-action="drop"],body.big-screen.in-game #actions .aux button[data-action="dodge"]{
+ height:clamp(47px,8.2dvh,78px)!important;min-height:0!important;width:clamp(51px,8.6vw,79px)!important;min-width:0!important;border-radius:14px;font-size:clamp(10px,1.3vw,13px)
+}
+body.in-game #controls .control-hint{display:none!important}
+body.in-game #audioPanel,body.in-game #mute{display:none!important}
+@media(max-height:480px){body.in-game{--dock-height:94px}body.in-game #controls:before{display:none}}
+@media(orientation:portrait){body.in-game{--dock-height:120px}body.in-game #controls{gap:4px!important}body.in-game #move{width:100px!important}body.in-game #actions .aux{gap:3px}body.in-game #actions .aux button{width:43px!important;font-size:9px!important;padding:2px!important}body.in-game #actions #attackHold{width:66px!important;min-width:66px!important;height:66px!important}}
+/* Dramatic, polished hero cover and world cards, without changing the game logic */
+#panel{background:linear-gradient(180deg,#06132226,#06132272 44%,#061322d8),url('assets/hero-cover.webp') center center/cover no-repeat!important;padding:clamp(4px,1.1vw,16px)!important}
+#card.start-card{max-width:1040px;max-height:96dvh;overflow:auto;scrollbar-width:thin;background:linear-gradient(140deg,#051324e8,#082339e4 62%,#0d283beb)!important;border:2px solid #e9bc69!important;border-radius:23px;box-shadow:0 12px 60px #04121bc9,0 0 45px #53c9ff3c,inset 0 0 20px #dfb46a22!important;backdrop-filter:blur(8px)}
+.start-title{font-size:clamp(27px,4.7vw,49px)!important;font-weight:1000!important;color:#ffe8a4!important;text-shadow:0 3px 0 #6f3b24,0 5px 13px #02080c,0 0 22px #ffcf7a99;letter-spacing:.08em;line-height:1.1}
+.start-title em{font-size:13px;font-style:normal;letter-spacing:0;color:#a6f7ff;border:1px solid #6bcfe4;border-radius:8px;padding:2px 5px;text-shadow:none;vertical-align:middle}
+.start-hint{color:#dffbfa!important;text-shadow:0 1px 5px #000;font-weight:800}
+.pick-label{color:#ffe0a0!important;text-shadow:0 0 9px #a6803c33;font-weight:900;letter-spacing:.05em}
+#card .pick{background:linear-gradient(90deg,#174761cc,#0e314bd9)!important;border-color:#82dfe4!important;box-shadow:0 2px 13px #0008}
+#card .pick[aria-pressed="true"]{border-color:#ffde8c!important;box-shadow:0 0 0 2px #d7a95466,0 0 18px #dfc36e55!important}
+.world-map{background:linear-gradient(115deg,#123049ee,#1d4454bb,#102a44ed)!important;padding:8px!important;gap:9px!important;border:1px solid #ba9762!important}
+#card .world-option{background:linear-gradient(180deg,#1d4057,#0c253d)!important;position:relative;border:2px solid #56899f!important;border-radius:15px!important;box-shadow:0 3px 14px #0009!important;transition:transform .15s,box-shadow .15s}
+#card .world-option:hover{transform:translateY(-3px);box-shadow:0 6px 20px #000a,0 0 15px #7ceaf344!important}
+#card .world-option[aria-pressed="true"]{border-color:#ffe2a0!important;box-shadow:0 0 0 2px #ffe5a966,0 6px 20px #000b,0 0 20px #e7ae55aa!important}
+.world-option .scene-frame{display:block;width:100%;height:84px;overflow:hidden;position:relative;border-radius:12px 12px 3px 3px;background:url('assets/platform-illustration.webp') center 40%/cover}
+.world-option .scene-frame:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,#07152495)}
+.world-option .scene-art{height:100%!important;width:100%!important;object-fit:cover;opacity:.64;mix-blend-mode:screen;filter:saturate(1.5) contrast(1.1)}
+.scene-gear{background-position:80% 55%!important;filter:sepia(.5) saturate(1.5) hue-rotate(332deg)}
+.scene-forest{background-position:5% 42%!important;filter:hue-rotate(74deg) saturate(1.6)}
+.scene-sky{background-position:75% 28%!important;filter:saturate(1.3)}
+.scene-ocean{background-position:48% 70%!important;filter:hue-rotate(155deg) saturate(1.2)}
+.scene-desert{background-position:15% 80%!important;filter:sepia(.6) saturate(1.7) hue-rotate(330deg)}
+.world-option strong{color:#fff1c9!important;font-size:clamp(12px,1.5vw,16px)!important;line-height:1.35}
+.world-option small{color:#d3e9ee!important}
+#card .start-now{background:linear-gradient(130deg,#edb952,#b96b29,#813f27)!important;color:#fff8d5!important;border:2px solid #ffe49a!important;border-radius:14px!important;box-shadow:0 4px 0 #543122,0 0 16px #ffd88444;font-weight:1000!important;letter-spacing:.04em}
+#ultimateDemoBtn{box-shadow:0 3px 0 #321e50,0 0 14px #c678eb44}
+@media(max-height:480px){.world-map{gap:4px!important;padding:4px!important}.world-option .scene-frame{height:44px}.start-title{font-size:clamp(23px,3vw,29px)!important}.start-hint{font-size:11px}.world-option strong{font-size:11px!important}#card.start-card{padding:5px 12px!important}}
+
+
+/* V24.5: comfortably sized circular movement pads and more legible incoming fire */
+body.in-game #move,body.big-screen.in-game #move{width:clamp(115px,20vw,176px)!important;gap:clamp(5px,1.2vw,14px)!important;justify-content:center!important}
+body.in-game #move .direction,body.big-screen.in-game #move .direction{flex:1 1 0!important;width:auto!important;aspect-ratio:1/1!important;height:auto!important;max-height:min(76px,calc(var(--dock-height) - 19px))!important;border-radius:50%!important;min-width:0!important;box-shadow:0 4px 0 #071b2b,0 0 13px #41d4d04b!important}
+body.in-game #move .direction.pressed{box-shadow:0 1px 0 #071b2b,0 0 20px #6fffe5a6!important}
+@media(orientation:portrait){body.in-game #move,body.big-screen.in-game #move{width:100px!important;gap:5px!important}}
+</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 15</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><label for="musicVolume">♫ 配樂 <output id="musicValue">66%</output></label><input type="range" id="musicVolume" min="0" max="100" value="66" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">85%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="85" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="切換音效">🔊 音效</button><div id="banner"></div><div id="controls"><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script>
+(()=>{'use strict';
+const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=385,TOP=260,PLATFORMS=[{x:120,w:320,y:385},{x:680,w:325,y:385},{x:448,w:215,y:260}];
+let musicVolume=0.66,sfxVolume=0.85,musicStep=0;let vw=0,vh=0,s=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0;
+const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan'},scenes=['scenery-bamboo','scenery-cherry','scenery-temple'];
+const WORLDS=[
+ {id:'gear',icon:'⚙',name:'齒輪天空城',short:'黃銅鐘塔・蒸汽機兵',sky:['#18324f','#94725d'],accent:'#efc276',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
+ {id:'forest',icon:'🍄',name:'幻光蘑菇森林',short:'螢光菌傘・孢子魔獸',sky:['#132e48','#2f6b60'],accent:'#a9f2c8',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
+ {id:'sky',icon:'✧',name:'星海浮空島',short:'星晶雲海・雷羽守衛',sky:['#194770','#8ab5dd'],accent:'#bceaff',mob:['art-ghost-idle','art-mage-idle','art-armor-idle','art-tree-idle']},
+ {id:'ocean',icon:'◈',name:'深海機械遺都',short:'海底光塔・深淵機甲',sky:['#082638','#086377'],accent:'#7de9e4',mob:['art-ghost-idle','art-armor-idle','art-tree-idle','art-mage-idle']},
+ {id:'desert',icon:'☀',name:'雷霆沙漠神殿',short:'金砂石柱・雷電魔獸',sky:['#55334b','#db9860'],accent:'#ffd98e',mob:['art-lava-idle','art-armor-idle','art-mage-idle','art-ghost-idle']}
+];
+function world(){return WORLDS.find(w=>w.id===theme)||WORLDS[0]}
+const srcAsset=(key)=>'assets/'+key+'.webp';let inlineAssets=null;
+function loadImage(k){if(imgs[k])return imgs[k];let im=new Image;im.src=inlineAssets&&inlineAssets[k]?inlineAssets[k]:srcAsset(k);imgs[k]=im;return im}
+function preload(){const ks=[...scenes,'art-tree-idle','art-mage-idle','art-armor-idle','art-boss-idle','art-lava-idle','art-ghost-idle','new_poses-yuanheng-idle','new_poses-yuanheng-attack','new_poses-yuanheng-jump','new_poses-yuanheng-run','new_poses-zhiyan-idle','new_poses-zhiyan-attack','new_poses-zhiyan-jump','new_poses-zhiyan-run'];ks.forEach(loadImage)}
+function resize(){const rect=C.getBoundingClientRect();vw=rect.width||innerWidth;vh=rect.height||innerHeight;const d=Math.min(devicePixelRatio||1,2);C.width=Math.round(vw*d);C.height=Math.round(vh*d);s=Math.min(vw/W,vh/H);offX=(vw-W*s)/2;offY=(vh-H*s)/2;ctx.setTransform(d*s,0,0,d*s,d*offX,d*offY)}addEventListener('resize',resize);resize();
+function sound(kind){if(muted)return;try{aCtx=aCtx||new(window.AudioContext||window.webkitAudioContext);if(aCtx.state==='suspended')aCtx.resume();const now=aCtx.currentTime;let f=180,d=.1,wave='triangle',gain=.09;if(kind==='slash'){f=310;d=.11;wave='sawtooth'}if(kind==='hit'){f=110;d=.18;gain=.18;wave='sawtooth'}if(kind==='ok'){f=660;d=.22;gain=.15}if(kind==='bad'){f=90;d=.4;gain=.19;wave='sawtooth'}if(kind==='ult'){f=140;d=.48;gain=.2;wave='sawtooth'}if(kind==='jump'){f=300;d=.11}if(kind==='hurt'){f=80;d=.3;gain=.17}if(kind==='beam'){f=470;d=.16}if(kind==='boss'){f=70;d=.55;gain=.15}if(kind==='death'){f=210;d=.65;gain=.18;wave='sawtooth'}if(kind==='revive'){f=480;d=.27;gain=.12}let o=aCtx.createOscillator(),g=aCtx.createGain();o.type=wave;o.frequency.setValueAtTime(f,now);o.frequency.exponentialRampToValueAtTime(Math.max(35,f*(kind==='ok'?1.65:.43)),now+d);g.gain.setValueAtTime(gain*sfxVolume,now);g.gain.exponentialRampToValueAtTime(.001,now+d);o.connect(g);g.connect(aCtx.destination);o.start(now);o.stop(now+d+.02)}catch(e){}}
+function music(dt){
+ musicTimer-=dt;
+ if(musicTimer>0||muted||phase!=='play'||musicVolume<=0||!aCtx||aCtx.state!=='running')return;
+ const urgent=HP<25, boss=stage===2;
+ musicTimer=urgent?.175:boss?.21:stage===1?.25:.30;
+ soundMusic();
+}
+function musicNote(freq,start,duration,volume,wave='triangle'){
+ if(!aCtx||muted||musicVolume<=0)return;
+ const osc=aCtx.createOscillator(),env=aCtx.createGain();
+ osc.type=wave;osc.frequency.setValueAtTime(freq,start);
+ const peak=Math.max(.0001,volume*musicVolume);
+ env.gain.setValueAtTime(.0001,start);
+ env.gain.exponentialRampToValueAtTime(peak,start+.018);
+ env.gain.exponentialRampToValueAtTime(.0001,start+duration);
+ osc.connect(env);env.connect(aCtx.destination);osc.start(start);osc.stop(start+duration+.02);
+}
+function soundMusic(){
+ if(!aCtx||aCtx.state!=='running')return;
+ try{
+  const now=aCtx.currentTime,step=musicStep++,boss=stage===2,urgent=HP<25;
+  const melody=boss?[220,247,262,196,220,294,277,196]:stage===1?[196,220,247,220,196,165,185,220]:[220,262,294,262,247,220,196,247];
+  const tone=melody[step%melody.length];
+  // More sustained melodic phrase, bass pulse, and urgent/boss percussion.
+  musicNote(tone,now,.23,boss?.052:.047,boss?'sawtooth':'triangle');
+  if(step%2===0)musicNote(tone/2,now,.20,boss?.043:.034,'sine');
+  if(urgent||boss){
+   const drum=step%2===0?82:125;
+   musicNote(drum,now,.095,urgent?.046:.035,'triangle');
+  }
+ }catch(e){}
+}
+function unlockAudio(){try{aCtx=aCtx||new(window.AudioContext||window.webkitAudioContext);if(aCtx.state==='suspended')aCtx.resume()}catch(e){}}
+function panel(title,body,buttons){$('card').classList.remove('start-card');$('panel').classList.remove('hide');$('card').innerHTML='<div class="version">指數劍客 V24.5｜五世界冒險地圖</div><h1>'+title+'</h1>'+body+'<p>'+buttons.map((b,i)=>'<button class="'+(i===0?'primary':'')+'" data-panel="'+i+'">'+b[0]+'</button>').join('')+'</p>';buttons.forEach((b,i)=>$('card').querySelector('[data-panel="'+i+'"]').onclick=b[1]);$('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none'}
+function menu(){
+ phase='menu';document.body.classList.remove('in-game');resize();hero=hero||'yuanheng';theme=theme||'gear';
+ const markup=`<div class="start-title">指數劍客 <em>V24.5</em></div><div class="start-hint">五個冒險世界擇一｜初階 15 題 → 進階 10 題 → 魔王連續答對 5 題</div>
+ <div class="pick-label">① 選擇主角</div>
+ <div class="pick-grid">
+ <button type="button" class="pick" data-hero="yuanheng"><img src="assets/new_poses-yuanheng-idle.webp" alt="淵衡角色預覽"><span><strong>淵衡</strong><small>青刃劍士｜迅捷突擊</small></span></button>
+ <button type="button" class="pick" data-hero="zhiyan"><img src="assets/new_poses-zhiyan-idle.webp" alt="芷言角色預覽"><span><strong>芷言</strong><small>翡翠劍士｜靈巧劍氣</small></span></button>
+ </div>
+ <div class="pick-label">② 冒險地圖｜五選一（進階與魔王延續同一世界）</div>
+ <div class="world-map">${WORLDS.map(w=>`<button type="button" class="world-option" data-theme="${w.id}"><span class="scene-frame scene-${w.id}"><img class="scene-art" src="assets/map-${w.id}.svg" alt="${w.name}場景風格預覽"></span><span><strong>${w.name}</strong><small>${w.short}</small></span></button>`).join('')}</div>
+ <label id="screenModeWrap"><input type="checkbox" id="bigScreenToggle"> 教室大屏模式（按鍵與戰鬥區分開）</label>
+ <button type="button" class="start-now" id="startGameNow">▶ 開始挑戰｜初階 15 題</button>
+ <button type="button" id="ultimateDemoBtn" style="font-weight:900;color:#ffefbc;border:2px solid #ffcf70;background:linear-gradient(120deg,#813f39,#67438d);padding:10px 16px">✨ 試用：華麗必殺技</button>
+ <p class="desc">短按攻擊、格擋、閃躲來集氣；絕技打中正解才過題，打錯扣一命。四個答案每題隨機換位。</p>
+ <p class="desc">大屏單人操作：按鍵集中下方，左／右移動｜跳躍｜短按揮劍、長按集氣｜閃避。金色準星僅代表可命中，不代表正解。</p>`;
+ $('panel').classList.remove('hide');$('card').classList.add('start-card');$('card').innerHTML=markup;
+ $('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none';
+ function updatePicks(){for(let el of $('card').querySelectorAll('[data-hero]'))el.setAttribute('aria-pressed',String(el.dataset.hero===hero));for(let el of $('card').querySelectorAll('[data-theme]'))el.setAttribute('aria-pressed',String(el.dataset.theme===theme))}
+ for(let el of $('card').querySelectorAll('[data-hero]'))el.onclick=()=>{hero=el.dataset.hero;updatePicks()};
+ for(let el of $('card').querySelectorAll('[data-theme]'))el.onclick=()=>{theme=el.dataset.theme;updatePicks()};
+ $('bigScreenToggle').checked=bigScreen;$('bigScreenToggle').onchange=e=>{bigScreen=e.target.checked};$('startGameNow').onclick=()=>{unlockAudio();musicTimer=0;newStage(0)};$('ultimateDemoBtn').onclick=showUltimateDemo;updatePicks();
+}
+function showUltimateDemo(){
+ unlockAudio();
+ const overlay=document.createElement('div');overlay.id='ultimatePreview';overlay.style.cssText='position:fixed;inset:0;z-index:20;background:#061122;color:white;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px;gap:8px';
+ overlay.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;width:min(1060px,98vw);gap:10px"><strong style="color:#ffe2a0">⚔ 華麗必殺技｜展示模式</strong><button id="demoClose" style="padding:9px 17px;border-radius:12px;border:1px solid #9ce7e7;background:#153d54;color:white;font-weight:bold">✕ 返回選單</button></div><canvas id="demoCanvas" style="width:min(1060px,98vw);height:min(72dvh,600px);border-radius:14px;border:2px solid #eec57d88;background:#10223b;display:block"></canvas><div style="font-size:13px;color:#dceff5;text-align:center">自動展示集氣、飛劍尾跡與命中爆光｜不扣生命、不影響遊戲成績</div>';
+ document.body.appendChild(overlay);const cv=overlay.querySelector('canvas'),g=cv.getContext('2d');let active=true,start=performance.now(),lastHit=-1;
+ const heroImg=loadImage(HERO[hero]+'-attack');const bg=new Image();bg.src='assets/map-'+theme+'.svg';
+ const close=()=>{active=false;overlay.remove()};overlay.querySelector('#demoClose').onclick=close;
+ const particles=Array.from({length:70},(_,i)=>({r:14+(i*31%115),angle:i*2.399,seed:i*.67}));
+ function render(t){if(!active)return;const w=1060,h=570;cv.width=1060;cv.height=570;let time=(t-start)/1000,cycle=time%5.8,charge=Math.min(1,cycle/1.4),fly=Math.max(0,Math.min(1,(cycle-1.4)/1.35)),impact=Math.max(0,Math.min(1,(cycle-2.75)/1.15));
+ g.clearRect(0,0,w,h);if(bg.complete&&bg.naturalWidth)g.drawImage(bg,0,0,w,h);else{let bgG=g.createLinearGradient(0,0,0,h);bgG.addColorStop(0,'#15345b');bgG.addColorStop(1,'#26213e');g.fillStyle=bgG;g.fillRect(0,0,w,h)}
+ g.fillStyle='#07132388';g.fillRect(0,0,w,h);g.fillStyle='#263e56';g.fillRect(0,467,w,103);g.fillStyle='#6ac5ba';g.fillRect(0,465,w,5);
+ let px=205,py=467,tx=800,ty=290;g.save();g.shadowBlur=24;g.shadowColor='#59ebff';if(heroImg.complete&&heroImg.naturalWidth)g.drawImage(heroImg,px-80,py-173,156,173);else{g.font='112px sans-serif';g.fillText('⚔️',px-64,py-34)}g.restore();
+ g.textAlign='center';g.font='bold 25px system-ui';g.fillStyle='#fff1bd';g.shadowBlur=9;g.shadowColor='#000';g.fillText('答案目標',tx,ty-103);g.shadowBlur=0;
+ g.fillStyle='#203b55cc';g.strokeStyle='#e7cc80';g.lineWidth=3;g.beginPath();g.roundRect(tx-83,ty-91,166,140,16);g.fill();g.stroke();g.font='bold 59px sans-serif';g.fillStyle='#fff3c3';g.fillText('2⁵',tx,ty+6);
+ if(cycle<1.4){g.save();g.translate(px,py-94);for(let i=0;i<5;i++){g.beginPath();g.strokeStyle='rgba(255,221,119,'+(charge*.65)+')';g.lineWidth=2+charge*3;g.arc(0,0,35+i*15,0,Math.PI*2*charge);g.stroke()}for(let p of particles.slice(0,48)){let a=p.angle+time*2,r=(p.r+time*30)%120;g.fillStyle=['#faedb3','#4deaff','#f7b858'][Math.floor(p.seed)%3];g.globalAlpha=.3+charge*.65;g.fillRect(Math.cos(a)*r,Math.sin(a)*r,3+charge*3,3+charge*3)}g.restore()}
+ if(cycle>=1.4&&cycle<3.0){let tipx=px+28+(tx-px-35)*fly,tipy=py-105+(ty-(py-105))*fly;g.save();for(let j=17;j>=0;j--){let f=Math.max(0,fly-j*.018),x=px+28+(tx-px-35)*f,y=py-105+(ty-(py-105))*f;g.globalAlpha=(1-j/18)*.72;g.fillStyle=j%3===0?'#fff3bd':'#54dfff';g.beginPath();g.arc(x,y,4+(18-j)*.5,0,Math.PI*2);g.fill()}g.globalAlpha=1;g.translate(tipx,tipy);g.rotate(-.23);g.shadowColor='#ffdf86';g.shadowBlur=32;g.fillStyle='#fff9d9';g.beginPath();g.moveTo(47,0);g.lineTo(-8,-11);g.lineTo(-29,0);g.lineTo(-8,11);g.closePath();g.fill();g.strokeStyle='#7ce7ff';g.lineWidth=4;g.stroke();g.fillStyle='#cfa454';g.fillRect(-34,-20,7,40);g.fillStyle='#2c4257';g.fillRect(-52,-5,20,10);g.restore()}
+ if(cycle>=2.75&&cycle<4.35){let power=Math.max(0,1-impact);g.save();g.globalAlpha=power;g.translate(tx,ty-23);for(let i=0;i<3;i++){g.beginPath();g.strokeStyle=['#ffe58c','#7cecff','#ffffff'][i];g.lineWidth=(11-i*3)*power;g.arc(0,0,30+impact*(110+i*45),0,Math.PI*2);g.stroke()}for(let p of particles){let a=p.angle,r=impact*(95+p.r*1.7);g.fillStyle=['#ffe58c','#7cecff','#ffffff'][Math.floor(p.seed)%3];g.beginPath();g.arc(Math.cos(a)*r,Math.sin(a)*r,3.8*(1-impact*.5),0,Math.PI*2);g.fill()}g.restore();if(lastHit!==Math.floor(time/5.8)){lastHit=Math.floor(time/5.8);sound('ult');sound('hit')}}
+ g.font='bold 26px system-ui';g.textAlign='left';g.fillStyle='#ffecae';g.fillText(cycle<1.4?'① 凝聚劍氣':cycle<2.75?'② 飛劍疾射！':cycle<4.35?'③ 雷光爆擊！':'④ 準備再次展示',32,55);
+ requestAnimationFrame(render)}requestAnimationFrame(render)
+}
+function newStage(n,carryLives=false){stage=n;qIndex=0;bossCount=0;bossCombo=0;lives=n===0?5:(n===2&&carryLives?lives:3);HP=100;energy=40;player={x:105,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=Array.from({length:n===0?1:2},(_,i)=>({x:i?870:275,y:i?UP:G,level:i?1:0,hitUntil:0}));chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2)sound('boss')}
+function banner(m,d=1.3){$('banner').textContent=m;$('banner').classList.add('show');msgUntil=performance.now()/1000+d}
+const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),shuffle=x=>{for(let i=x.length-1;i>0;i--){let j=rand(0,i);[x[j],x[i]]=[x[i],x[j]]}return x};
+function makeQ(){let diff=stage===0?Math.floor(qIndex/5):stage===1?2+Math.floor(qIndex/5):4;let type=rand(0,diff>=2?4:2),base=rand(2,diff>=3?7:5),a=rand(2,5),b=rand(1,4),q,answer,wrong;
+if(type===0){answer=a+b;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> = ?`;wrong=[a*b,a+b+1,a+b-1,Math.abs(a-b),a+b+2,a*b+1]}
+else if(type===1){a=rand(4,9);b=rand(1,a-1);answer=a-b;q=`${base}<sup>${a}</sup> ÷ ${base}<sup>${b}</sup> = ?`;wrong=[a+b,a-b+1,a-b-1,a*b,Math.abs(a-b)+2,a]}
+else if(type===2){a=rand(2,4);b=rand(2,3);answer=a*b;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> = ?`;wrong=[a+b,a*b+1,a*b-1,a*b+b,a*b+a]}
+else if(type===3){a=rand(2,6);b=rand(2,4);answer=a+b;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> = ${base}<sup>?</sup>`;wrong=[a*b,Math.abs(a-b),a+b+1,a+b-1,a+b+3]}
+else{a=rand(4,7);b=rand(1,3);answer=a-b;q=`(${base}<sup>${a}</sup> ÷ ${base}<sup>${b}</sup>) = ?`;wrong=[a+b,a-b-1,a-b+1,a*b,2*a-b]}
+let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);let choices=shuffle(nums.map(n=>({html:`${base}<sup>${n}</sup>`,n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0||type===3?'同底數相乘，指數相加。':type===1||type===4?'同底數相除，指數相減。':'冪的乘方，指數相乘。';return {q,choices,correct,explain,base,answer};}
+function nextQuestion(){question=makeQ();let offsetSet=shuffle([{dn1:17,dn2:-17,up1:16,up2:-16},{dn1:20,dn2:-13,up1:19,up2:-13},{dn1:13,dn2:-20,up1:13,up2:-19}])[0];let positions=[{x:260,y:G+offsetSet.dn1,level:0,lo:215,hi:315},{x:302,y:UP+offsetSet.up1,level:1,lo:235,hi:370},{x:552,y:TOP+offsetSet.up2,level:2,lo:510,hi:598},{x:864,y:UP+offsetSet.dn2,level:1,lo:807,hi:925}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:world().mob[i],vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);fireAt=0;questionStart=performance.now()/1000;updateHUD()};let questionStart=0;
+function updateHUD(){let str=stage===2?`魔王 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=str;$('q').innerHTML=question.q;$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / ${stage===0?15:10}`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
+function die(reason,wrong=false){lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2)bossCombo=0;if(lives<=0){phase='lost';panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：看清底數與指數。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=105;player.y=G;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
+function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>正確指數為 ${question.answer}；請留意運算規則。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
+function solved(){sound('ok');banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){bossCombo++;if(bossCombo>=5){phase='win';panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
+else{qIndex++;if(qIndex>=(stage===0?15:10)){phase='clear';const next=stage+1;panel('✨ 階段通關！',`<p>${stage===0?'初階完成 15 題':'進階完成 10 題'}！</p><p>即將進入「${world().name}」${next===1?'進階':'魔王'}戰，場景風格延續，危機升級。</p>`,[['立即進入下一關',()=>newStage(next,next===2)],['返回選單',menu]]);setTimeout(()=>{if(phase==='clear')newStage(next,next===2)},2300);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
+function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;attackCD=now+.29;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');playerShots.push({x:player.x+player.face*42,y:player.y-72,vx:player.face*600,life:.48});if(playerShots.length>4)playerShots.shift();let range=lives===1?115:90;for(const c of chasers){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95){c.x+=player.face*95;c.hitUntil=now+.23;energy=Math.min(100,energy+9);fx.push({x:c.x,y:c.y-60,life:.35,col:'#9af8ec',radius:22});sound('hit')}}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
+function jump(){if(phase!=='play'||!player)return;let now=performance.now()/1000;if(Math.abs(player.vy)<1&&now>=dropUntil){player.vy=-655;player.level=0;sound('jump')}}
+function drop(){if(phase!=='play'||!player)return;let on=PLATFORMS.some(p=>player.x>p.x-8&&player.x<p.x+p.w+8&&Math.abs(player.y-p.y)<8);if(on){dropUntil=performance.now()/1000+.42;player.y+=10;player.vy=165;player.level=0;banner('⬇ 跳至下一層',.6);sound('jump')}}
+function dodge(){if(phase!=='play')return;let now=performance.now()/1000;if(dodgeUntil>now)return;dodgeUntil=now+.4;player.x=Math.max(36,Math.min(1060,player.x+player.face*90));energy=Math.min(100,energy+9);sound('jump');updateHUD()}
+function aimTarget(){
+ if(!player||!targets.length)return null;
+ let best=null,nearest=Infinity;
+ for(const t of targets){const dx=t.x-player.x,dy=t.y-player.y;
+  if(dx*player.face<=0||Math.abs(dx)>345||Math.abs(dy)>80)continue;
+  if(Math.abs(dx)<nearest){nearest=Math.abs(dx);best=t}
+ }return best;
+}
+function previewAim(){
+ if(!player||!targets.length)return null;
+ let best=null,nearest=Infinity;
+ for(const t of targets){const dx=t.x-player.x,dy=t.y-player.y;
+  if(dx*player.face<=0||Math.abs(dx)>450||Math.abs(dy)>105)continue;
+  if(Math.abs(dx)<nearest){best=t;nearest=Math.abs(dx)}
+ }return best;
+}
+function ultimate(){
+ if(phase!=='play'||ultShot)return;
+ if(energy<70){banner('氣力未滿 70%｜先小揮砍集氣',.8);return}
+ energy-=70;attackUntil=performance.now()/1000+.35;sound('ult');
+ const best=aimTarget(),sx=player.x+player.face*42,sy=player.y-80;
+ const tx=best?best.x:Math.max(40,Math.min(W-25,sx+player.face*355)),ty=best?best.y-63:sy;
+ const duration=Math.max(.36,Math.min(.85,Math.hypot(tx-sx,ty-sy)/590));
+ ultShot={sx,sy,x:sx,y:sy,tx,ty,duration,elapsed:0,target:best,idx:best?.idx??-1,face:player.face};
+ banner('⚔ 金色飛劍出鞘！',.7);updateHUD();
+}
+function resolveUltimate(shot){
+ if(!shot.target){energy=Math.min(100,energy+25);banner('飛劍未命中｜靠近並對準答案怪物',1);fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');updateHUD();return}
+ const target=shot.target;target.hitGlow=.6;
+ const right=shot.idx===question.correct;
+ fx.push({type:'impact',x:shot.tx,y:shot.ty,life:.84,maxLife:.84,col:right?'#ffdc7b':'#ff5c71',radius:55});
+ sound('hit');if(right)solved();else die(`擊中 ${target.letter}．${question.choices[shot.idx].html}`,true);
+ updateHUD();
+}
+function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop();if(k==='dodge')dodge();if(k==='ultimate')ultimate()}
+// Single combat button: tap = sword slash; hold >= 0.5s = gain Qi; release = special attack.
+let chargePointer=null, chargeStarted=0, isCharging=false, chargeAnnounced=false;
+function chargeBegin(e){if(phase!=='play'||chargePointer!==null)return;e.preventDefault();chargePointer=e.pointerId;chargeStarted=performance.now()/1000;isCharging=true;const b=$('attackHold');b.classList.add('charging');if(typeof e.pointerId==='number'){try{b.setPointerCapture?.(e.pointerId)}catch(_){}}}
+function chargeEnd(e, cancelled=false){if(chargePointer!==e.pointerId)return;e.preventDefault();const duration=performance.now()/1000-chargeStarted;chargePointer=null;isCharging=false;$('attackHold').classList.remove('charging');if(cancelled||phase!=='play')return;if(duration<.48){slash();return}if(energy>=70){ultimate()}else{banner('集氣尚未完成！再長按久一點',.9);sound('slash')}updateHUD();}
+function getXY(e){return {x:(e.clientX-offX)/s,y:(e.clientY-offY)/s}}
+// Three physical tiers: bottom floor, two middle platforms, and short central top platform.
+// Landing occurs only when descending across the top of a platform.
+function landingHeight(oldX,oldY,newX,newY,vy,now){
+ let result=G;
+ if(vy<0||now<dropUntil)return result;
+ for(const p of PLATFORMS){
+  const feetInside=newX>=p.x+14&&newX<=p.x+p.w-14;
+  if(feetInside&&oldY<=p.y+5&&newY>=p.y&&p.y<result)result=p.y;
+ }
+ return result;
+}
+function update(dt,now){tick+=dt;music(dt);if(phase!=='play'||!player)return;
+ if(isCharging){energy=Math.min(100,energy+dt*96);if(energy>=70&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 絕技已滿！放開攻擊鍵發射',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;if(keys['ArrowLeft']||keys['KeyA'])go=-1;if(keys['ArrowRight']||keys['KeyD'])go=1;
+ player.vx=go*255;if(go)player.face=Math.sign(go);
+ const prevX=player.x,prevY=player.y,wasGrounded=Math.abs(player.vy)<1;
+ player.x=Math.min(1060,Math.max(36,player.x+player.vx*dt));
+ // Gravity + landing on the first platform crossed from above.
+ player.vy+=1450*dt;
+ player.y+=player.vy*dt;
+ const surface=landingHeight(prevX,prevY,player.x,player.y,player.vy,now);
+ if(player.vy>=0&&player.y>=surface){player.y=surface;player.vy=0}
+ // If standing on a platform, crossing its edge naturally starts a fall.
+ if(player.vy===0&&player.y<G){
+   let supported=PLATFORMS.some(p=>player.x>=p.x+14&&player.x<=p.x+p.w-14&&Math.abs(player.y-p.y)<4);
+   if(!supported){player.vy=45;player.y+=2}
+ }
+ player.level=player.y<=TOP+4?2:player.y<=UP+4?1:0;
+ // Sword is a real visible moving projectile; answer resolves only on impact.
+ if(ultShot){
+  const a=ultShot;a.elapsed+=dt;const t=Math.min(1,a.elapsed/a.duration);
+  const smooth=t*t*(3-2*t);a.x=a.sx+(a.tx-a.sx)*smooth;a.y=a.sy+(a.ty-a.sy)*smooth;
+  if(t>=1){ultShot=null;resolveUltimate(a);if(phase!=='play')return}
+ }
+ // Answer monsters patrol in bounded lanes, never swapping floors or crowding labels.
+ for(const t of targets){if(now>t.roamUntil){t.roamUntil=now+rand(14,28)/10;t.vx=rand(17,31)*(Math.random()<.5?-1:1)}t.x+=t.vx*dt;if(t.x<t.lo){t.x=t.lo;t.vx=Math.abs(t.vx);t.roamUntil=now+.6}if(t.x>t.hi){t.x=t.hi;t.vx=-Math.abs(t.vx);t.roamUntil=now+.6}}
+ // Shooter patrols along the upper right without obscuring answer tags.
+ if(patrolEnemy){if(now>patrolEnemy.changeAt){patrolEnemy.changeAt=now+rand(18,34)/10;patrolEnemy.vx=rand(20,42)*(Math.random()<.5?-1:1)}patrolEnemy.x+=patrolEnemy.vx*dt;if(patrolEnemy.x<1000){patrolEnemy.x=1000;patrolEnemy.vx=Math.abs(patrolEnemy.vx)}if(patrolEnemy.x>1080){patrolEnemy.x=1080;patrolEnemy.vx=-Math.abs(patrolEnemy.vx)}patrolEnemy.y=stage===2?UP-58:UP-47+Math.sin(now*2)*12}
+ if(now>fireAt){fireAt=now+(stage===2?1.35:stage===1?1.7:2.05);let limit=stage===2?4:3;if(bullets.length<limit){let x=patrolEnemy?patrolEnemy.x:980,y=patrolEnemy?patrolEnemy.y-47:230,dx=player.x-x,dy=(player.y-55)-y,L=Math.hypot(dx,dy)||1;bullets.push({x,y,vx:dx/L*(stage===0?105:140),vy:dy/L*(stage===0?105:140),r:20,life:7});sound('beam')}}
+ // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
+ for(const c of chasers){const desiredY=c.level===1?UP:G; c.y=desiredY;
+  const sameLane=Math.abs(player.y-c.y)<115;
+  if(sameLane){const dx=player.x-c.x;if(Math.abs(dx)>48)c.x+=Math.sign(dx)*Math.min(Math.abs(dx)-44,(stage===0?65:95)*dt)}
+  else c.x+=(Math.sin(now*.8+c.level*2)>0?1:-1)*18*dt;
+  const limits=c.level===1?[635,1035]:[45,1055];c.x=Math.max(limits[0],Math.min(limits[1],c.x));
+  if(sameLane&&Math.abs(player.x-c.x)<48&&now>=hurtUntil&&now>=dodgeUntil&&now>chaserLastHit+1.1){
+   chaserLastHit=now;HP-=stage===0?12:17;hurtUntil=now+.82;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快閃避',.7);
+   if(HP<=0)die('遭近戰怪物擊倒');updateHUD();
+  }
+ }
+ for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of chasers){if(Math.abs(c.x-shot.x)<32&&Math.abs(c.y-60-shot.y)<64){c.x+=Math.sign(shot.vx)*50;c.hitUntil=now+.2;energy=Math.min(100,energy+8);fx.push({x:shot.x,y:shot.y,life:.32,col:'#b6f5ff',radius:13});sound('hit');used=true;break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(Math.abs(b.x-player.x)<30&&Math.abs(b.y-(player.y-60))<65){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}HP-=stage===2?28:stage===1?24:18;hurtUntil=now+.75;sound('hurt');banner('受到攻擊！',.65);if(HP<=0){die('HP 歸零，被怪物擊敗')}updateHUD()}}
+ for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
+}
+function imageDraw(k,x,y,w,h){let im=loadImage(k);if(im.complete&&im.naturalWidth){ctx.drawImage(im,x,y,w,h);return true}return false}
+function box(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function drawWorld(now){
+ const w=world(),a=w.sky,gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,a[0]);gr.addColorStop(1,a[1]);ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+ const inc=stage===0?0:stage===1?.10:.18;ctx.fillStyle=`rgba(12,6,34,${inc})`;ctx.fillRect(0,0,W,H);
+ ctx.save();ctx.globalAlpha=.20+Math.sin(now*.45)*.035;
+ for(let i=0;i<14;i++){let x=(i*151+67)%W,y=55+(i*51)%390,r=12+(i*23)%39;ctx.fillStyle=i%2?w.accent:'#d1f3ff';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}
+ ctx.restore();
+ const line=(x1,y1,x2,y2,c,width=6)=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.lineWidth=width;ctx.strokeStyle=c;ctx.stroke()};
+ if(w.id==='gear'){
+  for(let i=0;i<7;i++){let x=20+i*185;ctx.fillStyle='#1a2839b9';ctx.fillRect(x,230-(i%3)*28,102,340);ctx.fillStyle='#dcb98b8a';ctx.fillRect(x+19,238-(i%3)*28,12,120);ctx.fillRect(x+51,238-(i%3)*28,12,120);
+    ctx.save();ctx.translate(x+48,130+(i%2)*75);ctx.rotate(now*(i%2?-.06:.06));ctx.strokeStyle='#d6ab6ca8';ctx.lineWidth=11;ctx.beginPath();ctx.arc(0,0,37,0,Math.PI*2);ctx.stroke();for(let k=0;k<8;k++){let t=k*Math.PI/4;line(Math.cos(t)*20,Math.sin(t)*20,Math.cos(t)*48,Math.sin(t)*48,'#dfc28b99',6)}ctx.restore()}
+ }else if(w.id==='forest'){
+  for(let i=0;i<11;i++){let x=i*112+23,y=365+(i%3)*31;line(x,y+125,x,y-45,'#295e56aa',13);ctx.fillStyle=i%2?'#99d8d0a9':'#c58cdaad';ctx.beginPath();ctx.ellipse(x,y-60,46+(i%3)*10,23,0,Math.PI,0);ctx.fill();ctx.fillStyle='#e0fff8b8';for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(x-24+k*14,y-62,3,0,7);ctx.fill()}}
+ }else if(w.id==='sky'){
+  for(let i=0;i<9;i++){const x=i*150-70,y=275+(i%4)*39;ctx.fillStyle='#7697ac88';ctx.beginPath();ctx.ellipse(x,y,90,18,0,0,7);ctx.fill();ctx.fillStyle='#4a718490';ctx.beginPath();ctx.moveTo(x-57,y);ctx.lineTo(x+70,y);ctx.lineTo(x+23,y+38);ctx.lineTo(x-22,y+25);ctx.fill()}
+ }else if(w.id==='ocean'){
+  for(let i=0;i<9;i++){let x=i*142+15;ctx.fillStyle='#123c4fa6';ctx.fillRect(x,210+(i%3)*34,62,310);ctx.fillStyle='#9af7ffb5';ctx.fillRect(x+14,248+(i%3)*34,11,105);ctx.beginPath();ctx.arc(x+31,218+(i%3)*34,17,0,7);ctx.strokeStyle='#88f4edaa';ctx.lineWidth=4;ctx.stroke()}for(let i=0;i<25;i++){ctx.strokeStyle='#d1ffff50';ctx.beginPath();ctx.arc((i*71+now*9)%W,(i*49+250)%H,3+(i%4),0,7);ctx.stroke()}
+ }else if(w.id==='desert'){
+  for(let i=0;i<7;i++){let x=i*175-35;ctx.fillStyle='#573d46aa';ctx.fillRect(x,230+(i%3)*34,65,290);ctx.fillStyle='#e9c08199';ctx.fillRect(x+6,231+(i%3)*34,53,9);ctx.fillStyle='#44334488';ctx.beginPath();ctx.moveTo(x-20,230+(i%3)*34);ctx.lineTo(x+32,164+(i%3)*34);ctx.lineTo(x+85,230+(i%3)*34);ctx.fill()}for(let i=0;i<3;i++){let x=(now*4+i*400)%W;line(x,75,x+35,123,'#f5d2a877',2)}
+ }
+ if(stage>=1){ctx.save();ctx.globalAlpha=stage===2?.35:.15;ctx.strokeStyle=stage===2?'#ff657d':'#d09fff';ctx.lineWidth=4;for(let j=0;j<4;j++){ctx.beginPath();ctx.moveTo(j*320+24,0);ctx.lineTo(j*320+44+Math.sin(now+j)*16,120);ctx.lineTo(j*320+14,165);ctx.stroke()}ctx.restore()}
+ if(stage===2){ctx.fillStyle='#25091f5c';ctx.fillRect(0,0,W,H);ctx.save();ctx.strokeStyle='#ff5a86bb';ctx.lineWidth=8;ctx.beginPath();ctx.ellipse(900,185,82+Math.sin(now)*8,120,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
+}
+function paintSword(x,y,angle,big,time){
+ ctx.save();ctx.translate(x,y);ctx.rotate(angle);const k=big?1.42:.85;ctx.scale(k,k);
+ ctx.shadowColor=big?'#ffd76a':'#77ecff';ctx.shadowBlur=big?36:15;
+ // Blade: recognizable steel diamond, gold sharp edge, central ridge.
+ ctx.fillStyle=big?'#fff3c2':'#e1fbff';ctx.strokeStyle=big?'#ffca54':'#67d8ee';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(7,-12);ctx.lineTo(-22,-7);ctx.lineTo(-22,7);ctx.lineTo(7,12);ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(-22,0);ctx.strokeStyle=big?'#f2b73f':'#66adca';ctx.lineWidth=2.2;ctx.stroke();
+ // Guard and handle make it visibly a flying sword rather than just a beam.
+ ctx.shadowBlur=4;ctx.fillStyle=big?'#ffc664':'#91e9ee';ctx.fillRect(-28,-18,8,36);
+ ctx.fillStyle='#3b4661';ctx.fillRect(-46,-4,20,8);ctx.beginPath();ctx.arc(-49,0,6,0,Math.PI*2);ctx.fill();
+ ctx.restore();
+}
+function draw(now){ctx.clearRect(0,0,W,H);drawWorld(now);ctx.fillStyle='#07131a38';ctx.fillRect(0,0,W,H);if(phase==='menu'||!player)return;
+// Platforms of three tiers, in matching colors across all five worlds.
+ctx.fillStyle='#314a45';ctx.fillRect(0,G+8,W,H-G);
+ctx.fillStyle=world().accent;ctx.globalAlpha=.72;ctx.fillRect(0,G+7,W,8);ctx.globalAlpha=1;
+for(const p of PLATFORMS){
+ ctx.save();ctx.shadowColor=world().accent;ctx.shadowBlur=13;
+ ctx.fillStyle='#334a59';ctx.fillRect(p.x,p.y+9,p.w,24);ctx.fillStyle='#66818a';ctx.fillRect(p.x,p.y,p.w,14);
+ ctx.fillStyle=world().accent;ctx.fillRect(p.x,p.y,p.w,5);
+ ctx.strokeStyle='#1e303e';ctx.lineWidth=3;ctx.strokeRect(p.x,p.y,p.w,15);
+ for(let n=1;n<p.w/70;n++){ctx.fillStyle='#172d3a';ctx.fillRect(p.x+n*70,p.y+15,7,13)}ctx.restore();
+}
+ // Keep the arena uncluttered: controls explain movement, not labels floating over monsters.
+
+for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';ctx.shadowBlur=26}imageDraw(c.level===1?'art-ghost-idle':'art-tree-idle',c.x-31,c.y-70,62,70);ctx.shadowBlur=0;ctx.restore()}
+const pos=targets.map(t=>t);for(const t of pos){let bob=Math.sin(now*3+t.idx)*3;if(t.hitGlow)ctx.shadowColor='#ffdb8a',ctx.shadowBlur=32;let w=88,h=99;ctx.shadowColor=world().accent;ctx.shadowBlur=8;imageDraw(t.kind,t.x-w/2,t.y-h+bob,w,h);ctx.shadowBlur=0;ctx.save();ctx.font='900 33px system-ui';let label=t.letter+' · '+question.choices[t.idx].html.replace(/<sup>(.*?)<\/sup>/g,(_,n)=>String(n).replace(/[0-9\-]/g,c=>({'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'}[c])));let width=Math.max(150,ctx.measureText(label).width+28);box(t.x-width/2,t.y-158+bob,width,52,10,'#03172af7');ctx.strokeStyle='#ffe391';ctx.lineWidth=3.5;ctx.strokeRect(t.x-width/2,t.y-158+bob,width,52);ctx.fillStyle='#fffbea';ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText(label,t.x,t.y-120+bob);ctx.textAlign='start';ctx.restore()}
+if(stage!==2){let ex=patrolEnemy?.x||980,ey=patrolEnemy?.y||210;imageDraw('art-mage-idle',ex-34,ey-79,68,79);}else{let px=patrolEnemy?.x||980;imageDraw('art-lava-idle',70+Math.sin(now*1.5)*38,220,75,83);imageDraw('art-ghost-idle',px-67,230,67,73);imageDraw('art-boss-idle',938+Math.sin(now*.75)*18,174,174,176);ctx.fillStyle='#ffb2a1';ctx.font='bold 23px system-ui';ctx.fillText('虛空核心守衛',810,170)}
+
+for(const shot of playerShots){
+ ctx.save();ctx.strokeStyle='#72e6f4';ctx.globalAlpha=.54;ctx.lineWidth=9;ctx.shadowColor='#4aeeff';ctx.shadowBlur=20;ctx.beginPath();ctx.moveTo(shot.x-Math.sign(shot.vx)*72,shot.y);ctx.lineTo(shot.x,shot.y);ctx.stroke();ctx.restore();
+ paintSword(shot.x,shot.y,shot.vx>0?0:Math.PI,false,now);
+}
+if(ultShot){
+ const a=ultShot,ang=Math.atan2(a.ty-a.sy,a.tx-a.sx);ctx.save();
+ // Trail is behind the weapon and fades; the sword silhouette stays unobstructed.
+ for(let j=10;j>=1;j--){const f=Math.max(0,a.elapsed/a.duration-j*.022),u=f*f*(3-2*f),x=a.sx+(a.tx-a.sx)*u,y=a.sy+(a.ty-a.sy)*u;
+ ctx.globalAlpha=(11-j)/17;ctx.fillStyle=j%3?'#7cddff':'#ffdc74';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=10;ctx.beginPath();ctx.arc(x,y,3+(11-j)*.54,0,Math.PI*2);ctx.fill()}
+ ctx.restore();paintSword(a.x,a.y,ang,true,now);
+}
+for(const b of bullets){ctx.shadowBlur=27;ctx.shadowColor='#f986f4';ctx.fillStyle=stage===2?'#ff6666':'#e5a1ff';ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#f9def4';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(b.x-b.vx*.17,b.y-b.vy*.17);ctx.lineTo(b.x,b.y);ctx.stroke()}
+ctx.save();if(now<hurtUntil&&Math.floor(now*13)%2===0)ctx.globalAlpha=.42;let ps=player,pose=now<attackUntil?'attack':ps.vy<-30?'jump':Math.abs(ps.vx)>8?'run':'idle';let heroKey=HERO[hero]+'-'+pose;let w=122,h=152;ctx.translate(ps.x,ps.y);ctx.scale(ps.face,1);imageDraw(heroKey,-w/2,-h+7,w,h);if(now<attackUntil){ctx.strokeStyle=lives===1?'#ffd77f':'#83f3e7';ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=28;ctx.lineWidth=lives===1?13:8;ctx.beginPath();ctx.arc(26,-72,95,-1.05,1.05);ctx.stroke()}ctx.restore();
+// Charged sword aura: dynamic energy orbit follows the hero, never covers the question HUD.
+if(isCharging&&phase==='play'){
+ const a=Math.min(1,energy/70),cx=player.x,cy=player.y-93;
+ ctx.save();ctx.strokeStyle=energy>=70?'#ffd66d':'#8ceaf0';ctx.lineWidth=3+4*a;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=12+23*a;
+ ctx.beginPath();ctx.arc(cx,cy,38+9*a,-Math.PI/2,-Math.PI/2+Math.PI*2*a);ctx.stroke();
+ for(let i=0;i<9;i++){let ang=now*2.9+i*Math.PI*2/9,r=42+Math.sin(now*4+i)*10;ctx.fillStyle=i%2?'#ffdf81':'#81f6ef';ctx.beginPath();ctx.arc(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r,2.3+2.5*a,0,Math.PI*2);ctx.fill()}
+ ctx.restore();
+}
+// White aim preview / gold attack-ready lock; never reveals whether the math answer is correct.
+const aimed=previewAim(),locked=aimTarget();
+if(aimed&&phase==='play'){
+ const valid=locked===aimed,ax=aimed.x,ay=aimed.y-48,rr=valid?48:44;
+ ctx.save();ctx.strokeStyle=valid?'#ffe462':'#f5fdff';ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=valid?36:16;ctx.lineWidth=valid?5.5:3.5;
+ ctx.setLineDash(valid?[]:[7,5]);ctx.beginPath();ctx.arc(ax,ay,rr,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+ const tick=rr-9;for(let d=0;d<4;d++){const a=d*Math.PI/2+Math.PI/4;ctx.beginPath();ctx.moveTo(ax+Math.cos(a)*(tick-8),ay+Math.sin(a)*(tick-8));ctx.lineTo(ax+Math.cos(a)*(tick+6),ay+Math.sin(a)*(tick+6));ctx.stroke()}
+ ctx.shadowBlur=0;ctx.font='bold 19px system-ui';ctx.fillStyle=valid?'#ffe985':'#f4fdff';ctx.textAlign='center';ctx.fillText(valid?'◎ 可命中':'◌ 靠近鎖定',ax,ay+rr+25);ctx.textAlign='start';ctx.restore();
+}
+for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));ctx.shadowColor=f.col;ctx.shadowBlur=25;
+ if(f.type==='beam'){ctx.strokeStyle=f.col;ctx.lineWidth=18*Math.min(1,f.life*4);ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();ctx.strokeStyle='#fcffff';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();for(let n=0;n<7;n++){const t=n/7+(1-f.life/f.maxLife)*.11,px=f.x+(f.tx-f.x)*t,py=f.y+(f.ty-f.y)*t;ctx.fillStyle=n%2?'#fff7cc':'#7feaff';ctx.beginPath();ctx.arc(px,py+Math.sin(t*26+now*12)*11,3.5+n%3,0,Math.PI*2);ctx.fill()}}
+ else if(f.type==='impact'){const spread=(f.maxLife-f.life)*95;ctx.strokeStyle=f.col;ctx.lineWidth=9;for(let n=0;n<2;n++){ctx.beginPath();ctx.arc(f.x,f.y,23+spread+n*18,0,Math.PI*2);ctx.stroke()}
+ for(let n=0;n<12;n++){let a=n*Math.PI/6+f.life*.3,d=14+spread*1.35;ctx.fillStyle=n%2?'#fff4ca':f.col;ctx.beginPath();ctx.arc(f.x+Math.cos(a)*d,f.y+Math.sin(a)*d,4,0,Math.PI*2);ctx.fill()}}
+ else{ctx.strokeStyle=f.col;ctx.lineWidth=8;ctx.beginPath();ctx.arc(f.x,f.y,Math.max(5,f.radius*(1.1-f.life*.4)),0,Math.PI*2);ctx.stroke()}ctx.restore()}
+ctx.shadowBlur=0;ctx.globalAlpha=1;
+if(lives===1){ctx.fillStyle='#ffda73';ctx.font='bold 18px system-ui';ctx.fillText('⚔ 最後一命 · 覺醒',20,190)}if(HP<25){const pulse=.42+.35*(.5+.5*Math.sin(now*11));ctx.fillStyle=`rgba(255,35,44,${pulse})`;ctx.fillRect(0,0,W,13);ctx.fillRect(0,H-14,W,14);ctx.fillRect(0,0,11,H);ctx.fillRect(W-11,0,11,H);ctx.fillStyle='#fff2d4';ctx.font='bold 24px system-ui';ctx.fillText('⚠ HP 瀕死！快閃避',18,226)} }
+function frame(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform(C.width/W,0,0,C.height/H,0,0);ctx.clearRect(0,0,W,H);update(dt,now);draw(now);requestAnimationFrame(frame)}
+// Fixed aspect ratio canvas via CSS pixels, letterbox on different screens.
+function frame2(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform((C.width/vw)*s,0,0,(C.height/vh)*s,(C.width/vw)*offX,(C.height/vh)*offY);ctx.clearRect(-offX/s,-offY/s,vw/s,vh/s);update(dt,now);draw(now);requestAnimationFrame(frame2)}
+addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyK','KeyL'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyK')dodge();if(e.code==='KeyL')ultimate()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if(e.code==='KeyJ'&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
+for(const btn of move.querySelectorAll('.direction')){const direction=Number(btn.dataset.dir);btn.addEventListener('pointerdown',e=>{e.preventDefault();if(phase!=='play')return;try{btn.setPointerCapture?.(e.pointerId)}catch(_){};heldDirs.set(e.pointerId,direction);btn.classList.add('pressed');syncDirection()});const release=e=>{if(!heldDirs.has(e.pointerId))return;heldDirs.delete(e.pointerId);btn.classList.remove('pressed');syncDirection()};btn.addEventListener('pointerup',release);btn.addEventListener('pointercancel',release);btn.addEventListener('lostpointercapture',release)}
+for(const b of document.querySelectorAll('#actions [data-action]'))if(b.dataset.action!=='attackHold'){b.addEventListener('pointerdown',e=>{e.preventDefault();if(phase!=='play')return;b.setPointerCapture?.(e.pointerId);b.classList.add('pressed');act(b.dataset.action)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>b.classList.remove('pressed'))}
+const attackHold=$('attackHold');attackHold.addEventListener('pointerdown',chargeBegin);attackHold.addEventListener('pointerup',e=>chargeEnd(e));attackHold.addEventListener('pointercancel',e=>chargeEnd(e,true));attackHold.addEventListener('lostpointercapture',e=>{if(chargePointer===e.pointerId)chargeEnd(e,true)});
+$('musicVolume').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;$('musicValue').textContent=e.target.value+'%';unlockAudio()});$('sfxVolume').addEventListener('input',e=>{sfxVolume=Number(e.target.value)/100;$('sfxValue').textContent=e.target.value+'%';unlockAudio()});$('mute').onclick=()=>{muted=!muted;$('mute').textContent=muted?'🔇 靜音':'🔊 音效';if(!muted)sound('ok')};document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('touchmove',e=>{if(e.target.closest('#controls'))e.preventDefault()},{passive:false});preload();menu();requestAnimationFrame(frame2);
+})();
+</script></body></html>
