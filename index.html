@@ -67,7 +67,7 @@ let phase="menu",question=null,blocks=[],enemies=[],shots=[],projectiles=[],effe
 let keys={left:false,right:false},jumpBuffered=0,fireCool=0,dashCool=0,dashUntil=0,invuln=0,timeLeft=BASE_TIME;
 let last=0,clock=0,combo=0,totalScore=0,msgUntil=0,audio=null,audioNext=0,noteIndex=0,musicOn=true;
 let s=1,offx=0,offy=0,ratio=1;
-const STAGES=[{name:"第一關｜煙雨古寺",label:"庭院試煉",rounds:8},{name:"第二關｜竹影劍谷",label:"竹林追擊",rounds:8},{name:"魔王戰｜五連勝",label:"劍氣終結",rounds:5}];
+const STAGES=[{name:"第一關｜煙雨古寺",label:"庭院試煉",rounds:10},{name:"第二關｜竹影劍谷",label:"竹林追擊",rounds:10},{name:"魔王戰｜五連勝",label:"劍氣終結",rounds:5}];
 const platforms=[{x:108,y:455,w:205},{x:786,y:440,w:205}];
 const images={};
 for(const n of ["yuanheng","zhiyan"])for(const p of ["idle","run","jump","attack"]){
@@ -190,10 +190,12 @@ function takeDamage(amt,reason){
 }
 function die(reason){
  if(phase!=="play")return;
+ const wrongAnswer=reason.startsWith("答錯答案");
+ if(wrongAnswer&&stage===2){bossCombo=0;round=0}
  lives--;phase=lives<=0?"lost":"dead";sound("death");
  showPanel(lives<=0?"💀 全隊挑戰結束":"💔 失去一命",reason+"｜剩餘生命："+Math.max(0,lives),
   lives<=0?[["重新挑戰",startGame],["回選單",menu]]:
-  [["原題復活",()=>{phase="play";hp=100;player.x=545;player.y=G;player.vy=0;player.ground=true;invuln=clock+2.4;shieldUntil=0;projectiles=[];shots=[];enemies=[];spawnPatrols();$("overlay").classList.add("hidden");msg("已復活！2 秒保護，繼續原題",1.8);refresh()}],["回選單",menu]]);
+  [["原題復活",()=>{phase="play";hp=100;player.x=545;player.y=G;player.vy=0;player.ground=true;invuln=clock+2.4;shieldUntil=0;projectiles=[];shots=[];enemies=[];spawnPatrols();$("overlay").classList.add("hidden");if(wrongAnswer)nextQuestion();msg(wrongAnswer?"已復活！重新挑戰新題":"已復活！2 秒保護，繼續原題",1.8);refresh()}],["回選單",menu]]);
 }
 function showPanel(title,description,actions){
  $("overlay").classList.remove("hidden");
