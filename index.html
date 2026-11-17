@@ -196,7 +196,7 @@ body.in-game #controlMode{display:block}
 body.stick-mode #move .direction{display:none!important}
 body.stick-mode #soloStick{display:block}
 body.stick-mode.in-game #move{width:100px!important;justify-content:center!important}
-@media(min-width:901px){body.in-game #controls::after{content:'鍵盤：A/D 移動　W 跳躍　S 跳下　J 攻擊／集氣　K 閃避';position:absolute;bottom:3px;font-size:11px;color:#aac9d2;pointer-events:none}body.in-game #controls{padding-bottom:18px!important}}
+@media(min-width:901px){body.in-game #controls::after{content:'鍵盤：A/D 移動　W 跳躍　S 跳下　J 攻擊／集氣　空白鍵躲彈';position:absolute;bottom:3px;font-size:11px;color:#aac9d2;pointer-events:none}body.in-game #controls{padding-bottom:18px!important}}
 @media(max-width:600px),(max-height:480px){body.in-game #actions .aux,body.big-screen.in-game #actions .aux{grid-template-columns:49px 45px!important;grid-template-rows:32px 32px!important;gap:5px!important}body.in-game #actions .aux button[data-action],body.big-screen.in-game #actions .aux button[data-action]{font-size:11px!important}body.in-game #actions .aux button[data-action="drop"]{font-size:11px!important}body.in-game #controls{gap:7px!important}body.in-game #actions{gap:6px!important}#soloStick{width:72px;height:72px}#soloThumb{width:34px;height:34px;left:16px;top:16px}body.stick-mode.in-game #move{width:78px!important}}
 
 /* V24.5+ readable classroom HUD and photo-inspired restrained colors */
@@ -267,10 +267,15 @@ body.in-game #hud .top #q::before{display:none!important;content:none!important}
  width:clamp(170px,30vw,260px)!important;padding:6px 9px!important;
  font-size:clamp(17px,2.75vw,26px)!important}
 }
-</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">62%</output></label><input type="range" id="musicVolume" min="0" max="100" value="62" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">62%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="62" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>空白鍵</b> 跳躍　<b>J／F</b> 短按飛劍・長按必殺　<b>K／Shift</b> 閃避　<b>↓</b> 跳下</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
+
+/* Dash removed; jump/drop controls use full space. */
+#actions .aux button[data-action="dodge"]{display:none!important}
+body.in-game #actions .aux{display:flex!important;flex-direction:column!important;gap:7px!important}
+body.in-game #actions .aux button[data-action="jump"],body.in-game #actions .aux button[data-action="drop"]{grid-column:auto!important;grid-row:auto!important}
+</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">62%</output></label><input type="range" id="musicVolume" min="0" max="100" value="62" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">62%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="62" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>空白鍵</b> 跳躍　<b>J／F</b> 短按飛劍・長按必殺　<b>↓</b> 跳下</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
 const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:180,w:270,y:455},{x:585,w:300,y:435}];
-let musicVolume=0.62,sfxVolume=0.62,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,scaleY=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,dashMoveUntil=0,dodgeReadyAt=0,dashDirection=1,nextGroundShotAt=0,bossActor=null;
+let musicVolume=0.62,sfxVolume=0.62,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,scaleY=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,nextGroundShotAt=0,nextPlatformSpawnAt=0,bossActor=null;
 const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan',moze:'new_poses-yuanheng'},scenes=['scenery-bamboo','scenery-temple'];
 const WORLDS=[
  {id:'gear',icon:'🏯',name:'煙雨古寺',short:'霧山晨光・石階古寺',sky:['#1a2931','#8b8980'],accent:'#e1c590',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
@@ -430,9 +435,7 @@ function showUltimateDemo(){
  g.font='bold 26px system-ui';g.textAlign='left';g.fillStyle='#ffecae';g.fillText(cycle<1.4?'① 凝聚劍氣':cycle<2.75?'② 飛劍疾射！':cycle<4.35?'③ 雷光爆擊！':'④ 準備再次展示',32,55);
  requestAnimationFrame(render)}requestAnimationFrame(render)
 }
-function newStage(n,carryLives=false){if(n===0)runOpen=true;musicStep=0;nextMusicAt=0;damagePopups=[];stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;bossActor=n===2?{born:performance.now()/1000,attackUntil:0,hurtUntil:0,form:0,shiftAt:0}:null;lives=n===0?3:(n===2&&carryLives?lives:3);HP=100;energy=40;player={x:500,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextTreeSpawn=performance.now()/1000+rand(22,38)/10;nextGroundShotAt=performance.now()/1000+3.2;// Two independently patrolling platform monsters, not answer targets.
-chasers.push({x:225,y:PLATFORMS[0].y,level:1,platform:0,dir:1,warning:0,hitUntil:0,variant:0});
-chasers.push({x:813,y:PLATFORMS[1].y,level:1,platform:1,dir:-1,warning:0,hitUntil:0,variant:2});
+function newStage(n,carryLives=false){if(n===0)runOpen=true;musicStep=0;nextMusicAt=0;damagePopups=[];stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;bossActor=n===2?{born:performance.now()/1000,attackUntil:0,hurtUntil:0,form:0,shiftAt:0}:null;lives=n===0?3:(carryLives?lives:3);HP=100;energy=carryLives?Math.max(40,energy):40;player={x:500,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextTreeSpawn=performance.now()/1000+rand(22,38)/10;nextGroundShotAt=performance.now()/1000+3.2;nextPlatformSpawnAt=performance.now()/1000+rand(65,115)/10; // Occasional platform patrol, not permanently occupied.
 chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2){sound('boss');banner('⚡ 鎮魂鐵衛現身！三種魔王依序登場',2.6)}}
 function banner(m,d=1.3){$('banner').textContent=m;$('banner').classList.add('show');msgUntil=performance.now()/1000+d}
 const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),shuffle=x=>{for(let i=x.length-1;i>0;i--){let j=rand(0,i);[x[j],x[i]]=[x[i],x[j]]}return x};
@@ -458,11 +461,11 @@ function drawDamageFeedback(now){
  for(const p of damagePopups){const age=now-p.time;ctx.globalAlpha=Math.min(1,(1.1-age)*3);const y=Math.max(95,p.y-age*40);ctx.strokeText('-'+p.amount+' HP',p.x,y);ctx.fillStyle='#ffdfb2';ctx.fillText('-'+p.amount+' HP',p.x,y)}
  ctx.restore();
 }
-function updateHUD(){const dodgeButton=document.querySelector('[data-action="dodge"]'),cooldown=Math.max(0,dodgeReadyAt-performance.now()/1000);if(dodgeButton){dodgeButton.textContent=cooldown>0?'💨 '+cooldown.toFixed(1)+'s':'💨 閃避';dodgeButton.classList.toggle('cooldown',cooldown>0)}let str=stage===2?`${bossCombo<2?'①鎮魂鐵衛':bossCombo<4?'②炎刃魔將':'③虛空劍尊'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=str;$('q').innerHTML=question.q;$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / 10`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
-function die(reason,wrong=false){stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：看清底數與指數。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
+function updateHUD(){let str=stage===2?`${bossCombo<2?'①鎮魂鐵衛':bossCombo<4?'②炎刃魔將':'③虛空劍尊'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=str;$('q').innerHTML=question.q;$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / 10`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
+function die(reason,wrong=false){stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：看清底數與指數。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;nextPlatformSpawnAt=fireAt+rand(50,100)/10;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
 function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>正確指數為 ${question.answer}；請留意運算規則。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
 function solved(){sound('ok');banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){if(bossActor)bossActor.hurtUntil=performance.now()/1000+1.15;bossCombo++;if(bossCombo===2||bossCombo===4){if(bossActor){bossActor.form=bossCombo===2?1:2;bossActor.shiftAt=performance.now()/1000+1.15;bossActor.born=performance.now()/1000}banner(bossCombo===2?'🔥 炎刃魔將登場！狂暴突進！':'⚡ 虛空劍尊覺醒！終結劍陣！',2);sound('boss');fx.push({type:'impact',x:884,y:250,life:.9,maxLife:.9,col:bossCombo===2?'#f2a05f':'#b5a8f2',radius:95})}if(bossCombo>=5){phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
-else{qIndex++;if(qIndex>=(10)){phase='clear';const next=stage+1;panel('✨ 階段通關！',`<p>${stage===0?'初階完成 10 題':'進階完成 10 題'}！</p><p>即將進入「${world().name}」${next===1?'進階':'魔王'}戰，場景風格延續，危機升級。</p>`,[['立即進入下一關',()=>newStage(next,next===2)],['返回選單',menu]]);setTimeout(()=>{if(phase==='clear')newStage(next,next===2)},2300);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
+else{qIndex++;if(qIndex>=(10)){phase='transition';const next=stage+1;stopPlayerInput();bullets=[];banner(next===1?'✨ 初階通關！即將進入進階':'🔥 進階通關！魔王即將登場',1.5);setTimeout(()=>{if(phase==='transition')newStage(next,true)},1450);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
 function monsterBurst(x,y,key,col){
  fx.push({type:'vanish',x,y,key,col,life:.72,maxLife:.72,radius:50});fx.push({type:'ink',x,y,col:'#171f1c',life:.76,maxLife:.76,radius:54});
  sound('hit');
@@ -482,17 +485,12 @@ function supportedPlayer(){
  return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+10&&player.x<=p.x+p.w-10&&Math.abs(player.y-p.y)<3));
 }
 function tryBufferedJump(now){
- if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.12)){
- player.vy=-655;player.level=0;jumpBufferUntil=0;lastGroundedAt=-10;sound('jump');return true;
+ if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.16)){
+ player.vy=-700;player.level=0;jumpBufferUntil=0;lastGroundedAt=-10;sound('jump');return true;
  }return false;
 }
-function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.15;tryBufferedJump(now)}
+function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.20;tryBufferedJump(now)}
 function drop(){if(phase!=='play'||!player)return;let on=PLATFORMS.some(p=>player.x>p.x-8&&player.x<p.x+p.w+8&&Math.abs(player.y-p.y)<8);if(on){dropUntil=performance.now()/1000+.42;player.y+=10;player.vy=165;player.level=0;banner('⬇ 跳至下一層',.6);sound('jump')}}
-function dodge(){
- if(phase!=='play'||!player)return;const now=performance.now()/1000;if(now<dodgeReadyAt)return;
- dodgeReadyAt=now+1.05;dashDirection=player.face;dashMoveUntil=now+.23;dodgeUntil=now+.58;
- energy=Math.min(100,energy+9);fx.push({x:player.x,y:player.y-40,life:.28,col:'#b6faff',radius:23});sound('jump');updateHUD();
-}
 // Facing follows the closest visible target, never its answer correctness.
 function faceNearbyTarget(){
  if(!player)return null;
@@ -541,7 +539,7 @@ function resolveUltimate(shot){
  setTimeout(()=>{if(phase!=='impact'||question!==resolvedQuestion)return;phase='play';if(right)solved();else die('擊中 '+wrongLabel,true)},480);
  updateHUD();
 }
-function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop();if(k==='dodge')dodge();if(k==='ultimate')ultimate()}
+function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop();if(k==='ultimate')ultimate()}
 // Single combat button: tap = sword slash; hold >= 0.5s = gain Qi; release = special attack.
 let chargePointer=null, chargeStarted=0, isCharging=false, chargeAnnounced=false;
 function chargeBegin(e){if(phase!=='play'||chargePointer!==null)return;e.preventDefault();chargePointer=e.pointerId;chargeStarted=performance.now()/1000;isCharging=true;faceNearbyTarget();const b=$('attackHold');b.classList.add('charging');if(typeof e.pointerId==='number'){try{b.setPointerCapture?.(e.pointerId)}catch(_){}}}
@@ -561,7 +559,7 @@ function landingHeight(oldX,oldY,newX,newY,vy,now){
 // Fixed, readable lanes: difficulty grows through rhythm, never homing or unavoidable hits.
 // Classroom fair-dodge profile: generous reaction space at first, progressively faster.
 function dangerProgress(){
- return stage===2?Math.min(1,.75+bossCombo*.06):stage===1?Math.min(1,.45+qIndex*.055):Math.min(1,qIndex*.075);
+ return stage===2?Math.min(1,.76+bossCombo*.045):stage===1?Math.min(.88,.37+qIndex*.05):Math.min(.34,qIndex*.038);
 }
 function groundSpeed(variant){
  const p=dangerProgress();
@@ -569,20 +567,20 @@ function groundSpeed(variant){
 }
 function enemyAttackProfile(stage,index,bossProgress){
  const p=dangerProgress();
- return {speed:Math.round(100+72*p),
-  interval:4.5-1.15*p,
-  warning:1.4-.18*p,
+ return {speed:Math.round(95+55*p),
+  interval:4.7-1.0*p,
+  warning:1.65-.15*p,
   limit:stage===0&&index<4?1:2};
 }
 function projectileTouchesPlayer(b){
- const radius=b.heavy?23:12,left=player.x-17,right=player.x+17,top=player.y-105,bottom=player.y-15;
+ const radius=b.heavy?19:11,left=player.x-17,right=player.x+17,top=player.y-105,bottom=player.y-15;
  const x=Math.max(left,Math.min(right,b.x)),y=Math.max(top,Math.min(bottom,b.y));
  return (b.x-x)**2+(b.y-y)**2<radius*radius;
 }
 function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<=0)fx.splice(i,1)}return}if(phase!=='play'||!player)return;
  if(isCharging){energy=Math.min(100,energy+dt*96);if(energy>=70&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 絕技已滿！放開攻擊鍵發射',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;const leftHeld=!!(keys['ArrowLeft']||keys['KeyA']),rightHeld=!!(keys['ArrowRight']||keys['KeyD']);if(leftHeld||rightHeld)go=leftHeld===rightHeld?0:leftHeld?-1:1;
  if(supportedPlayer())lastGroundedAt=now;tryBufferedJump(now);
- player.vx=now<dashMoveUntil?dashDirection*620:go*255;if(go&&now>=dashMoveUntil&&now>=attackUntil)player.face=Math.sign(go);
+ player.vx=go*265;if(go&&now>=attackUntil)player.face=Math.sign(go);
  const prevX=player.x,prevY=player.y,wasGrounded=Math.abs(player.vy)<1;
  player.x=Math.min(1060,Math.max(36,player.x+player.vx*dt));
  // Gravity + landing on the first platform crossed from above.
@@ -621,7 +619,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  const x=W-30,y=upperRoute?UP-30:G-30;
  const heavy=stage===2?(bossCombo>=2?actionSeq%3===0:actionSeq%4===0):stage===1?(qIndex>=5&&actionSeq%5===0):(qIndex>=7&&actionSeq%6===0);
  const kinds=['flame','crystal','lightning','blade'],kind=kinds[(actionSeq++)%kinds.length];
- bullets.push({x,y,vx:-pressure.speed*(heavy?.8:1),vy:0,r:heavy?32:19,life:13,warning:heavy?Math.max(1.5,pressure.warning):pressure.warning,kind,upperRoute,heavy});
+ bullets.push({x,y,vx:-pressure.speed*(heavy?.8:1),vy:0,r:heavy?32:19,life:13,warning:heavy?Math.max(1.85,pressure.warning):pressure.warning,kind,upperRoute,heavy});
  sound('beam');
  }
  }
@@ -637,7 +635,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  if(f.warning>0)f.warning=Math.max(0,f.warning-dt);
  else{
  f.vy+=40*dt;f.y+=f.vy*dt;
- if(Math.abs(f.x-player.x)<33&&Math.abs(f.y-43-(player.y-60))<46&&now>=hurtUntil&&now>=dodgeUntil){
+ if(Math.abs(f.x-player.x)<33&&Math.abs(f.y-43-(player.y-60))<46&&now>=hurtUntil){
  takeDamage(stage===0?14:19);hurtUntil=now+1.15;
  fx.push({x:player.x,y:player.y-65,life:.5,col:'#b9edff',radius:42});sound('hurt');banner('落下怪物撞擊！',.65);
  fallingFoe=null;nextFallingSpawn=now+rand(80,130)/10;
@@ -658,8 +656,19 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
     hopAmp:rand(4,14),hopRate:rand(20,40)/10,hopPhase:Math.random()*Math.PI*2});
  }
  }
- for(const c of chasers){const desiredY=c.level===1?PLATFORMS[1].y:G;
-  if(c.level===1)c.y=desiredY;
+ // Only one upper patrol is active; walk a few seconds, then intentionally step off the ledge.
+ if(now>=nextPlatformSpawnAt){
+  nextPlatformSpawnAt=now+rand(100,165)/10;
+  if(!chasers.some(c=>c.platformPatrol&&c.level!==0)){
+   const k=rand(0,PLATFORMS.length-1),p=PLATFORMS[k];
+   const variant=rand(0,TREE_FORMS.length-1);
+   chasers.push({x:p.x+p.w-43,y:p.y,level:1,platform:k,platformPatrol:true,
+    dir:-1,warning:1.2,hitUntil:0,variant,patrolUntil:now+rand(28,45)/10,fallVy:0,
+    speed:groundSpeed(variant),shotAt:now+4,hopAmp:6,hopRate:3,hopPhase:0});
+  }
+ }
+ for(const c of chasers){
+  if(c.level===1)c.y=PLATFORMS[c.platform||0].y;
   const sameLane=Math.abs(player.y-c.y)<115;
   if(c.level===0){
    if(c.warning>0)c.warning=Math.max(0,c.warning-dt);
@@ -667,6 +676,8 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
    c.y=G-Math.abs(Math.sin(now*(c.hopRate||2.5)+(c.hopPhase||0)))*(c.hopAmp||6);
    c.dir=-1;
    if(c.x< -TREE_FORMS[c.variant||0].w-25){
+     // Dropped patrols exit instead of looping as newly spawned ground enemies.
+     if(c.platformPatrol){c.dead=true;continue}
      // Re-enter outside the right edge instead of reversing direction at the left.
      const lastRight=chasers.filter(other=>other!==c&&other.level===0&&!other.dead).reduce((x,other)=>Math.max(x,other.x),W);
      c.x=Math.max(W+105,lastRight+rand(210,290));
@@ -675,14 +686,21 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
      c.hopAmp=rand(4,14);c.hopRate=rand(20,40)/10;c.hopPhase=Math.random()*Math.PI*2;
    }
   }
-  else{
+  else if(c.level===1){
    const p=PLATFORMS[c.platform||0];
-   c.y=p.y;
-   const lo=c.platform===0?p.x+26:p.x+p.w-116;
-   const hi=c.platform===0?p.x+106:p.x+p.w-26;
-   c.x+=c.dir*(stage===0?44:stage===1?59:72)*dt;
-   if(c.x<lo){c.x=lo;c.dir=1}
-   if(c.x>hi){c.x=hi;c.dir=-1}
+   if(c.warning>0)c.warning=Math.max(0,c.warning-dt);
+   if(now>=c.patrolUntil)c.dir=-1;
+   else if(c.x<p.x+35)c.dir=1;
+   else if(c.x>p.x+p.w-35)c.dir=-1;
+   c.x+=c.dir*(stage===0?53:stage===1?66:78)*dt;
+   if(now>=c.patrolUntil&&c.x<p.x-18){c.level=2;c.fallVy=55;c.warning=.4}
+  }else if(c.level===2){
+   c.fallVy+=1150*dt;c.y+=c.fallVy*dt;c.x-=65*dt;
+   if(c.y>=G){c.y=G;c.level=0;c.dir=-1;c.warning=.5;
+    c.speed=groundSpeed(c.variant||0);c.shotAt=now+3;
+    c.hopAmp=8;c.hopRate=2.8;c.hopPhase=Math.random()*Math.PI*2;
+    fx.push({x:c.x,y:G-15,life:.4,col:'#f4dda5',radius:25});
+   }
   }
   // Fair-dodge small projectiles: one visible approach at a time, clear warning and flight space.
   if(c.level===0&&c.warning<=0&&c.x<W-65&&c.x>player.x+305&&
@@ -696,25 +714,26 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
    const heavyThreat=bullets.some(b=>b.heavy&&b.x>player.x-40&&b.x<player.x+460);
    if(!nearThreat&&!heavyThreat&&bullets.filter(b=>b.source==='ground').length<maxSmall){
     const direction=rand(0,2);
-    const speed=Math.round(90+65*p+rand(-5,7));
+    const speed=Math.round(85+45*p+rand(-5,7));
     const vy=[0,-34,32][direction],x=c.x-34,y=c.y-28;
-    bullets.push({x,y,vx:-speed,vy,r:12,life:8,warning:1.15,
+    bullets.push({x,y,vx:-speed,vy,r:12,life:8,warning:1.55,
       kind:'crystal',upperRoute:false,heavy:false,source:'ground',direction});
     fx.push({x,y,life:.3,col:'#edcf9b',radius:15});sound('beam');
    }
   }
-  if(chaserTouchesPlayer(c)&&now>=hurtUntil&&now>=dodgeUntil&&now>chaserLastHit+1.1){
+  if(chaserTouchesPlayer(c)&&now>=hurtUntil&&now>chaserLastHit+1.1){
    chaserLastHit=now;c.hitUntil=now+.32;
    const impactX=(player.x+c.x)/2,impactY=player.y-60;
    fx.push({x:impactX,y:impactY,life:.45,col:'#fff4bb',radius:38});
    fx.push({x:impactX-18,y:impactY-14,life:.32,col:'#ff9854',radius:20});
    fx.push({x:impactX+18,y:impactY+12,life:.38,col:'#8ef5ff',radius:24});
-   takeDamage(stage===0?12:17);hurtUntil=now+1.15;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快閃避',.7);
+   takeDamage(stage===0?12:17);hurtUntil=now+1.15;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快跳躍',.7);
    if(HP<=0)die('遭近戰怪物擊倒');updateHUD();
   }
  }
+ chasers=chasers.filter(c=>!c.dead);
  for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -919,7 +938,7 @@ for(const b of bullets){
  ctx.fillStyle=b.upperRoute?'#90dfff22':'#ffc56a22';ctx.fillRect(W-300,cy-16,280,32);
  ctx.strokeStyle=b.upperRoute?'#a8ecff':'#ffcf7b';ctx.lineWidth=2;ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(W-300,cy);ctx.lineTo(W-25,cy);ctx.stroke();ctx.setLineDash([]);
  ctx.font='900 20px system-ui';ctx.textAlign='right';ctx.fillStyle='#fff5d7';ctx.strokeStyle='#0a1729';ctx.lineWidth=5;
- const hint=b.heavy?'⚠ 致命大彈！跳起／閃避':b.upperRoute?'⚠ 高空小彈｜留地面':'⚠ 低空小彈｜跳躍';
+ const hint=b.heavy?'⚠ 致命大彈！跳躍或離開彈道':b.upperRoute?'⚠ 高空小彈｜留地面':'⚠ 低空小彈｜跳躍';
  ctx.strokeText(hint,W-25,cy-25);ctx.fillText(hint,W-25,cy-25);ctx.restore();continue;
  }
  ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));
@@ -968,11 +987,11 @@ for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));c
  for(let n=0;n<12;n++){let a=n*Math.PI/6+f.life*.3,d=14+spread*1.35;ctx.fillStyle=n%2?'#fff4ca':f.col;ctx.beginPath();ctx.arc(f.x+Math.cos(a)*d,f.y+Math.sin(a)*d,4,0,Math.PI*2);ctx.fill()}}
  else{ctx.strokeStyle=f.col;ctx.lineWidth=8;ctx.beginPath();ctx.arc(f.x,f.y,Math.max(5,f.radius*(1.1-f.life*.4)),0,Math.PI*2);ctx.stroke()}ctx.restore()}
 ctx.shadowBlur=0;ctx.globalAlpha=1;
-if(lives===1){ctx.fillStyle='#ffda73';ctx.font='bold 18px system-ui';ctx.fillText('⚔ 最後一命 · 覺醒',20,190)}if(HP<25){const pulse=.42+.35*(.5+.5*Math.sin(now*11));ctx.fillStyle=`rgba(255,35,44,${pulse})`;ctx.fillRect(0,0,W,13);ctx.fillRect(0,H-14,W,14);ctx.fillRect(0,0,11,H);ctx.fillRect(W-11,0,11,H);ctx.fillStyle='#fff2d4';ctx.font='bold 24px system-ui';ctx.fillText('⚠ HP 瀕死！快閃避',18,226)} }
+if(lives===1){ctx.fillStyle='#ffda73';ctx.font='bold 18px system-ui';ctx.fillText('⚔ 最後一命 · 覺醒',20,190)}if(HP<25){const pulse=.42+.35*(.5+.5*Math.sin(now*11));ctx.fillStyle=`rgba(255,35,44,${pulse})`;ctx.fillRect(0,0,W,13);ctx.fillRect(0,H-14,W,14);ctx.fillRect(0,0,11,H);ctx.fillRect(W-11,0,11,H);ctx.fillStyle='#fff2d4';ctx.font='bold 24px system-ui';ctx.fillText('⚠ HP 瀕死！快跳躍躲開',18,226)} }
 function frame(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform(C.width/W,0,0,C.height/H,0,0);ctx.clearRect(0,0,W,H);update(dt,now);draw(now);requestAnimationFrame(frame)}
 // Fixed aspect ratio canvas via CSS pixels, letterbox on different screens.
 function frame2(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform((C.width/vw)*s,0,0,(C.height/vh)*scaleY,(C.width/vw)*offX,(C.height/vh)*offY);ctx.clearRect(-offX/s,-offY/scaleY,vw/s,vh/scaleY);update(dt,now);draw(now);drawDamageFeedback(now);requestAnimationFrame(frame2)}
-addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyK','KeyL','KeyF','ShiftLeft','ShiftRight'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'||e.code==='KeyF'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyK'||e.code==='ShiftLeft'||e.code==='ShiftRight')dodge();if(e.code==='KeyL')ultimate()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if((e.code==='KeyJ'||e.code==='KeyF')&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
+addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyL','KeyF'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'||e.code==='KeyF'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyL')ultimate()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if((e.code==='KeyJ'||e.code==='KeyF')&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
 function releaseDirection(pointerId){
  if(!heldDirs.has(pointerId))return;
  resetStick();
@@ -1010,7 +1029,7 @@ soloStick.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&e.butto
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])soloStick.addEventListener(ev,e=>{if(joyID===e.pointerId){resetStick();if(player)player.vx=0}});
 $('controlMode').onclick=()=>{stopPlayerInput();const on=document.body.classList.toggle('stick-mode');$('controlMode').textContent=on?'操作：搖桿 ⇄ 方向鍵':'操作：方向鍵 ⇄ 搖桿'};
 function stopPlayerInput(){
- jumpBufferUntil=0;lastGroundedAt=-10;dashMoveUntil=0;dodgeReadyAt=0;
+ jumpBufferUntil=0;lastGroundedAt=-10;
  keys={};resetStick();if(player)player.vx=0;
  isCharging=false;chargePointer=null;chargeAnnounced=false;
  $('attackHold').classList.remove('charging','pressed');
