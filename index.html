@@ -266,7 +266,7 @@ function showUltimateDemo(){
  g.font='bold 26px system-ui';g.textAlign='left';g.fillStyle='#ffecae';g.fillText(cycle<1.4?'① 凝聚劍氣':cycle<2.75?'② 飛劍疾射！':cycle<4.35?'③ 雷光爆擊！':'④ 準備再次展示',32,55);
  requestAnimationFrame(render)}requestAnimationFrame(render)
 }
-function newStage(n,carryLives=false){stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;lives=n===0?5:(n===2&&carryLives?lives:3);HP=100;energy=40;player={x:105,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[{x:275,y:G,level:0,hitUntil:0},{x:640,y:G,level:0,hitUntil:0}];if(n!==0)chasers.push({x:870,y:UP,level:1,hitUntil:0});chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2)sound('boss')}
+function newStage(n,carryLives=false){stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;lives=n===0?5:(n===2&&carryLives?lives:3);HP=100;energy=40;player={x:105,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[{x:W+70,y:G,level:0,hitUntil:0},{x:W+640,y:G,level:0,hitUntil:0}];if(n!==0)chasers.push({x:870,y:UP,level:1,hitUntil:0});chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2)sound('boss')}
 function banner(m,d=1.3){$('banner').textContent=m;$('banner').classList.add('show');msgUntil=performance.now()/1000+d}
 const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),shuffle=x=>{for(let i=x.length-1;i>0;i--){let j=rand(0,i);[x[j],x[i]]=[x[i],x[j]]}return x};
 function makeQ(){let diff=stage===0?Math.floor(qIndex/5):stage===1?2+Math.floor(qIndex/5):4;let type=rand(0,diff>=2?4:2),base=rand(2,diff>=3?7:5),a=rand(2,5),b=rand(1,4),q,answer,wrong;
@@ -379,7 +379,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase!=='play'||!player)return;
  fireAt=now+pressure.interval;
  if(bullets.length<pressure.limit){
  const x=patrolEnemy?patrolEnemy.x:980,y=patrolEnemy?patrolEnemy.y-47:230;
- const dx=player.x-x,dy=(player.y-55)-y,L=Math.hypot(dx,dy)||1;
+ const upperRoute=actionSeq%3===2,aimY=upperRoute?UP-60:player.y-55;const dx=player.x-x,dy=aimY-y,L=Math.hypot(dx,dy)||1;
  const kinds=['flame','crystal','lightning','blade'];const kind=kinds[(actionSeq++)%kinds.length];
  bullets.push({x,y,vx:dx/L*pressure.speed,vy:dy/L*pressure.speed,r:26,life:20,warning:pressure.warning,kind});
  sound('beam');
@@ -388,9 +388,12 @@ function update(dt,now){tick+=dt;music(dt);if(phase!=='play'||!player)return;
  // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
  for(const c of chasers){const desiredY=c.level===1?UP:G; c.y=desiredY;
   const sameLane=Math.abs(player.y-c.y)<115;
-  if(sameLane){const dx=player.x-c.x;if(Math.abs(dx)>48)c.x+=Math.sign(dx)*Math.min(Math.abs(dx)-44,(stage===0?65:95)*dt)}
-  else c.x+=(Math.sin(now*.8+c.level*2)>0?1:-1)*18*dt;
-  const limits=c.level===1?[635,1035]:[45,1055];c.x=Math.max(limits[0],Math.min(limits[1],c.x));
+  if(c.level===0){c.x-=(stage===0?65:85)*dt;if(c.x< -70){c.x=W+70;c.hitUntil=0}}
+  else{
+   if(sameLane){const dx=player.x-c.x;if(Math.abs(dx)>48)c.x+=Math.sign(dx)*Math.min(Math.abs(dx)-44,(stage===0?65:95)*dt)}
+   else c.x+=(Math.sin(now*.8+c.level*2)>0?1:-1)*18*dt;
+   c.x=Math.max(635,Math.min(1035,c.x));
+  }
   if(sameLane&&Math.abs(player.x-c.x)<48&&now>=hurtUntil&&now>=dodgeUntil&&now>chaserLastHit+1.1){
    chaserLastHit=now;HP-=stage===0?12:17;hurtUntil=now+.82;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快閃避',.7);
    if(HP<=0)die('遭近戰怪物擊倒');updateHUD();
@@ -449,7 +452,7 @@ for(const p of PLATFORMS){
 }
  // Keep the arena uncluttered: controls explain movement, not labels floating over monsters.
 
-for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';ctx.shadowBlur=26}const hop=Math.sin(now*3.2+c.x*.015)*5;imageDraw(c.level===1?'art-ghost-idle':'art-tree-idle',c.x-31,c.y-70+hop,62,70);ctx.shadowBlur=0;ctx.restore()}
+for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';ctx.shadowBlur=26}const hop=Math.sin(now*3.2+c.x*.015)*5;if(c.level===0){ctx.translate(c.x,c.y+hop);ctx.scale(-1,1);if(!imageDraw('art-tree-run',-31,-70,62,70))imageDraw('art-tree-idle',-31,-70,62,70)}else imageDraw('art-ghost-idle',c.x-31,c.y-70+hop,62,70);ctx.shadowBlur=0;ctx.restore()}
 const pos=targets.map(t=>t);for(const t of pos){let bob=Math.sin(now*2.4+t.idx)*(t.level===0?6:4);let w=112,h=126;
  const outline=['#7ff3ff','#ffb7ec','#b9ff9e','#ffd18e'][t.idx%4];
  ctx.save();ctx.fillStyle='#020b19b8';ctx.beginPath();ctx.ellipse(t.x,t.y-h/2+bob,68,76,0,0,Math.PI*2);ctx.fill();
