@@ -206,16 +206,25 @@ body.in-game #q .math-expression sup.exponent-blank{color:#ffe18a;font-weight:95
 .sword-bar{display:flex;align-items:center;justify-content:center;gap:9px;margin:3px auto;padding:2px 10px;min-height:23px;width:max-content;max-width:92%;background:#081b30cf;border:1px solid #c9a95788;border-radius:12px;color:#ffe9a5;font-size:clamp(12px,2vw,17px);font-weight:850;text-shadow:0 2px 3px #000}
 #swordIcons{letter-spacing:3px;white-space:nowrap;color:#ffdd73}#swordIcons .spent{color:#64707d;opacity:.37;filter:grayscale(1)}#swordCount{font-size:12px;color:#e2f5f5}
 @media(max-height:470px){.sword-bar{position:absolute;top:49px;right:8px;margin:0;font-size:11px;padding:1px 6px;min-height:19px;z-index:2}#swordIcons{letter-spacing:0}#swordCount{font-size:10px}}
+
+/* Wuxia stage selector & math-first HUD */
+#q{background:rgba(8,16,17,.96);border:2px solid #e8d5a7;color:#fffef8;text-shadow:0 2px 3px #000}
+#hud .top{color:#faf5e6}
+#card{background:#101a1af7;border-color:#a9a18a}
+#card .world-option{background:#162321;border-color:#82918a}
+#card .scene-frame{position:relative;background:linear-gradient(160deg,#697970 0%,#3d504b 40%,#1c302e 75%,#101a19 100%)!important}
+#card .scene-frame::after{content:'遠山 · 雲霧 · 古寺';display:block;position:absolute;inset:auto 4px 10px;text-align:center;font-weight:900;font-size:13px;color:#f5edd9;text-shadow:0 2px 5px #000}
+#card .scene-art{display:none!important}
 </style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">生命 ♥♥♥♥♥</span></div><div class="sword-bar" id="swordBar" aria-label="剩餘飛劍 5 把">小劍攻擊 <span id="swordIcons">⚔ ⚔ ⚔</span> <b id="swordCount">∞</b></div><div id="sub"><span id="health">HP <span id="hpnum">100</span> / 100<span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">18%</output></label><input type="range" id="musicVolume" min="0" max="100" value="18" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">35%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="35" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
 const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:225,w:205,y:435},{x:575,w:205,y:420}];const FULL_CHARGE_SECONDS=.85;let bossIntroUntil=0;const MAX_SWORDS=5;let swords=MAX_SWORDS;
 let musicVolume=0.18,sfxVolume=0.35,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,nextPlatformAttackAt=0,platformStaySince=0,platformStayKey=-1,platformPulseAt=0,platformPulseKey=-1,platformPulseCooldown=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,airJumpUsed=false,dashMoveUntil=0,dodgeReadyAt=0,dashDirection=1;
 const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan'},scenes=['scenery-bamboo','scenery-cherry','scenery-temple'];
 const WORLDS=[
- {id:'gear',icon:'⚙',name:'齒輪天空城',short:'黃銅鐘塔・蒸汽機兵',sky:['#18324f','#94725d'],accent:'#efc276',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
- {id:'forest',icon:'🍄',name:'幻光蘑菇森林',short:'螢光菌傘・孢子魔獸',sky:['#132e48','#2f6b60'],accent:'#a9f2c8',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
- {id:'sky',icon:'✧',name:'星海浮空島',short:'星晶雲海・雷羽守衛',sky:['#194770','#8ab5dd'],accent:'#bceaff',mob:['art-ghost-idle','art-mage-idle','art-armor-idle','art-tree-idle']},
- {id:'ocean',icon:'◈',name:'深海機械遺都',short:'海底光塔・深淵機甲',sky:['#082638','#086377'],accent:'#7de9e4',mob:['art-ghost-idle','art-armor-idle','art-tree-idle','art-mage-idle']},
+ {id:'gear',icon:'⚙',name:'煙雨古寺',short:'遠山晨霧・古寺石階',sky:['#18324f','#94725d'],accent:'#efc276',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
+ {id:'forest',icon:'🍄',name:'竹影劍谷',short:'深竹清風・山谷劍影',sky:['#132e48','#2f6b60'],accent:'#a9f2c8',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
+ {id:'sky',icon:'✧',name:'雲海孤峰',short:'水墨群山・雲海劍陣',sky:['#194770','#8ab5dd'],accent:'#bceaff',mob:['art-ghost-idle','art-mage-idle','art-armor-idle','art-tree-idle']},
+ {id:'ocean',icon:'◈',name:'寒潭幽境',short:'深潭月影・霧夜劍修',sky:['#082638','#086377'],accent:'#7de9e4',mob:['art-ghost-idle','art-armor-idle','art-tree-idle','art-mage-idle']},
  {id:'desert',icon:'☀',name:'雷霆沙漠神殿',short:'金砂石柱・雷電魔獸',sky:['#55334b','#db9860'],accent:'#ffd98e',mob:['art-lava-idle','art-armor-idle','art-mage-idle','art-ghost-idle']}
 ];
 const CLASSROOM_BALANCE={targetWinRate:.30,version:'fair-dodge-v2'};
@@ -310,13 +319,13 @@ function unlockAudio(){
 function panel(title,body,buttons){if(phase==='lost'||phase==='win')body+=runStatsMarkup();stopPlayerInput();$('card').classList.remove('start-card');$('panel').classList.remove('hide');$('card').innerHTML='<div class="version">指數劍客 V24.5｜五世界冒險地圖</div><h1>'+title+'</h1>'+body+'<p>'+buttons.map((b,i)=>'<button class="'+(i===0?'primary':'')+'" data-panel="'+i+'">'+b[0]+'</button>').join('')+'</p>';buttons.forEach((b,i)=>$('card').querySelector('[data-panel="'+i+'"]').onclick=b[1]);$('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none'}
 function menu(){
  document.body.classList.remove('audio-open');phase='menu';document.body.classList.remove('in-game');resize();hero=hero||'yuanheng';theme=theme||'gear';
- const markup=`<div class="start-title">指數劍客 <em>V2.0.0｜寫實武俠・水墨特效版</em></div><div class="start-hint">五個冒險世界擇一｜初階 10 題 → 進階 10 題 → 魔王連續答對 5 題</div>
+ const markup=`<div class="start-title">指數劍客 <em>V2.0.0｜寫實武俠・水墨特效版</em></div><div class="start-hint">五個武俠秘境擇一｜初階 10 題 → 進階 10 題 → 魔王連續答對 5 題</div>
  <div class="pick-label">① 選擇主角</div>
  <div class="pick-grid">
  <button type="button" class="pick" data-hero="yuanheng"><img src="assets/new_poses-yuanheng-idle.webp" alt="淵衡角色預覽"><span><strong>淵衡</strong><small>青刃劍士｜迅捷突擊</small></span></button>
  <button type="button" class="pick" data-hero="zhiyan"><img src="assets/new_poses-zhiyan-idle.webp" alt="芷言角色預覽"><span><strong>芷言</strong><small>翡翠劍士｜靈巧劍氣</small></span></button>
  </div>
- <div class="pick-label">② 冒險地圖｜五選一（進階與魔王延續同一世界）</div>
+ <div class="pick-label">② 武俠場景｜五選一（進階與魔王延續同一場景）</div>
  <div class="world-map">${WORLDS.map(w=>`<button type="button" class="world-option" data-theme="${w.id}"><span class="scene-frame scene-${w.id}"><img class="scene-art" src="assets/map-${w.id}.svg" alt="${w.name}場景風格預覽"></span><span><strong>${w.name}</strong><small>${w.short}</small></span></button>`).join('')}</div>
  ${runStatsMarkup()}<label id="screenModeWrap"><input type="checkbox" id="bigScreenToggle"> 教室大屏模式（按鍵與戰鬥區分開）</label>
  <button type="button" class="start-now" id="startGameNow">▶ 開始挑戰｜初階 10 題</button>
@@ -804,7 +813,9 @@ for(const b of bullets){
  else{ctx.moveTo(30,0);ctx.bezierCurveTo(13,-28,-9,-25,-29,-11);ctx.quadraticCurveTo(-12,-4,-23,0);ctx.quadraticCurveTo(-12,4,-29,11);ctx.bezierCurveTo(-9,25,13,28,30,0)}
  ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle='#ffffffb0';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-7,0);ctx.lineTo(17,0);ctx.stroke();ctx.restore();
 }
-ctx.save();if(now<hurtUntil&&Math.floor(now*13)%2===0)ctx.globalAlpha=.42;let ps=player,pose=now<attackUntil?'attack':ps.vy<-30?'jump':Math.abs(ps.vx)>8?'run':'idle';let heroKey=HERO[hero]+'-'+pose;let w=122,h=152;ctx.translate(ps.x,ps.y);ctx.scale(ps.face,1);imageDraw(heroKey,-w/2,-h+7,w,h);if(now<attackUntil){ctx.strokeStyle=lives===1?'#ffd77f':'#83f3e7';ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=28;ctx.lineWidth=lives===1?13:8;ctx.beginPath();ctx.arc(26,-72,95,-1.05,1.05);ctx.stroke()}ctx.restore();
+ctx.save();if(now<hurtUntil&&Math.floor(now*13)%2===0)ctx.globalAlpha=.42;let ps=player,pose=now<attackUntil?'attack':ps.vy<-30?'jump':Math.abs(ps.vx)>8?'run':'idle';let heroKey=HERO[hero]+'-'+pose;let w=122,h=152;
+ ctx.save();ctx.fillStyle='rgba(0,0,0,.29)';ctx.beginPath();ctx.ellipse(ps.x,ps.y+2,39,7,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.translate(ps.x,ps.y);ctx.scale(ps.face,1);ctx.filter='saturate(.78) contrast(1.08)';imageDraw(heroKey,-w/2,-h+7,w,h);ctx.filter='none';if(now<attackUntil){ctx.strokeStyle=lives===1?'#dcc590':'#c7cfbf';ctx.shadowColor='#151b1b';ctx.shadowBlur=12;ctx.lineWidth=lives===1?10:6;ctx.beginPath();ctx.arc(26,-72,95,-1.05,1.05);ctx.stroke()}ctx.restore();
 // Charged sword aura: dynamic energy orbit follows the hero, never covers the question HUD.
 if(isCharging&&phase==='play'){
  const a=Math.min(1,energy/100),cx=player.x,cy=player.y-93;
