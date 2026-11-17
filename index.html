@@ -377,7 +377,7 @@ else if(type===2){a=rand(2,4);b=rand(2,3);answer=a*b;q=`(${base}<sup>${a}</sup>)
 else if(type===3){a=rand(3,7);b=rand(2,4);const c=rand(1,a+b-1);answer=a+b-c;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b+c,a+b,a-b+c,a+b-c+1,Math.abs(a-b-c)]}
 else{a=rand(2,5);b=rand(2,3);const c=rand(1,a*b-1);answer=a*b-c;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b-c,a*b+c,a*b-c+1,a*b-c-1,a*(b-c)]}
 q=q.replace('= ?',`= ${base}<sup>□</sup>`);let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);let choices=shuffle(nums.map(n=>({html:String(n),n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0?'同底數相乘，指數相加。':type===1?'同底數相除，指數相減。':type===2?'冪的乘方，指數相乘。':type===3?'同底數乘除混合：相乘的指數相加，再減去除式的指數。':'先算冪的乘方（指數相乘），再減去除式的指數。';return {q,choices,correct,explain,base,answer};}
-function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(310,340),y:PLATFORMS[0].y,level:1,lo:290,hi:360},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'answer-box',vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+3.2;nextGroundShotAt=Math.max(nextGroundShotAt,questionStart+2.8);updateHUD()};let questionStart=0;
+function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(372,392),y:PLATFORMS[0].y,level:1,lo:365,hi:410},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'answer-box',vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+3.2;nextGroundShotAt=Math.max(nextGroundShotAt,questionStart+2.8);updateHUD()};let questionStart=0;
 function showDamageFeedback(amount){
  const now=performance.now()/1000;
  damagePopups.push({x:player.x,y:player.y-115,time:now,amount});
@@ -612,7 +612,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
    const p=PLATFORMS[c.platform||0];
    c.y=p.y;
    const lo=c.platform===0?p.x+26:p.x+p.w-116;
-   const hi=c.platform===0?p.x+118:p.x+p.w-26;
+   const hi=c.platform===0?p.x+106:p.x+p.w-26;
    c.x+=c.dir*(stage===0?44:stage===1?59:72)*dt;
    if(c.x<lo){c.x=lo;c.dir=1}
    if(c.x>hi){c.x=hi;c.dir=-1}
