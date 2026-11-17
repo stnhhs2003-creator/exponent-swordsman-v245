@@ -345,7 +345,21 @@ function die(reason,wrong=false){stopPlayerInput();lives--;sound('death');fx.pus
 function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>正確指數為 ${question.answer}；請留意運算規則。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
 function solved(){sound('ok');banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){bossCombo++;if(bossCombo>=5){phase='win';panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
 else{qIndex++;if(qIndex>=(stage===0?15:10)){phase='clear';const next=stage+1;panel('✨ 階段通關！',`<p>${stage===0?'初階完成 15 題':'進階完成 10 題'}！</p><p>即將進入「${world().name}」${next===1?'進階':'魔王'}戰，場景風格延續，危機升級。</p>`,[['立即進入下一關',()=>newStage(next,next===2)],['返回選單',menu]]);setTimeout(()=>{if(phase==='clear')newStage(next,next===2)},2300);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
-function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;faceNearbyTarget();attackCD=now+.29;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');playerShots.push({x:player.x+player.face*42,y:player.y-72,vx:player.face*600,life:.48});if(playerShots.length>4)playerShots.shift();let range=lives===1?115:90;for(const c of chasers){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95){c.x+=player.face*95;c.hitUntil=now+.23;energy=Math.min(100,energy+9);fx.push({x:c.x,y:c.y-60,life:.35,col:'#9af8ec',radius:22});sound('hit')}}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
+function monsterBurst(x,y,key,col){
+ fx.push({type:'vanish',x,y,key,col,life:.72,maxLife:.72,radius:50});
+ sound('hit');
+}
+function defeatHazard(c){
+ if(!c||c.dead||c.warning>0)return false;
+ c.dead=true;
+ const ground=c.level===0;
+ const col=ground?TREE_FORMS[c.variant||0].outline:'#a7eaff';
+ monsterBurst(c.x,c.y-(ground?TREE_FORMS[c.variant||0].h/2:38),ground?'art-lava-run':'art-ghost-idle',col);
+ chasers=chasers.filter(other=>other!==c);
+ if(c===fallingFoe){fallingFoe=null;nextFallingSpawn=performance.now()/1000+rand(80,130)/10}
+ energy=Math.min(100,energy+10);return true;
+}
+function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;faceNearbyTarget();attackCD=now+.29;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');playerShots.push({x:player.x+player.face*42,y:player.y-72,vx:player.face*600,life:.48});if(playerShots.length>4)playerShots.shift();let range=lives===1?115:90;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95)defeatHazard(c)}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
 function supportedPlayer(){
  return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+10&&player.x<=p.x+p.w-10&&Math.abs(player.y-p.y)<3));
 }
@@ -398,10 +412,15 @@ function ultimate(){
 }
 function resolveUltimate(shot){
  if(!shot.target){energy=Math.min(100,energy+25);banner('飛劍未命中｜靠近並對準答案怪物',1);fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');updateHUD();return}
- const target=shot.target;target.hitGlow=.6;
+ const target=shot.target;
  const right=shot.idx===question.correct;
+ targets=targets.filter(t=>t!==target);
+ monsterBurst(target.x,target.y-52,target.kind,right?'#ffdc7b':'#ff7898');
  fx.push({type:'impact',x:shot.tx,y:shot.ty,life:.84,maxLife:.84,col:right?'#ffdc7b':'#ff5c71',radius:55});
- sound('hit');if(right)solved();else die(`擊中 ${target.letter}．${question.choices[shot.idx].html}`,true);
+ // Let the disappearance read clearly before the next question or explanation.
+ const resolvedQuestion=question,wrongLabel=question.choices[shot.idx].html;
+ stopPlayerInput();phase='impact';
+ setTimeout(()=>{if(phase!=='impact'||question!==resolvedQuestion)return;phase='play';if(right)solved();else die('擊中 '+wrongLabel,true)},480);
  updateHUD();
 }
 function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop();if(k==='dodge')dodge();if(k==='ultimate')ultimate()}
@@ -426,7 +445,7 @@ function enemyAttackProfile(stage,index,bossProgress){
  const p=Math.min(1,Math.max(0,index)/(stage===0?14:9));
  return {speed:(stage===0?65:85)+(stage===0?50:60)*p,interval:(stage===0?3.2:2.8)-(stage===0?1:1.05)*p,warning:p<.3?.85:.6,limit:p<.3?2:3};
 }
-function update(dt,now){tick+=dt;music(dt);if(phase!=='play'||!player)return;
+function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<=0)fx.splice(i,1)}return}if(phase!=='play'||!player)return;
  if(isCharging){energy=Math.min(100,energy+dt*96);if(energy>=70&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 絕技已滿！放開攻擊鍵發射',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;const leftHeld=!!(keys['ArrowLeft']||keys['KeyA']),rightHeld=!!(keys['ArrowRight']||keys['KeyD']);if(leftHeld||rightHeld)go=leftHeld===rightHeld?0:leftHeld?-1:1;
  if(supportedPlayer())lastGroundedAt=now;tryBufferedJump(now);
  player.vx=now<dashMoveUntil?dashDirection*620:go*255;if(go&&now>=dashMoveUntil&&now>=attackUntil)player.face=Math.sign(go);
@@ -513,7 +532,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase!=='play'||!player)return;
    if(HP<=0)die('遭近戰怪物擊倒');updateHUD();
   }
  }
- for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of chasers){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){c.x+=Math.sign(shot.vx)*50;c.hitUntil=now+.2;energy=Math.min(100,energy+8);fx.push({x:shot.x,y:shot.y,life:.32,col:'#b6f5ff',radius:13});sound('hit');used=true;break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
+ for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
  for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(Math.abs(b.x-player.x)<30&&Math.abs(b.y-(player.y-60))<65){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+.75;sound('hurt');banner('受到攻擊！',.65);if(HP<=0){die('HP 歸零，被怪物擊敗')}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
@@ -679,7 +698,17 @@ if(aimed&&phase==='play'){
  ctx.shadowBlur=0;ctx.font='bold 19px system-ui';ctx.fillStyle=valid?'#ffe985':'#f4fdff';ctx.textAlign='center';ctx.fillText(valid?'◎ 可命中':'◌ 靠近鎖定',ax,ay+rr+25);ctx.textAlign='start';ctx.restore();
 }
 for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));ctx.shadowColor=f.col;ctx.shadowBlur=25;
- if(f.type==='beam'){ctx.strokeStyle=f.col;ctx.lineWidth=18*Math.min(1,f.life*4);ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();ctx.strokeStyle='#fcffff';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();for(let n=0;n<7;n++){const t=n/7+(1-f.life/f.maxLife)*.11,px=f.x+(f.tx-f.x)*t,py=f.y+(f.ty-f.y)*t;ctx.fillStyle=n%2?'#fff7cc':'#7feaff';ctx.beginPath();ctx.arc(px,py+Math.sin(t*26+now*12)*11,3.5+n%3,0,Math.PI*2);ctx.fill()}}
+ if(f.type==='vanish'){
+ const t=1-f.life/f.maxLife,ease=1-Math.pow(1-t,3);
+ // A brief dissolving silhouette, then luminous shards and an expanding ring.
+ ctx.globalAlpha=Math.max(0,1-t*2.8);const size=70*(1-t*.45);
+ imageDraw(f.key,f.x-size/2,f.y-size/2,size,size);
+ ctx.globalAlpha=Math.max(0,1-t);ctx.strokeStyle=f.col;ctx.lineWidth=4*(1-t)+1;
+ ctx.beginPath();ctx.arc(f.x,f.y,8+ease*58,0,Math.PI*2);ctx.stroke();
+ for(let n=0;n<18;n++){const a=n*Math.PI*2/18+n*.21,d=10+ease*(35+n%4*13),px=f.x+Math.cos(a)*d,py=f.y+Math.sin(a)*d-t*25;
+ ctx.save();ctx.translate(px,py);ctx.rotate(a+t*4);ctx.fillStyle=n%3?'#fff8db':f.col;ctx.fillRect(-3,-3,6*(1-t)+1,6*(1-t)+1);ctx.restore()}
+ }
+ else if(f.type==='beam'){ctx.strokeStyle=f.col;ctx.lineWidth=18*Math.min(1,f.life*4);ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();ctx.strokeStyle='#fcffff';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.tx,f.ty);ctx.stroke();for(let n=0;n<7;n++){const t=n/7+(1-f.life/f.maxLife)*.11,px=f.x+(f.tx-f.x)*t,py=f.y+(f.ty-f.y)*t;ctx.fillStyle=n%2?'#fff7cc':'#7feaff';ctx.beginPath();ctx.arc(px,py+Math.sin(t*26+now*12)*11,3.5+n%3,0,Math.PI*2);ctx.fill()}}
  else if(f.type==='impact'){const spread=(f.maxLife-f.life)*95;ctx.strokeStyle=f.col;ctx.lineWidth=9;for(let n=0;n<2;n++){ctx.beginPath();ctx.arc(f.x,f.y,23+spread+n*18,0,Math.PI*2);ctx.stroke()}
  for(let n=0;n<12;n++){let a=n*Math.PI/6+f.life*.3,d=14+spread*1.35;ctx.fillStyle=n%2?'#fff4ca':f.col;ctx.beginPath();ctx.arc(f.x+Math.cos(a)*d,f.y+Math.sin(a)*d,4,0,Math.PI*2);ctx.fill()}}
  else{ctx.strokeStyle=f.col;ctx.lineWidth=8;ctx.beginPath();ctx.arc(f.x,f.y,Math.max(5,f.radius*(1.1-f.life*.4)),0,Math.PI*2);ctx.stroke()}ctx.restore()}
