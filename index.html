@@ -73,13 +73,16 @@ const images={};
 for(const n of ["yuanheng","zhiyan"])for(const p of ["idle","run","jump","attack"]){
  const im=new Image;im.src="assets/new_poses-"+n+"-"+p+".webp";images[n+"-"+p]=im;
 }
-for(const n of ["art-tree-idle","art-armor-idle","art-ghost-idle","art-boss-idle"]){
+for(const n of ["art-tree-idle","art-armor-idle","art-ghost-idle","art-boss-idle","scenery-temple","scenery-bamboo"]){
  const im=new Image;im.src="assets/"+n+".webp";images[n]=im;
 }
 function resize(){
  const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
  canvas.width=Math.max(1,Math.round(r.width*d));canvas.height=Math.max(1,Math.round(r.height*d));
- ratio=d;s=Math.min(r.width/W,r.height/H);offx=(r.width-W*s)/2;offy=(r.height-H*s)/2;
+ ratio=d;
+ // Landscape phone: fill width and crop upper sky, not the playable bricks and floor.
+ if(r.width/Math.max(1,r.height)>W/H){s=r.width/W;offx=0;offy=r.height-(H+2)*s}
+ else{s=Math.min(r.width/W,r.height/H);offx=(r.width-W*s)/2;offy=(r.height-H*s)/2}
  ctx.setTransform(d*s,0,0,d*s,d*offx,d*offy);
 }
 addEventListener("resize",resize);
@@ -95,7 +98,7 @@ function menu(){
 }
 function startGame(){stage=0;round=0;bossCombo=0;lives=3;totalScore=0;startStage(0)}
 function startStage(n){
- stage=n;round=0;bossCombo=0;shields=2;hp=100;shieldUntil=0;phase="play";
+ stage=n;round=0;bossCombo=0;shields=2;hp=100;shieldUntil=0;phase="play";audioNext=0;noteIndex=0;
  player={x:545,y:G,vx:0,vy:0,face:1,ground:true};keys.left=keys.right=false;
  projectiles=[];shots=[];enemies=[];effects=[];dashCool=0;dashUntil=0;invuln=0;
  $("overlay").classList.add("hidden");$("hud").style.display="flex";$("bottom").style.display="flex";
@@ -112,7 +115,7 @@ function makeQuestion(){
  return {text,explain,answer:val,options:shuffle([...set])}
 }
 function nextQuestion(){
- question=makeQuestion();timeLeft=stage===0?25:stage===1?22:20;
+ question=makeQuestion();timeLeft=stage===0?25:stage===1?22:20;nextBullet=clock+5;
  // Four floating answer bricks, separated from the roaming enemies.
  const xs=[205,432,660,890],ys=[340,315,315,340];
  blocks=question.options.map((v,i)=>({x:xs[i],y:ys[i],w:76,h:52,value:v,hit:false}));
@@ -295,6 +298,9 @@ function drawBackdrop(){
  sky.addColorStop(.55,boss?"#54383e":forest?"#587168":"#7f8880");
  sky.addColorStop(1,boss?"#2d1f23":forest?"#728579":"#b7a48a");
  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ // Reuse the project's original illustrated environment assets as restrained texture.
+ const background=images[forest?"scenery-bamboo":"scenery-temple"];
+ if(background&&background.complete&&background.naturalWidth){ctx.save();ctx.globalAlpha=.22;ctx.drawImage(background,0,0,W,H);ctx.restore()}
  // Quiet painterly photographic-style atmospheric depth, never covers UI.
  polygon([[0,325],[120,242],[235,316],[345,193],[487,324],[625,215],[780,313],[913,221],[1100,319],[1100,515],[0,515]],forest?"#2d4e49":"#485b5b");
  polygon([[0,415],[130,331],[269,402],[430,293],[590,410],[761,318],[920,395],[1100,319],[1100,515],[0,515]],forest?"#25453f":"#344949");
