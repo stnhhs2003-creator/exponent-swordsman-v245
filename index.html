@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V2.1.0｜專注解題戰鬥版</title><style>
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V24.5｜五世界冒險地圖</title><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071521;color:#fff;font-family:system-ui,-apple-system,'PingFang TC','Noto Sans TC',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}#game{display:block;width:100vw;height:100dvh;touch-action:none}#hud{position:fixed;top:env(safe-area-inset-top);left:0;right:0;padding:4px 10px;display:none;pointer-events:none;text-shadow:0 2px 4px #000}#hud .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:900;font-size:clamp(12px,2.2vw,20px)}#q{font-size:clamp(18px,3.2vw,30px);background:#0b203be3;border:1px solid #78dad488;border-radius:9px;text-align:center;min-width:32%;padding:2px 10px}#health{display:flex;align-items:center;gap:5px}#bar{height:11px;width:100px;border-radius:6px;background:#331929;overflow:hidden;border:1px solid #fff6}#bar i{display:block;height:100%;background:#5ce0ae}#health.danger #bar{animation:blink .4s infinite alternate}#health.danger #bar i{background:#ff4141}@keyframes blink{to{filter:brightness(2.3)}}#sub{display:flex;align-items:center;justify-content:space-between;font-size:clamp(11px,1.6vw,14px);gap:10px}#energyTrack{height:9px;background:#223d4a;width:130px;border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle}#energyFill{height:100%;width:0%;background:linear-gradient(90deg,#45e2d0,#ffcc69);display:block}#controls{position:fixed;bottom:calc(8px + env(safe-area-inset-bottom));left:0;right:0;display:none;justify-content:space-between;align-items:flex-end;padding:0 clamp(10px,2.4vw,30px);pointer-events:none;gap:12px;z-index:3}#move{width:clamp(164px,25vw,235px);height:92px;display:flex;align-items:center;gap:8px;pointer-events:auto;touch-action:none}#move .direction{flex:1;height:90px;border:2px solid #78d8d9bb;background:#123d58dc;border-radius:22px;color:#dcffff;font-size:35px;font-weight:900;box-shadow:0 5px 0 #092637,0 0 18px #45ddbe33;touch-action:none;-webkit-tap-highlight-color:transparent}#move .direction.pressed{background:#2f9e9b;border-color:#ddffed;transform:translateY(3px);box-shadow:0 2px 0 #092637}#actions{display:flex;flex-direction:row;align-items:flex-end;gap:10px;pointer-events:auto}#actions button{border:2px solid #bce9eb91;border-radius:20px;background:#184665ed;color:#fff;font-weight:900;padding:4px;min-height:74px;min-width:76px;font-size:14px;text-shadow:0 2px #000;touch-action:none;-webkit-tap-highlight-color:transparent;box-shadow:0 5px 0 #0b243a;white-space:nowrap}#actions button:active,#actions button.pressed{transform:translateY(3px);box-shadow:0 2px 0 #0b243a;background:#2e8b9d}#actions #attackHold{width:118px;height:118px;min-width:118px;border-radius:50%;font-size:15px;line-height:1.5;border:3px solid #f8c87f;background:radial-gradient(circle at 35% 25%,#ce8447,#8c4118 78%);position:relative;isolation:isolate;overflow:hidden;box-shadow:0 0 20px #ffb23d66,0 5px 0 #52290f}#actions #attackHold::before{content:'';position:absolute;inset:0;background:conic-gradient(#ffe281 calc(var(--charge,0) * 1%),transparent 0);opacity:.52;z-index:-1}#actions #attackHold.ready{border-color:#fff1a7;box-shadow:0 0 22px 5px #ffe07b,0 5px 0 #52290f}#actions #attackHold.charging{border-color:#fff2a0;filter:brightness(1.15);transform:scale(1.025)}#actions #attackHold .attack-state{display:block;font-size:11px;color:#fff7c9;line-height:1.25;margin-top:3px}#actions .aux{display:flex;flex-direction:column;gap:10px}#actions .aux button{width:81px;height:65px;min-height:65px}#controls .control-hint{position:absolute;bottom:100%;font-size:12px;color:#e0f8fa;font-weight:800;text-shadow:0 2px 4px #000;padding-bottom:5px;pointer-events:none}#controls .hint-left{left:clamp(10px,2.4vw,30px)}#controls .hint-right{right:clamp(10px,2.4vw,30px)}@media(max-height:460px){#controls{bottom:calc(4px + env(safe-area-inset-bottom));padding:0 clamp(8px,1.8vw,22px)}#move{height:74px;width:clamp(152px,23vw,195px);gap:7px}#move .direction{height:73px;font-size:29px;border-radius:19px}#actions{gap:7px}#actions #attackHold{width:94px;height:94px;min-width:94px;font-size:13px}#actions #attackHold .attack-state{font-size:10px}#actions .aux{gap:7px}#actions .aux button{width:69px;height:52px;min-width:69px;min-height:52px;font-size:12px;border-radius:15px}#controls .control-hint{font-size:10px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}@media(orientation:portrait){#controls{gap:6px;padding:0 7px}#move{width:145px;height:72px;gap:6px}#move .direction{height:68px;font-size:28px;border-radius:14px}#actions{gap:5px}#actions #attackHold{width:81px;height:81px;min-width:81px;font-size:11px;line-height:1.2}#actions #attackHold .attack-state{font-size:9px}#actions .aux{gap:5px}#actions .aux button{width:54px;height:46px;min-width:54px;min-height:46px;font-size:11px;border-radius:12px}#controls .control-hint{display:none}}#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#071322ef,#13314fe8);padding:14px;z-index:4}#panel.hide{display:none}#card{max-width:640px;width:100%;max-height:96dvh;overflow:auto;text-align:center;padding:clamp(14px,3vw,26px);border:2px solid #75c7d780;background:#0b1b2df5;border-radius:22px;box-shadow:0 0 75px #32d7cd26}#card h1{font-size:clamp(24px,5vw,41px);margin:3px 0 10px;color:#f6d38f}#card h2{font-size:clamp(20px,3vw,28px)}#card p{line-height:1.55;margin:8px 0}#card button,#card select,#card input{background:#18354a;border:1px solid #80dbd0;color:#fff;border-radius:10px;padding:9px 16px;font-size:16px;margin:5px}#card button.primary{background:linear-gradient(120deg,#b76d29,#6b4226);border:2px solid #f5ce79;font-weight:900}#card .desc{color:#bcdbe2;font-size:14px}#card .choice{display:inline-block;margin:4px 8px}#card .version{color:#83e7dc;font-weight:900;letter-spacing:2px}#card .expl{background:#142f42;border-radius:12px;padding:12px;margin:12px 0;text-align:left}#card .key{color:#ffda78}#mute{position:fixed;top:92px;right:8px;z-index:2;display:none;border:1px solid #8dc;pointer-events:auto;background:#102e3ddc;border-radius:12px;color:white;padding:4px 8px}#banner{position:fixed;top:23%;width:100%;text-align:center;pointer-events:none;font-weight:900;font-size:clamp(19px,3.5vw,34px);color:#ffe9a4;text-shadow:0 0 15px #ff843e,0 3px 3px #000;opacity:0;transition:opacity .16s}#banner.show{opacity:1}@media(max-height:460px){#controls{padding:0 18px}#move{width:100px;height:100px}#stick{left:27px;top:27px}#actions{grid-template-columns:80px 66px}#actions #attackHold{min-height:90px;font-size:12px}#actions button{min-height:42px;padding:5px;font-size:12px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}
 
 /* V22.3 restored start screen with large touch targets and preview cards */
@@ -198,33 +198,16 @@ body.stick-mode #soloStick{display:block}
 body.stick-mode.in-game #move{width:100px!important;justify-content:center!important}
 @media(min-width:901px){body.in-game #controls::after{content:'鍵盤：A/D 移動　W 跳躍　S 跳下　J 攻擊／集氣　K 閃避';position:absolute;bottom:3px;font-size:11px;color:#aac9d2;pointer-events:none}body.in-game #controls{padding-bottom:18px!important}}
 @media(max-width:600px),(max-height:480px){body.in-game #actions .aux,body.big-screen.in-game #actions .aux{grid-template-columns:49px 45px!important;grid-template-rows:32px 32px!important;gap:5px!important}body.in-game #actions .aux button[data-action],body.big-screen.in-game #actions .aux button[data-action]{font-size:11px!important}body.in-game #actions .aux button[data-action="drop"]{font-size:11px!important}body.in-game #controls{gap:7px!important}body.in-game #actions{gap:6px!important}#soloStick{width:72px;height:72px}#soloThumb{width:34px;height:34px;left:16px;top:16px}body.stick-mode.in-game #move{width:78px!important}}
-
-/* Keep the entire equation on one math baseline; the square is an exponent. */
-#q .math-expression{display:inline-block;white-space:nowrap;font-variant-numeric:lining-nums;line-height:1.4;letter-spacing:.01em}
-body.in-game #q .math-expression sup{position:static;vertical-align:super;top:auto;font-size:.66em;line-height:0}
-body.in-game #q .math-expression sup.exponent-blank{color:#ffe18a;font-weight:950;font-size:.65em;vertical-align:super;position:static;top:auto}
-.sword-bar{display:flex;align-items:center;justify-content:center;gap:9px;margin:3px auto;padding:2px 10px;min-height:23px;width:max-content;max-width:92%;background:#081b30cf;border:1px solid #c9a95788;border-radius:12px;color:#ffe9a5;font-size:clamp(12px,2vw,17px);font-weight:850;text-shadow:0 2px 3px #000}
-#swordIcons{letter-spacing:3px;white-space:nowrap;color:#ffdd73}#swordIcons .spent{color:#64707d;opacity:.37;filter:grayscale(1)}#swordCount{font-size:12px;color:#e2f5f5}
-@media(max-height:470px){.sword-bar{position:absolute;top:49px;right:8px;margin:0;font-size:11px;padding:1px 6px;min-height:19px;z-index:2}#swordIcons{letter-spacing:0}#swordCount{font-size:10px}}
-
-/* Wuxia stage selector & math-first HUD */
-#q{background:rgba(8,16,17,.96);border:2px solid #e8d5a7;color:#fffef8;text-shadow:0 2px 3px #000}
-#hud .top{color:#faf5e6}
-#card{background:#101a1af7;border-color:#a9a18a}
-#card .world-option{background:#162321;border-color:#82918a}
-#card .scene-frame{position:relative;background:linear-gradient(160deg,#697970 0%,#3d504b 40%,#1c302e 75%,#101a19 100%)!important}
-#card .scene-frame::after{content:'遠山 · 雲霧 · 古寺';display:block;position:absolute;inset:auto 4px 10px;text-align:center;font-weight:900;font-size:13px;color:#f5edd9;text-shadow:0 2px 5px #000}
-#card .scene-art{display:none!important}
-</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">生命 ♥♥♥♥♥</span></div><div class="sword-bar" id="swordBar" aria-label="剩餘飛劍 5 把">小劍攻擊 <span id="swordIcons">⚔ ⚔ ⚔</span> <b id="swordCount">∞</b></div><div id="sub"><span id="health">HP <span id="hpnum">100</span> / 100<span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">18%</output></label><input type="range" id="musicVolume" min="0" max="100" value="18" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">35%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="35" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
+</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 15</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">100%</output></label><input type="range" id="musicVolume" min="0" max="100" value="100" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">35%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="35" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
-const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:225,w:205,y:435},{x:575,w:205,y:420}];const FULL_CHARGE_SECONDS=.85;let bossIntroUntil=0;const MAX_SWORDS=5;let swords=MAX_SWORDS;
-let musicVolume=0.18,sfxVolume=0.35,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,nextPlatformAttackAt=0,platformStaySince=0,platformStayKey=-1,platformPulseAt=0,platformPulseKey=-1,platformPulseCooldown=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,airJumpUsed=false,dashMoveUntil=0,dodgeReadyAt=0,dashDirection=1;
+const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:230,w:190,y:415},{x:580,w:190,y:390}];
+let musicVolume=1,sfxVolume=0.35,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,dashMoveUntil=0,dodgeReadyAt=0,dashDirection=1;
 const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan'},scenes=['scenery-bamboo','scenery-cherry','scenery-temple'];
 const WORLDS=[
- {id:'gear',icon:'⚙',name:'煙雨古寺',short:'遠山晨霧・古寺石階',sky:['#18324f','#94725d'],accent:'#efc276',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
- {id:'forest',icon:'🍄',name:'竹影劍谷',short:'深竹清風・山谷劍影',sky:['#132e48','#2f6b60'],accent:'#a9f2c8',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
- {id:'sky',icon:'✧',name:'雲海孤峰',short:'水墨群山・雲海劍陣',sky:['#194770','#8ab5dd'],accent:'#bceaff',mob:['art-ghost-idle','art-mage-idle','art-armor-idle','art-tree-idle']},
- {id:'ocean',icon:'◈',name:'寒潭幽境',short:'深潭月影・霧夜劍修',sky:['#082638','#086377'],accent:'#7de9e4',mob:['art-ghost-idle','art-armor-idle','art-tree-idle','art-mage-idle']},
+ {id:'gear',icon:'⚙',name:'齒輪天空城',short:'黃銅鐘塔・蒸汽機兵',sky:['#18324f','#94725d'],accent:'#efc276',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
+ {id:'forest',icon:'🍄',name:'幻光蘑菇森林',short:'螢光菌傘・孢子魔獸',sky:['#132e48','#2f6b60'],accent:'#a9f2c8',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
+ {id:'sky',icon:'✧',name:'星海浮空島',short:'星晶雲海・雷羽守衛',sky:['#194770','#8ab5dd'],accent:'#bceaff',mob:['art-ghost-idle','art-mage-idle','art-armor-idle','art-tree-idle']},
+ {id:'ocean',icon:'◈',name:'深海機械遺都',short:'海底光塔・深淵機甲',sky:['#082638','#086377'],accent:'#7de9e4',mob:['art-ghost-idle','art-armor-idle','art-tree-idle','art-mage-idle']},
  {id:'desert',icon:'☀',name:'雷霆沙漠神殿',short:'金砂石柱・雷電魔獸',sky:['#55334b','#db9860'],accent:'#ffd98e',mob:['art-lava-idle','art-armor-idle','art-mage-idle','art-ghost-idle']}
 ];
 const CLASSROOM_BALANCE={targetWinRate:.30,version:'fair-dodge-v2'};
@@ -255,13 +238,13 @@ function ensureAudioMix(){
 }
 function applyAudioMix(){
  if(!aCtx)return;ensureAudioMix();
- musicBus.gain.setTargetAtTime(musicVolume*.75,aCtx.currentTime,.06);
+ musicBus.gain.setTargetAtTime(musicVolume*1.45,aCtx.currentTime,.06);
  sfxBus.gain.setTargetAtTime(sfxVolume*.85,aCtx.currentTime,.06);
 }
 function sound(kind){if(muted)return;try{aCtx=aCtx||new(window.AudioContext||window.webkitAudioContext);if(aCtx.state==='suspended')aCtx.resume();ensureAudioMix();const now=aCtx.currentTime;let f=180,d=.1,wave='triangle',gain=.09;if(kind==='slash'){f=310;d=.11;wave='sawtooth'}if(kind==='hit'){f=110;d=.18;gain=.18;wave='sawtooth'}if(kind==='ok'){f=660;d=.22;gain=.15}if(kind==='bad'){f=90;d=.4;gain=.19;wave='sawtooth'}if(kind==='ult'){f=140;d=.48;gain=.2;wave='sawtooth'}if(kind==='jump'){f=300;d=.11}if(kind==='hurt'){f=80;d=.3;gain=.17}if(kind==='beam'){f=470;d=.16}if(kind==='boss'){f=70;d=.55;gain=.15}if(kind==='death'){f=210;d=.65;gain=.18;wave='sawtooth'}if(kind==='revive'){f=480;d=.27;gain=.12}let o=aCtx.createOscillator(),g=aCtx.createGain();o.type=wave;o.frequency.setValueAtTime(f,now);o.frequency.exponentialRampToValueAtTime(Math.max(35,f*(kind==='ok'?1.65:.43)),now+d);g.gain.setValueAtTime(gain,now);g.gain.exponentialRampToValueAtTime(.001,now+d);o.connect(g);g.connect(sfxBus);o.start(now);o.stop(now+d+.02)}catch(e){}}
-function bossEntranceSound(){sound('boss');unlockAudio();if(!aCtx||muted)return;try{const t=aCtx.currentTime+.04;musicDrum(t,true);musicDrum(t+.32,true);musicDrum(t+.7,true);musicNote(82.41,t,.75,.22,'sawtooth');musicNote(123.47,t+.28,.65,.15,'triangle');musicNote(164.81,t+.68,.8,.18,'sawtooth');musicNote(246.94,t+1.4,.55,.13,'triangle');musicNote(329.63,t+1.9,.8,.19,'triangle');nextMusicAt=t+2.8}catch(_){}}function pumpMusic(){
- if(muted||!['play','impact'].includes(phase)||musicVolume<=0||!aCtx||aCtx.state!=='running'){nextMusicAt=0;return}if(stage===2&&performance.now()/1000<bossIntroUntil)return;
- const now=aCtx.currentTime,beat=HP<25?.22:stage===2?(bossCombo>=3?.19:bossCombo>=2?.215:.245):stage===1?.27:.30;
+function pumpMusic(){
+ if(muted||!['play','impact'].includes(phase)||musicVolume<=0||!aCtx||aCtx.state!=='running'){nextMusicAt=0;return}
+ const now=aCtx.currentTime,beat=HP<25?.22:stage===2?.235:stage===1?.27:.30;
  if(nextMusicAt<now||nextMusicAt>now+1)nextMusicAt=now+.025;
  let scheduled=0;while(nextMusicAt<now+.18&&scheduled++<4){soundMusic(nextMusicAt);nextMusicAt+=beat}
 }
@@ -319,19 +302,19 @@ function unlockAudio(){
 function panel(title,body,buttons){if(phase==='lost'||phase==='win')body+=runStatsMarkup();stopPlayerInput();$('card').classList.remove('start-card');$('panel').classList.remove('hide');$('card').innerHTML='<div class="version">指數劍客 V24.5｜五世界冒險地圖</div><h1>'+title+'</h1>'+body+'<p>'+buttons.map((b,i)=>'<button class="'+(i===0?'primary':'')+'" data-panel="'+i+'">'+b[0]+'</button>').join('')+'</p>';buttons.forEach((b,i)=>$('card').querySelector('[data-panel="'+i+'"]').onclick=b[1]);$('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none'}
 function menu(){
  document.body.classList.remove('audio-open');phase='menu';document.body.classList.remove('in-game');resize();hero=hero||'yuanheng';theme=theme||'gear';
- const markup=`<div class="start-title">指數劍客 <em>V2.1.0｜專注解題戰鬥版</em></div><div class="start-hint">五個武俠秘境擇一｜初階 10 題 → 進階 10 題 → 魔王連續答對 5 題</div>
+ const markup=`<div class="start-title">指數劍客 <em>V24.5</em></div><div class="start-hint">五個冒險世界擇一｜初階 15 題 → 進階 10 題 → 魔王連續答對 5 題</div>
  <div class="pick-label">① 選擇主角</div>
  <div class="pick-grid">
  <button type="button" class="pick" data-hero="yuanheng"><img src="assets/new_poses-yuanheng-idle.webp" alt="淵衡角色預覽"><span><strong>淵衡</strong><small>青刃劍士｜迅捷突擊</small></span></button>
  <button type="button" class="pick" data-hero="zhiyan"><img src="assets/new_poses-zhiyan-idle.webp" alt="芷言角色預覽"><span><strong>芷言</strong><small>翡翠劍士｜靈巧劍氣</small></span></button>
  </div>
- <div class="pick-label">② 武俠場景｜五選一（進階與魔王延續同一場景）</div>
+ <div class="pick-label">② 冒險地圖｜五選一（進階與魔王延續同一世界）</div>
  <div class="world-map">${WORLDS.map(w=>`<button type="button" class="world-option" data-theme="${w.id}"><span class="scene-frame scene-${w.id}"><img class="scene-art" src="assets/map-${w.id}.svg" alt="${w.name}場景風格預覽"></span><span><strong>${w.name}</strong><small>${w.short}</small></span></button>`).join('')}</div>
  ${runStatsMarkup()}<label id="screenModeWrap"><input type="checkbox" id="bigScreenToggle"> 教室大屏模式（按鍵與戰鬥區分開）</label>
- <button type="button" class="start-now" id="startGameNow">▶ 開始挑戰｜初階 10 題</button>
+ <button type="button" class="start-now" id="startGameNow">▶ 開始挑戰｜初階 15 題</button>
  <button type="button" id="ultimateDemoBtn" style="font-weight:900;color:#ffefbc;border:2px solid #ffcf70;background:linear-gradient(120deg,#813f39,#67438d);padding:10px 16px">✨ 試用：華麗必殺技</button>
- <p class="desc">四隻答案怪都在地面，先看題目，再移動面向所選數字，長按蓄力劍擊中答案。短按小劍可對付追兵。初階前 3 題先練瞄準，之後才增加飛彈和怪物。大彈命中、打錯答案或 HP 歸零都會失去一命。</p>
- <p class="desc">大屏單人：方向鍵／搖桿移動，跳躍調整射擊高度，虛線是劍的直線飛行軌跡；不會自動鎖定答案怪。</p>`;
+ <p class="desc">短按攻擊、格擋、閃躲來集氣；絕技打中正解才過題，打錯扣一命。四個答案每題隨機換位。</p>
+ <p class="desc">大屏單人：下方集中操作，可切方向鍵／搖桿。低空彈跳過，高空彈留地面或跳下；閃避有短暫保護。金色準星只代表可命中，不代表正解。</p>`;
  $('panel').classList.remove('hide');$('card').classList.add('start-card');$('card').innerHTML=markup;
  $('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none';
  function updatePicks(){for(let el of $('card').querySelectorAll('[data-hero]'))el.setAttribute('aria-pressed',String(el.dataset.hero===hero));for(let el of $('card').querySelectorAll('[data-theme]'))el.setAttribute('aria-pressed',String(el.dataset.theme===theme))}
@@ -359,7 +342,7 @@ function showUltimateDemo(){
  g.font='bold 26px system-ui';g.textAlign='left';g.fillStyle='#ffecae';g.fillText(cycle<1.4?'① 凝聚劍氣':cycle<2.75?'② 飛劍疾射！':cycle<4.35?'③ 雷光爆擊！':'④ 準備再次展示',32,55);
  requestAnimationFrame(render)}requestAnimationFrame(render)
 }
-function newStage(n,carryLives=false){if(n===0)runOpen=true;musicStep=0;bossIntroUntil=n===2?performance.now()/1000+3.5:0;damagePopups=[];stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;swords=MAX_SWORDS;bossCount=0;bossCombo=0;lives=n===0?5:(n===2&&carryLives?lives:3);HP=100;energy=0;player={x:500,y:G,vx:0,vy:0,level:0,face:1};airJumpUsed=false;hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextPlatformAttackAt=performance.now()/1000+3.7;platformStaySince=0;platformStayKey=-1;platformPulseAt=0;platformPulseKey=-1;platformPulseCooldown=0;nextTreeSpawn=performance.now()/1000+rand(15,28)/10;if(n!==0)chasers.push({x:870,y:UP,level:1,hitUntil:0});chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2){bossEntranceSound();banner('⚡ 魔王降臨！破盾、狂暴、最後終結！',3.2)}}
+function newStage(n,carryLives=false){if(n===0)runOpen=true;musicStep=0;damagePopups=[];stopPlayerInput();document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;lives=n===0?5:(n===2&&carryLives?lives:3);HP=100;energy=40;player={x:500,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextTreeSpawn=performance.now()/1000+rand(15,28)/10;if(n!==0)chasers.push({x:870,y:UP,level:1,hitUntil:0});chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2)sound('boss')}
 function banner(m,d=1.3){$('banner').textContent=m;$('banner').classList.add('show');msgUntil=performance.now()/1000+d}
 const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),shuffle=x=>{for(let i=x.length-1;i>0;i--){let j=rand(0,i);[x[j],x[i]]=[x[i],x[j]]}return x};
 function makeQ(){let diff=stage===0?Math.floor(qIndex/5):stage===1?2+Math.floor(qIndex/5):4;let type=rand(0,diff>=2?4:2),base=rand(2,diff>=3?7:5),a=rand(2,5),b=rand(1,4),q,answer,wrong;
@@ -368,15 +351,15 @@ else if(type===1){a=rand(4,9);b=rand(1,a-1);answer=a-b;q=`${base}<sup>${a}</sup>
 else if(type===2){a=rand(2,4);b=rand(2,3);answer=a*b;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> = ?`;wrong=[a+b,a*b+1,a*b-1,a*b+b,a*b+a]}
 else if(type===3){a=rand(3,7);b=rand(2,4);const c=rand(1,a+b-1);answer=a+b-c;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b+c,a+b,a-b+c,a+b-c+1,Math.abs(a-b-c)]}
 else{a=rand(2,5);b=rand(2,3);const c=rand(1,a*b-1);answer=a*b-c;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b-c,a*b+c,a*b-c+1,a*b-c-1,a*(b-c)]}
-let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);q=`<span class="math-expression">${q.replace(' = ?',` = ${base}<sup class="exponent-blank">□</sup>`)}</span>`;let choices=shuffle(nums.map(n=>({html:String(n),n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0?'同底數相乘，指數相加。':type===1?'同底數相除，指數相減。':type===2?'冪的乘方，指數相乘。':type===3?'同底數乘除混合：相乘的指數相加，再減去除式的指數。':'先算冪的乘方（指數相乘），再減去除式的指數。';return {q,choices,correct,explain,base,answer};}
-function nextQuestion(){question=makeQ();let positions=[{x:115,y:G,level:0,lo:112,hi:118},{x:360,y:G,level:0,lo:357,hi:363},{x:735,y:G,level:0,lo:732,hi:738},{x:985,y:G,level:0,lo:982,hi:988}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'newmob-'+i,vx:rand(10,16)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+2;updateHUD()};let questionStart=0;
+let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);let choices=shuffle(nums.map(n=>({html:`${base}<sup>${n}</sup>`,n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0?'同底數相乘，指數相加。':type===1?'同底數相除，指數相減。':type===2?'冪的乘方，指數相乘。':type===3?'同底數乘除混合：相乘的指數相加，再減去除式的指數。':'先算冪的乘方（指數相乘），再減去除式的指數。';return {q,choices,correct,explain,base,answer};}
+function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(310,340),y:PLATFORMS[0].y,level:1,lo:290,hi:360},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'newmob-'+i,vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+2;updateHUD()};let questionStart=0;
 function showDamageFeedback(amount){
  const now=performance.now()/1000;
  damagePopups.push({x:player.x,y:player.y-115,time:now,amount});
  if(damagePopups.length>4)damagePopups.shift();
  for(const id of ['damageEdge','health']){const el=$(id);el.classList.remove('damage-flash');void el.offsetWidth;el.classList.add('damage-flash')}
 }
-function takeDamage(amount){HP=Math.max(0,HP-amount);showDamageFeedback(amount);if(HP>0&&HP<=25)banner("⚠ HP 危險！歸零就失去一命",1.25)}
+function takeDamage(amount){HP-=amount;showDamageFeedback(amount)}
 function drawDamageFeedback(now){
  damagePopups=damagePopups.filter(p=>now-p.time<1.1);
  if(phase!=='play')return;
@@ -384,127 +367,94 @@ function drawDamageFeedback(now){
  for(const p of damagePopups){const age=now-p.time;ctx.globalAlpha=Math.min(1,(1.1-age)*3);const y=Math.max(95,p.y-age*40);ctx.strokeText('-'+p.amount+' HP',p.x,y);ctx.fillStyle='#ffdfb2';ctx.fillText('-'+p.amount+' HP',p.x,y)}
  ctx.restore();
 }
-function updateHUD(){const swordIcons=$('swordIcons');if(swordIcons){swordIcons.textContent='⚔ ⚔ ⚔';$('swordCount').textContent='∞';$('swordBar').setAttribute('aria-label','小劍攻擊不限次數')}const dodgeButton=document.querySelector('[data-action="dodge"]'),cooldown=Math.max(0,dodgeReadyAt-performance.now()/1000);if(dodgeButton){dodgeButton.textContent=cooldown>0?'💨 '+cooldown.toFixed(1)+'s':'💨 閃避';dodgeButton.classList.toggle('cooldown',cooldown>0)}let str=stage===2?`${bossCombo<2?'① 破盾':bossCombo<4?'② 狂暴':'③ 終結'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=str;$('q').innerHTML=question.q;$('lifelabel').textContent='生命 '+lives+' ♥'+ '♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / ${stage===0?10:10}`;$('attackHold').classList.toggle('ready',energy>=100);$('attackHold').classList.toggle('lock-ready',energy>=100&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=100?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=100?'✨ 答案砲就緒':'短按連續小劍 ∞<br>長按蓄力作答')}
-function die(reason,wrong=false){
- if(phase==='lost'||phase==='death')return;
- stopPlayerInput();swords=MAX_SWORDS;lives--;HP=0;sound('death');
- fx.push({x:player.x,y:player.y-40,life:.7,col:'#ff485f',radius:42});
- if(stage===2)bossCombo=0;
- const remaining=Math.max(0,lives);
- if(remaining===0){
-  phase='lost';recordRun(false);updateHUD();
-  panel('💀 遊戲結束｜0 命',`<p><strong>所有生命耗盡</strong></p><p>原因：${reason}</p><p>本次通過題數：${qIndex}。重新挑戰將從初階開始。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);
-  return;
- }
- // Pause safely so a death cannot be mistaken for a short damage flash.
- phase='death';updateHUD();
- panel('💔 失去一命｜剩 '+remaining+' 命',`<p><strong>本次死亡，扣除 1 命</strong></p><p>原因：${reason}</p><p>按「復活繼續」後 HP 回到 100，並獲得 2 秒無敵保護。</p>`,[['復活繼續',()=>{
-  HP=100;player.x=500;player.y=G;player.vy=0;player.level=0;airJumpUsed=false;
-  bullets=[];chasers=[];fallingFoe=null;playerShots=[];ultShot=null;
-  const now=performance.now()/1000;fireAt=now+2;nextTreeSpawn=now+3;nextFallingSpawn=now+7;
-  platformStaySince=0;platformStayKey=-1;platformPulseAt=0;platformPulseKey=-1;platformPulseCooldown=now+2;
-  dropUntil=0;lowerMode=false;hurtUntil=now+2;energy=Math.max(30,energy);
-  phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);
-  resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';
-  if(wrong)nextQuestion();
-  banner('🛡 復活成功｜HP 100｜無敵 2 秒',2);updateHUD();
- }]]);
-}
+function updateHUD(){const dodgeButton=document.querySelector('[data-action="dodge"]'),cooldown=Math.max(0,dodgeReadyAt-performance.now()/1000);if(dodgeButton){dodgeButton.textContent=cooldown>0?'💨 '+cooldown.toFixed(1)+'s':'💨 閃避';dodgeButton.classList.toggle('cooldown',cooldown>0)}let str=stage===2?`魔王 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=str;$('q').innerHTML=question.q;$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / ${stage===0?15:10}`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
+function die(reason,wrong=false){stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2)bossCombo=0;if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：看清底數與指數。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
 function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>正確指數為 ${question.answer}；請留意運算規則。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
-function solved(){sound('ok');swords=MAX_SWORDS;HP=Math.min(100,HP+20);banner(stage===2?'魔王護盾破裂！':'✅ 答對！普通攻擊補滿・恢復 20 HP',1.3);energy=0;updateHUD();if(stage===2){bossCombo++;if(bossCombo>=5){phase='impact';fx.push({type:'impact',x:975,y:230,life:1.4,maxLife:1.4,col:'#eeabff',radius:130});sound('ult');sound('boss');banner('⚔ 黃金終結砲！魔王核心崩解！',1.4);setTimeout(()=>{if(phase!=='impact')return;phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>黃金終結砲擊碎魔王核心！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]])},1400);return}}
-else{qIndex++;if(qIndex>=(stage===0?10:10)){phase='clear';const next=stage+1;panel('✨ 階段通關！',`<p>${stage===0?'初階完成 10 題':'進階完成 10 題'}！</p><p>即將進入「${world().name}」${next===1?'進階':'魔王'}戰，場景風格延續，危機升級。</p>`,[['立即進入下一關',()=>newStage(next,next===2)],['返回選單',menu]]);setTimeout(()=>{if(phase==='clear')newStage(next,next===2)},2300);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
+function solved(){sound('ok');banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){bossCombo++;if(bossCombo>=5){phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
+else{qIndex++;if(qIndex>=(stage===0?15:10)){phase='clear';const next=stage+1;panel('✨ 階段通關！',`<p>${stage===0?'初階完成 15 題':'進階完成 10 題'}！</p><p>即將進入「${world().name}」${next===1?'進階':'魔王'}戰，場景風格延續，危機升級。</p>`,[['立即進入下一關',()=>newStage(next,next===2)],['返回選單',menu]]);setTimeout(()=>{if(phase==='clear')newStage(next,next===2)},2300);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
 function monsterBurst(x,y,key,col){
- fx.push({type:'vanish',x,y,key,col,life:.72,maxLife:.72,radius:50});fx.push({type:'ink',x,y,col:'#171c1b',life:.72,maxLife:.72,radius:50});
+ fx.push({type:'vanish',x,y,key,col,life:.72,maxLife:.72,radius:50});
  sound('hit');
-}
-function damageHazard(c,amount=1){
- if(!c||c.dead||c.warning>0)return false;
- const maxHP=c.maxHP||(c.level===0?(stage===0?3:4):4);
- c.maxHP=maxHP;c.hp=Math.max(0,(c.hp??maxHP)-amount);c.hitUntil=performance.now()/1000+.22;
- fx.push({x:c.x,y:c.y-(c.level===0?53:38),life:.20,col:'#ffe6a0',radius:13});sound('hit');
- if(c.hp===0)return defeatHazard(c);
- return true;
 }
 function defeatHazard(c){
  if(!c||c.dead||c.warning>0)return false;
  c.dead=true;
  const ground=c.level===0;
- const col=ground?'#d5d2bf':'#b7c5c1';
+ const col=ground?TREE_FORMS[c.variant||0].outline:'#a7eaff';
  monsterBurst(c.x,c.y-(ground?TREE_FORMS[c.variant||0].h/2:38),ground?'newmob-'+(c.variant||0):'newmob-3',col);
  chasers=chasers.filter(other=>other!==c);
  if(c===fallingFoe){fallingFoe=null;nextFallingSpawn=performance.now()/1000+rand(80,130)/10}
  energy=Math.min(100,energy+10);return true;
 }
-function slash(){
- if(phase!=='play'||!player)return;
- const now=performance.now()/1000;
- if(now<attackCD)return;
- // Unlimited small flying swords; rapid, visible, but not capable of answering math.
- attackCD=now+.23;attackUntil=now+.13;
- sound('slash');
- playerShots.push({x:player.x+player.face*29,y:player.y-59,vx:player.face*735,life:.83,damage:1});
- if(playerShots.length>14)playerShots.shift();
- updateHUD();
-}
+function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;faceNearbyTarget();attackCD=now+.29;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');playerShots.push({x:player.x+player.face*42,y:player.y-50,vx:player.face*600,life:.48});if(playerShots.length>4)playerShots.shift();let range=lives===1?115:90;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95)defeatHazard(c)}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
 function supportedPlayer(){
- return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+6&&player.x<=p.x+p.w-6&&Math.abs(player.y-p.y)<4));
+ return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+10&&player.x<=p.x+p.w-10&&Math.abs(player.y-p.y)<3));
 }
 function tryBufferedJump(now){
- if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.16)){
- player.vy=-685;player.level=0;jumpBufferUntil=0;lastGroundedAt=-10;airJumpUsed=false;sound('jump');return true;
- }
- // One forgiving mid-air correction jump, never auto-targets or changes shooting.
- if(jumpBufferUntil>now&&now>=dropUntil&&!airJumpUsed&&player.vy>25&&player.y<G-30){
-  airJumpUsed=true;player.vy=-575;jumpBufferUntil=0;lastGroundedAt=-10;
-  fx.push({x:player.x,y:player.y-10,life:.32,col:'#a3edff',radius:22});sound('jump');return true;
+ if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.12)){
+ player.vy=-655;player.level=0;jumpBufferUntil=0;lastGroundedAt=-10;sound('jump');return true;
  }return false;
 }
-function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.22;tryBufferedJump(now)}
+function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.15;tryBufferedJump(now)}
 function drop(){if(phase!=='play'||!player)return;let on=PLATFORMS.some(p=>player.x>p.x-8&&player.x<p.x+p.w+8&&Math.abs(player.y-p.y)<8);if(on){dropUntil=performance.now()/1000+.42;player.y+=10;player.vy=165;player.level=0;banner('⬇ 跳至下一層',.6);sound('jump')}}
 function dodge(){
  if(phase!=='play'||!player)return;const now=performance.now()/1000;if(now<dodgeReadyAt)return;
- const left=!!(keys['ArrowLeft']||keys['KeyA']),right=!!(keys['ArrowRight']||keys['KeyD']);const dir=left!==right?(left?-1:1):(axis||player.face);dashDirection=dir;player.face=dir;dodgeReadyAt=now+.82;dashMoveUntil=now+.17;dodgeUntil=now+.43;
+ dodgeReadyAt=now+.8;dashDirection=player.face;dashMoveUntil=now+.19;dodgeUntil=now+.48;
  energy=Math.min(100,energy+9);fx.push({x:player.x,y:player.y-40,life:.28,col:'#b6faff',radius:23});sound('jump');updateHUD();
 }
-// Skill shot travels horizontally from the hero: no selection, auto-facing or homing.
-// Students must navigate to the correct lane and face the desired number.
+// Facing follows the closest visible target, never its answer correctness.
+function faceNearbyTarget(){
+ if(!player)return null;
+ const forward=aimTarget();if(forward)return forward;
+ const candidates=targets.filter(t=>Math.abs(t.x-player.x)<=345&&Math.abs(t.y-player.y)<=80);
+ candidates.sort((a,b)=>Math.abs(a.x-player.x)-Math.abs(b.x-player.x));
+ const t=candidates[0];if(t&&Math.abs(t.x-player.x)>4)player.face=Math.sign(t.x-player.x);
+ return t||null;
+}
 function aimTarget(){
  if(!player||!targets.length)return null;
- const sy=player.y-66,maxRange=690;
- return targets.filter(t=>{
-  const dx=(t.x-player.x)*player.face;
-  return dx>15&&dx<=maxRange&&Math.abs((t.y-48)-sy)<=55;
- }).sort((a,b)=>Math.abs(a.x-player.x)-Math.abs(b.x-player.x))[0]||null;
+ let best=null,nearest=Infinity;
+ for(const t of targets){const dx=t.x-player.x,dy=t.y-player.y;
+  if(dx*player.face<=0||Math.abs(dx)>345||Math.abs(dy)>80)continue;
+  if(Math.abs(dx)<nearest){nearest=Math.abs(dx);best=t}
+ }return best;
 }
-function previewAim(){return aimTarget()}
+function previewAim(){
+ if(!player||!targets.length)return null;
+ let best=null,nearest=Infinity;
+ for(const t of targets){const dx=t.x-player.x,dy=t.y-player.y;
+  if(dx*player.face<=0||Math.abs(dx)>450||Math.abs(dy)>105)continue;
+  if(Math.abs(dx)<nearest){best=t;nearest=Math.abs(dx)}
+ }return best;
+}
 function ultimate(){
  if(phase!=='play'||ultShot)return;
- if(energy<100){banner('需滿格 100% 才能擊中答案怪',.8);return}
- energy=0;attackUntil=performance.now()/1000+.35;sound('ult');
- const best=aimTarget(),sx=player.x+player.face*42,sy=player.y-66;
- const tx=best?best.x:Math.max(40,Math.min(W-25,sx+player.face*690)),ty=sy;
+ if(energy<70){banner('氣力未滿 70%｜先小揮砍集氣',.8);return}
+ faceNearbyTarget();energy-=70;attackUntil=performance.now()/1000+.35;sound('ult');
+ const best=aimTarget(),sx=player.x+player.face*42,sy=player.y-80;
+ const tx=best?best.x:Math.max(40,Math.min(W-25,sx+player.face*355)),ty=best?best.y-63:sy;
  const duration=Math.max(.36,Math.min(.85,Math.hypot(tx-sx,ty-sy)/590));
  ultShot={sx,sy,x:sx,y:sy,tx,ty,duration,elapsed:0,target:best,idx:best?.idx??-1,face:player.face};
  banner('⚔ 金色飛劍出鞘！',.7);updateHUD();
 }
 function resolveUltimate(shot){
- if(!shot.target){fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');banner('蓄力飛劍射空！請調整位置或跳躍高度',1.3);updateHUD();return}
+ if(!shot.target){energy=Math.min(100,energy+25);banner('飛劍未命中｜靠近並對準答案怪物',1);fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');updateHUD();return}
  const target=shot.target;
  const right=shot.idx===question.correct;
  targets=targets.filter(t=>t!==target);
  monsterBurst(target.x,target.y-52,target.kind,right?'#ffdc7b':'#ff7898');
- fx.push({type:'impact',x:shot.tx,y:shot.ty,life:.84,maxLife:.84,col:right?'#d9caa6':'#b85a57',radius:55});fx.push({type:'ink',x:shot.tx,y:shot.ty,col:'#171c1b',life:.75,maxLife:.75,radius:58});
+ fx.push({type:'impact',x:shot.tx,y:shot.ty,life:.84,maxLife:.84,col:right?'#ffdc7b':'#ff5c71',radius:55});
  // Let the disappearance read clearly before the next question or explanation.
  const resolvedQuestion=question,wrongLabel=question.choices[shot.idx].html;
  stopPlayerInput();phase='impact';
- setTimeout(()=>{if(phase!=='impact'||question!==resolvedQuestion)return;phase='play';if(right)solved();else{if(stage===2)bossCombo=0;die('打錯答案：'+wrongLabel,true)}},480);
+ setTimeout(()=>{if(phase!=='impact'||question!==resolvedQuestion)return;phase='play';if(right)solved();else die('擊中 '+wrongLabel,true)},480);
  updateHUD();
 }
 function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop();if(k==='dodge')dodge();if(k==='ultimate')ultimate()}
 // Single combat button: tap = sword slash; hold >= 0.5s = gain Qi; release = special attack.
 let chargePointer=null, chargeStarted=0, isCharging=false, chargeAnnounced=false;
-function chargeBegin(e){if(phase!=='play'||chargePointer!==null)return;e.preventDefault();chargePointer=e.pointerId;chargeStarted=performance.now()/1000;isCharging=true;energy=0;const b=$('attackHold');b.classList.add('charging');if(typeof e.pointerId==='number'){try{b.setPointerCapture?.(e.pointerId)}catch(_){}}}
-function chargeEnd(e, cancelled=false){if(chargePointer!==e.pointerId)return;e.preventDefault();const duration=performance.now()/1000-chargeStarted;chargePointer=null;isCharging=false;$('attackHold').classList.remove('charging');if(cancelled||phase!=='play')return;if(duration<.32){slash();return}if(duration>=FULL_CHARGE_SECONDS){energy=100;ultimate()}else{energy=0;slash();banner('蓄力不足：已改為劍氣防禦，下次按滿發射！',.9)}updateHUD();}
+function chargeBegin(e){if(phase!=='play'||chargePointer!==null)return;e.preventDefault();chargePointer=e.pointerId;chargeStarted=performance.now()/1000;isCharging=true;faceNearbyTarget();const b=$('attackHold');b.classList.add('charging');if(typeof e.pointerId==='number'){try{b.setPointerCapture?.(e.pointerId)}catch(_){}}}
+function chargeEnd(e, cancelled=false){if(chargePointer!==e.pointerId)return;e.preventDefault();const duration=performance.now()/1000-chargeStarted;chargePointer=null;isCharging=false;$('attackHold').classList.remove('charging');if(cancelled||phase!=='play')return;if(duration<.48){slash();return}if(energy>=70){ultimate()}else{banner('集氣尚未完成！再長按久一點',.9);sound('slash')}updateHUD();}
 function getXY(e){return {x:(e.clientX-offX)/s,y:(e.clientY-offY)/s}}
 // Three physical tiers: bottom floor, two middle platforms, and short central top platform.
 // Landing occurs only when descending across the top of a platform.
@@ -512,38 +462,38 @@ function landingHeight(oldX,oldY,newX,newY,vy,now){
  let result=G;
  if(vy<0||now<dropUntil)return result;
  for(const p of PLATFORMS){
-  const feetInside=newX>=p.x-8&&newX<=p.x+p.w+8;
+  const feetInside=newX>=p.x+14&&newX<=p.x+p.w-14;
   if(feetInside&&oldY<=p.y+5&&newY>=p.y&&p.y<result)result=p.y;
  }
  return result;
 }
 // Fixed, readable lanes: difficulty grows through rhythm, never homing or unavoidable hits.
 function enemyAttackProfile(stage,index,bossProgress){
- const p=Math.min(1,Math.max(0,stage===2?bossProgress:index)/(stage===0?9:stage===1?9:4));
+ const p=Math.min(1,Math.max(0,stage===2?bossProgress:index)/(stage===0?14:stage===1?9:4));
  return {speed:(stage===0?115:stage===1?140:160)+p*(stage===2?45:40),
- interval:(stage===0?3.5:stage===1?2.9:2.5)-p*.5,
- warning:stage===0?1.2:stage===1?1.1:1.0,
+ interval:(stage===0?3.8:stage===1?3.2:2.8)-p*.6,
+ warning:stage===0?1.2:stage===1?1.05:.95,
  limit:stage===0&&index<3?1:2};
 }
 function projectileTouchesPlayer(b){
- const radius=b.heavy?21:11,left=player.x-17,right=player.x+17,top=player.y-105,bottom=player.y-15;
+ const radius=11,left=player.x-17,right=player.x+17,top=player.y-105,bottom=player.y-15;
  const x=Math.max(left,Math.min(right,b.x)),y=Math.max(top,Math.min(bottom,b.y));
  return (b.x-x)**2+(b.y-y)**2<radius*radius;
 }
 function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<=0)fx.splice(i,1)}return}if(phase!=='play'||!player)return;
- if(stage===2&&now<bossIntroUntil)return;if(isCharging){energy=Math.min(100,(now-chargeStarted)/FULL_CHARGE_SECONDS*100);if(energy>=100&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 100% 滿格！放開發射答案砲',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;const leftHeld=!!(keys['ArrowLeft']||keys['KeyA']),rightHeld=!!(keys['ArrowRight']||keys['KeyD']);if(leftHeld||rightHeld)go=leftHeld===rightHeld?0:leftHeld?-1:1;
+ if(isCharging){energy=Math.min(100,energy+dt*96);if(energy>=70&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 絕技已滿！放開攻擊鍵發射',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;const leftHeld=!!(keys['ArrowLeft']||keys['KeyA']),rightHeld=!!(keys['ArrowRight']||keys['KeyD']);if(leftHeld||rightHeld)go=leftHeld===rightHeld?0:leftHeld?-1:1;
  if(supportedPlayer())lastGroundedAt=now;tryBufferedJump(now);
- player.vx=now<dashMoveUntil?dashDirection*480:go*(player.y<G-8?292:270);if(go&&now>=dashMoveUntil)player.face=Math.sign(go);
+ player.vx=now<dashMoveUntil?dashDirection*620:go*255;if(go&&now>=dashMoveUntil&&now>=attackUntil)player.face=Math.sign(go);
  const prevX=player.x,prevY=player.y,wasGrounded=Math.abs(player.vy)<1;
  player.x=Math.min(1060,Math.max(36,player.x+player.vx*dt));
  // Gravity + landing on the first platform crossed from above.
  player.vy+=1450*dt;
  player.y+=player.vy*dt;
  const surface=landingHeight(prevX,prevY,player.x,player.y,player.vy,now);
- if(player.vy>=0&&player.y>=surface){player.y=surface;player.vy=0;airJumpUsed=false;lastGroundedAt=now;tryBufferedJump(now)}
+ if(player.vy>=0&&player.y>=surface){player.y=surface;player.vy=0;lastGroundedAt=now;tryBufferedJump(now)}
  // If standing on a platform, crossing its edge naturally starts a fall.
  if(player.vy===0&&player.y<G){
-   let supported=PLATFORMS.some(p=>player.x>=p.x+6&&player.x<=p.x+p.w-6&&Math.abs(player.y-p.y)<4);
+   let supported=PLATFORMS.some(p=>player.x>=p.x+14&&player.x<=p.x+p.w-14&&Math.abs(player.y-p.y)<4);
    if(!supported){player.vy=45;player.y+=2}
  }
  player.level=player.y<G-10?1:0;
@@ -555,50 +505,27 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  // Answer monsters patrol in bounded lanes, never swapping floors or crowding labels.
  for(const t of targets){
- if(t.level===0){t.vx=(t.vx<0?-1:1)*(stage===0?12:16)}
- else if(now>t.roamUntil){t.roamUntil=now+rand(14,28)/10;t.vx=rand(10,17)*(Math.random()<.5?-1:1)}
+ if(t.level===0){t.vx=(t.vx<0?-1:1)*(stage===0?22:27)}
+ else if(now>t.roamUntil){t.roamUntil=now+rand(14,28)/10;t.vx=rand(17,31)*(Math.random()<.5?-1:1)}
  t.x+=t.vx*dt;
  if(t.x<t.lo){t.x=t.lo;t.vx=Math.abs(t.vx);t.roamUntil=now+.6}
  if(t.x>t.hi){t.x=t.hi;t.vx=-Math.abs(t.vx);t.roamUntil=now+.6}
  }
  // Shooter patrols along the upper right without obscuring answer tags.
  if(patrolEnemy){if(now>patrolEnemy.changeAt){patrolEnemy.changeAt=now+rand(18,34)/10;patrolEnemy.vx=rand(20,42)*(Math.random()<.5?-1:1)}patrolEnemy.x+=patrolEnemy.vx*dt;if(patrolEnemy.x<1000){patrolEnemy.x=1000;patrolEnemy.vx=Math.abs(patrolEnemy.vx)}if(patrolEnemy.x>1080){patrolEnemy.x=1080;patrolEnemy.vx=-Math.abs(patrolEnemy.vx)}patrolEnemy.y=stage===2?UP-58:UP-47+Math.sin(now*2)*12}
- // Platform-local lane attack has a visible warning and can be avoided by jumping or dashing.
-const occupiedPlatform=PLATFORMS.find(p=>player.x>=p.x+6&&player.x<=p.x+p.w-6&&Math.abs(player.y-p.y)<7&&Math.abs(player.vy)<12);
-// Standing still on either platform makes the whole surface dangerous after a telegraph.
-// Leaving the platform, jumping or dodging are all valid counters.
-const occupiedIndex=occupiedPlatform?PLATFORMS.indexOf(occupiedPlatform):-1;
-if(occupiedIndex!==platformStayKey){platformStayKey=occupiedIndex;platformStaySince=now;}
-if(platformPulseAt&&now>=platformPulseAt){
- const p=PLATFORMS[platformPulseKey],onDanger=p&&player.x>=p.x+6&&player.x<=p.x+p.w-6&&Math.abs(player.y-p.y)<10&&Math.abs(player.vy)<40;
- platformPulseAt=0;platformPulseCooldown=now+2.3;platformStaySince=now;
- if(p){fx.push({type:'impact',x:p.x+p.w/2,y:p.y-28,life:.6,maxLife:.6,col:'#ffb65b',radius:p.w/2});sound('beam');}
- if(onDanger&&now>=hurtUntil&&now>=dodgeUntil){takeDamage(stage===0?19:stage===1?24:28);hurtUntil=now+1.15;sound('hurt');banner('⚡ 高台雷擊！跳起或離開平台可躲',1.1);if(HP<=0){die('在高台停留太久遭雷擊');return}updateHUD()}
-}
-if(occupiedPlatform&&!platformPulseAt&&now>=platformPulseCooldown&&now-platformStaySince>2.0){
- platformPulseAt=now+1.25;platformPulseKey=occupiedIndex;
- banner('⚠ 高台即將雷擊！1.25 秒內跳起、閃避或跳下',1.25);sound('beam');
-}
-if(occupiedPlatform&&now>=nextPlatformAttackAt&&!bullets.some(b=>b.platformHazard)){
- const p=occupiedPlatform;
- bullets.push({x:p.x+p.w+26,y:p.y-59,vx:-(stage===0?135:stage===1?160:178),vy:0,r:23,life:4.5,warning:1.15,kind:'lightning',upperRoute:true,platformHazard:true,platformX:p.x,platformWidth:p.w});
- nextPlatformAttackAt=now+(stage===0?3.9:stage===1?3.3:3.0);
- banner('⚠ 高台雷刃來襲！跳躍或閃躲',1.15);sound('beam');
-}
-if(now>fireAt){
+ if(now>fireAt){
  const pressure=enemyAttackProfile(stage,qIndex,bossCombo);
  fireAt=now+pressure.interval;
- if(!(stage===0&&qIndex<3)&&bullets.length<pressure.limit){
+ if(bullets.length<pressure.limit){
  const upperRoute=!(stage===0&&qIndex<3)&&actionSeq%3===2;
  const x=W-30,y=upperRoute?UP-30:G-30;
  const kinds=['flame','crystal','lightning','blade'],kind=kinds[(actionSeq++)%kinds.length];
- const heavy=stage===2?actionSeq%3===0:stage===1?actionSeq%4===0:actionSeq%6===0;
- bullets.push({x,y,vx:-(heavy?pressure.speed*.78:pressure.speed),vy:0,r:heavy?42:26,life:13,warning:heavy?1.5:pressure.warning,kind:heavy?'heavy':kind,upperRoute,heavy});
+ bullets.push({x,y,vx:-pressure.speed,vy:0,r:26,life:13,warning:pressure.warning,kind,upperRoute});
  sound('beam');
  }
  }
  // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
- if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<5)){
+ if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<3)){
  const nearShot=bullets.some(b=>b.warning<=0&&Math.abs(b.x-player.x)<220);
  if(!nearShot){let dropX=rand(220,960);if(Math.abs(dropX-player.x)<120)dropX=player.x<550?820:280;
  fallingFoe={x:dropX,y:-80,vy:stage===0?90:110,warning:1.3}}
@@ -617,19 +544,19 @@ if(now>fireAt){
  }else if(f.y>G+100){fallingFoe=null;nextFallingSpawn=now+rand(80,130)/10}
  }
  }
- if(now>=nextTreeSpawn&&!(stage===0&&qIndex<4)){
- nextTreeSpawn=now+(stage===0?rand(35,48):rand(29,42))/10;
+ if(now>=nextTreeSpawn){
+ nextTreeSpawn=now+(stage===0?rand(42,65):rand(35,55))/10;
  const groundTrees=chasers.filter(c=>c.level===0);
  let spawnX=rand(360,740);
  if(Math.abs(spawnX-player.x)<170)spawnX=player.x<W/2?780:320;
- if(groundTrees.length<(stage===0?3:3)&&!groundTrees.some(c=>Math.abs(c.x-spawnX)<170)&&!bullets.some(b=>b.warning<=0&&Math.abs(b.x-spawnX)<150&&Math.abs(b.x-player.x)<240)){
+ if(groundTrees.length<(stage===0?2:3)&&!groundTrees.some(c=>Math.abs(c.x-spawnX)<170)&&!bullets.some(b=>b.warning<=0&&Math.abs(b.x-spawnX)<150&&Math.abs(b.x-player.x)<240)){
  chasers.push({x:spawnX,y:G,level:0,dir:Math.random()<.5?-1:1,warning:1.25,variant:Math.floor(Math.random()*TREE_FORMS.length),hitUntil:0});
  }else nextTreeSpawn=now+1.2;
  }
  chasers=chasers.filter(c=>c.level!==0||(c.x>=-70&&c.x<=W+70));
  for(const c of chasers){const desiredY=c.level===1?PLATFORMS[1].y:G; c.y=desiredY;
   const sameLane=Math.abs(player.y-c.y)<115;
-  if(c.level===0){if(c.warning>0){c.warning=Math.max(0,c.warning-dt);continue}{const desiredDir=Math.abs(player.x-c.x)>46?Math.sign(player.x-c.x):(c.dir||-1);c.dir=desiredDir;c.x+=desiredDir*(stage===0?76:98)*TREE_FORMS[c.variant||0].speed*dt}}
+  if(c.level===0){if(c.warning>0){c.warning=Math.max(0,c.warning-dt);continue}c.x+=(c.dir||-1)*(stage===0?65:85)*TREE_FORMS[c.variant||0].speed*dt}
   else{
    if(sameLane){const dx=player.x-c.x;if(Math.abs(dx)>48)c.x+=Math.sign(dx)*Math.min(Math.abs(dx)-44,(stage===0?65:95)*dt)}
    else c.x+=(Math.sin(now*.8+c.level*2)>0?1:-1)*18*dt;
@@ -641,12 +568,12 @@ if(now>fireAt){
    fx.push({x:impactX,y:impactY,life:.45,col:'#fff4bb',radius:38});
    fx.push({x:impactX-18,y:impactY-14,life:.32,col:'#ff9854',radius:20});
    fx.push({x:impactX+18,y:impactY+12,life:.38,col:'#8ef5ff',radius:24});
-   takeDamage(stage===0?16:21);hurtUntil=now+1.15;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快閃避',.7);
+   takeDamage(stage===0?12:17);hurtUntil=now+1.15;sound('hurt');fx.push({x:player.x,y:player.y-72,life:.6,col:'#ff6b77',radius:24});banner('近戰怪追擊！快閃避',.7);
    if(HP<=0)die('遭近戰怪物擊倒');updateHUD();
   }
  }
- for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=damageHazard(c,shot.damage||1);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('被大彈擊中');return}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈命中｜HP '+HP,.95);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
+ for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('受到攻擊！',.65);if(HP<=0){die('HP 歸零，被怪物擊敗')}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -679,39 +606,37 @@ function drawAtmosphere(now,w){
  ctx.restore();
 }
 function drawWorld(now){
- // Restrained realistic wuxia: ink mountains, temple silhouettes and still mist.
- const gr=ctx.createLinearGradient(0,0,0,H);
- gr.addColorStop(0,'#10191e');gr.addColorStop(.48,'#384747');gr.addColorStop(.8,'#49514b');gr.addColorStop(1,'#171e1f');
- ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
- const mountain=(points,color)=>{ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,G);for(const pt of points)ctx.lineTo(pt[0],pt[1]);ctx.lineTo(W,G);ctx.closePath();ctx.fill()};
- mountain([[0,354],[122,276],[222,353],[340,235],[485,343],[630,250],[785,344],[937,239],[1100,350]],'#2c3b3d');
- mountain([[0,419],[150,350],[300,422],[455,316],[620,414],[801,337],[961,410],[1100,362]],'#222f30');
- ctx.save();ctx.globalAlpha=.37;
- for(const [x,w,h] of [[90,142,92],[421,196,124],[786,173,107]]){
-  const y=390;ctx.fillStyle='#101a1c';ctx.fillRect(x,y-h,w,h);
-  ctx.beginPath();ctx.moveTo(x-24,y-h+4);ctx.lineTo(x+w/2,y-h-45);ctx.lineTo(x+w+24,y-h+4);ctx.closePath();ctx.fill();
-  ctx.fillStyle='#5b6660';for(let j=1;j<4;j++)ctx.fillRect(x+j*w/4-4,y-h+20,8,h-20);
- }ctx.restore();
- for(let i=0;i<3;i++){const y=290+i*64,fg=ctx.createLinearGradient(0,y-22,0,y+39);
-  fg.addColorStop(0,'rgba(213,218,206,0)');fg.addColorStop(.5,'rgba(213,218,206,.08)');fg.addColorStop(1,'rgba(213,218,206,0)');
-  ctx.fillStyle=fg;ctx.fillRect(0,y-22,W,61)}
- ctx.fillStyle='rgba(8,17,18,.35)';ctx.fillRect(0,406,W,G-406);
- ctx.fillStyle='#272e2b';ctx.fillRect(0,G,W,H-G);
- ctx.strokeStyle='rgba(191,185,167,.16)';ctx.lineWidth=2;
- for(let x=0;x<W;x+=115){ctx.beginPath();ctx.moveTo(x,G+6);ctx.lineTo(x-25,H);ctx.stroke()}
- for(let y=G+32;y<H;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
- if(stage===2){ctx.fillStyle='rgba(42,10,22,.13)';ctx.fillRect(0,0,W,H)}
+ const w=world(),a=w.sky,gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,a[0]);gr.addColorStop(1,a[1]);ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+ drawAtmosphere(now,w);
+ const inc=stage===0?0:stage===1?.10:.18;ctx.fillStyle=`rgba(12,6,34,${inc})`;ctx.fillRect(0,0,W,H);
+ ctx.save();ctx.globalAlpha=.20+Math.sin(now*.45)*.035;
+ for(let i=0;i<14;i++){let x=(i*151+67)%W,y=55+(i*51)%390,r=12+(i*23)%39;ctx.fillStyle=i%2?w.accent:'#d1f3ff';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}
+ ctx.restore();
+ const line=(x1,y1,x2,y2,c,width=6)=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.lineWidth=width;ctx.strokeStyle=c;ctx.stroke()};
+ if(w.id==='gear'){
+  for(let i=0;i<7;i++){let x=20+i*185;ctx.fillStyle='#1a2839b9';ctx.fillRect(x,230-(i%3)*28,102,340);ctx.fillStyle='#dcb98b8a';ctx.fillRect(x+19,238-(i%3)*28,12,120);ctx.fillRect(x+51,238-(i%3)*28,12,120);
+    ctx.save();ctx.translate(x+48,130+(i%2)*75);ctx.rotate(now*(i%2?-.06:.06));ctx.strokeStyle='#d6ab6ca8';ctx.lineWidth=11;ctx.beginPath();ctx.arc(0,0,37,0,Math.PI*2);ctx.stroke();for(let k=0;k<8;k++){let t=k*Math.PI/4;line(Math.cos(t)*20,Math.sin(t)*20,Math.cos(t)*48,Math.sin(t)*48,'#dfc28b99',6)}ctx.restore()}
+ }else if(w.id==='forest'){
+  for(let i=0;i<11;i++){let x=i*112+23,y=365+(i%3)*31;line(x,y+125,x,y-45,'#295e56aa',13);ctx.fillStyle=i%2?'#99d8d0a9':'#c58cdaad';ctx.beginPath();ctx.ellipse(x,y-60,46+(i%3)*10,23,0,Math.PI,0);ctx.fill();ctx.fillStyle='#e0fff8b8';for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(x-24+k*14,y-62,3,0,7);ctx.fill()}}
+ }else if(w.id==='sky'){
+  for(let i=0;i<9;i++){const x=i*150-70,y=275+(i%4)*39;ctx.fillStyle='#7697ac88';ctx.beginPath();ctx.ellipse(x,y,90,18,0,0,7);ctx.fill();ctx.fillStyle='#4a718490';ctx.beginPath();ctx.moveTo(x-57,y);ctx.lineTo(x+70,y);ctx.lineTo(x+23,y+38);ctx.lineTo(x-22,y+25);ctx.fill()}
+ }else if(w.id==='ocean'){
+  for(let i=0;i<9;i++){let x=i*142+15;ctx.fillStyle='#123c4fa6';ctx.fillRect(x,210+(i%3)*34,62,310);ctx.fillStyle='#9af7ffb5';ctx.fillRect(x+14,248+(i%3)*34,11,105);ctx.beginPath();ctx.arc(x+31,218+(i%3)*34,17,0,7);ctx.strokeStyle='#88f4edaa';ctx.lineWidth=4;ctx.stroke()}for(let i=0;i<25;i++){ctx.strokeStyle='#d1ffff50';ctx.beginPath();ctx.arc((i*71+now*9)%W,(i*49+250)%H,3+(i%4),0,7);ctx.stroke()}
+ }else if(w.id==='desert'){
+  for(let i=0;i<7;i++){let x=i*175-35;ctx.fillStyle='#573d46aa';ctx.fillRect(x,230+(i%3)*34,65,290);ctx.fillStyle='#e9c08199';ctx.fillRect(x+6,231+(i%3)*34,53,9);ctx.fillStyle='#44334488';ctx.beginPath();ctx.moveTo(x-20,230+(i%3)*34);ctx.lineTo(x+32,164+(i%3)*34);ctx.lineTo(x+85,230+(i%3)*34);ctx.fill()}for(let i=0;i<3;i++){let x=(now*4+i*400)%W;line(x,75,x+35,123,'#f5d2a877',2)}
+ }
+ if(stage>=1){ctx.save();ctx.globalAlpha=stage===2?.35:.15;ctx.strokeStyle=stage===2?'#ff657d':'#d09fff';ctx.lineWidth=4;for(let j=0;j<4;j++){ctx.beginPath();ctx.moveTo(j*320+24,0);ctx.lineTo(j*320+44+Math.sin(now+j)*16,120);ctx.lineTo(j*320+14,165);ctx.stroke()}ctx.restore()}
+ if(stage===2){ctx.fillStyle='#25091f5c';ctx.fillRect(0,0,W,H);ctx.save();ctx.strokeStyle='#ff5a86bb';ctx.lineWidth=8;ctx.beginPath();ctx.ellipse(900,185,82+Math.sin(now)*8,120,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
 }
-
 function paintSword(x,y,angle,big,time){
  ctx.save();ctx.translate(x,y);ctx.rotate(angle);const k=big?1.42:.85;ctx.scale(k,k);
- ctx.shadowColor=big?'#e1d2a7':'#b3c6c0';ctx.shadowBlur=big?20:8;
+ ctx.shadowColor=big?'#ffd76a':'#77ecff';ctx.shadowBlur=big?36:15;
  // Blade: recognizable steel diamond, gold sharp edge, central ridge.
- ctx.fillStyle=big?'#fff6dc':'#e8eeea';ctx.strokeStyle=big?'#d6bf86':'#9db0ac';ctx.lineWidth=3;
+ ctx.fillStyle=big?'#fff3c2':'#e1fbff';ctx.strokeStyle=big?'#ffca54':'#67d8ee';ctx.lineWidth=3;
  ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(7,-12);ctx.lineTo(-22,-7);ctx.lineTo(-22,7);ctx.lineTo(7,12);ctx.closePath();ctx.fill();ctx.stroke();
  ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(-22,0);ctx.strokeStyle=big?'#f2b73f':'#66adca';ctx.lineWidth=2.2;ctx.stroke();
  // Guard and handle make it visibly a flying sword rather than just a beam.
- ctx.shadowBlur=4;ctx.fillStyle=big?'#d8c18f':'#a8b9b1';ctx.fillRect(-28,-18,8,36);
+ ctx.shadowBlur=4;ctx.fillStyle=big?'#ffc664':'#91e9ee';ctx.fillRect(-28,-18,8,36);
  ctx.fillStyle='#3b4661';ctx.fillRect(-46,-4,20,8);ctx.beginPath();ctx.arc(-49,0,6,0,Math.PI*2);ctx.fill();
  ctx.restore();
 }
@@ -732,24 +657,16 @@ function drawGroundTree(c,now,hop){
  ctx.shadowColor=now<c.hitUntil?'#fff5c2':form.outline;ctx.shadowBlur=now<c.hitUntil?14:5;
  imageDraw('newmob-'+(c.variant||0),-form.w/2,-form.h,form.w,form.h);
 }
-function draw(now){ctx.clearRect(0,0,W,H);drawWorld(now);ctx.fillStyle='#07131a1b';ctx.fillRect(0,0,W,H);if(phase==='menu'||!player)return;
+function draw(now){ctx.clearRect(0,0,W,H);drawWorld(now);ctx.fillStyle='#07131a38';ctx.fillRect(0,0,W,H);if(phase==='menu'||!player)return;
 // Two accessible levels: ground and a single raised platform tier.
-ctx.fillStyle='#353b36';ctx.fillRect(0,G+8,W,H-G);
-ctx.fillStyle='#a49b82';ctx.globalAlpha=.8;ctx.fillRect(0,G+7,W,6);ctx.globalAlpha=1;
-for(const [platformIndex,p] of PLATFORMS.entries()){
- ctx.save();ctx.shadowColor='#0c1415';ctx.shadowBlur=10;
- ctx.fillStyle='#353b38';ctx.fillRect(p.x,p.y+9,p.w,24);ctx.fillStyle='#899087';ctx.fillRect(p.x,p.y,p.w,14);
- ctx.fillStyle='#d1c19a';ctx.fillRect(p.x,p.y,p.w,4);
- ctx.strokeStyle='#202b29';ctx.lineWidth=3;ctx.strokeRect(p.x,p.y,p.w,15);
- for(let n=1;n<p.w/70;n++){ctx.fillStyle='#172d3a';ctx.fillRect(p.x+n*70,p.y+15,7,13)}
- if(platformPulseAt&&platformPulseKey===platformIndex&&phase==='play'){
-   const left=Math.max(0,platformPulseAt-now),flash=.5+.5*Math.sin(now*19);
-   ctx.fillStyle='rgba(255,102,63,'+(.23+flash*.26)+')';ctx.fillRect(p.x,p.y-6,p.w,17);
-   ctx.strokeStyle='#ffe78a';ctx.lineWidth=4;ctx.strokeRect(p.x,p.y-6,p.w,17);
-   ctx.font='900 20px system-ui';ctx.textAlign='center';ctx.fillStyle='#fff5c9';ctx.shadowColor='#bf1b1b';ctx.shadowBlur=10;
-   ctx.fillText('⚡ '+left.toFixed(1)+'s 跳起／跳下！',p.x+p.w/2,p.y-27);
- }
- ctx.restore();
+ctx.fillStyle='#314a45';ctx.fillRect(0,G+8,W,H-G);
+ctx.fillStyle=world().accent;ctx.globalAlpha=.72;ctx.fillRect(0,G+7,W,8);ctx.globalAlpha=1;
+for(const p of PLATFORMS){
+ ctx.save();ctx.shadowColor=world().accent;ctx.shadowBlur=13;
+ ctx.fillStyle='#334a59';ctx.fillRect(p.x,p.y+9,p.w,24);ctx.fillStyle='#66818a';ctx.fillRect(p.x,p.y,p.w,14);
+ ctx.fillStyle=world().accent;ctx.fillRect(p.x,p.y,p.w,5);
+ ctx.strokeStyle='#1e303e';ctx.lineWidth=3;ctx.strokeRect(p.x,p.y,p.w,15);
+ for(let n=1;n<p.w/70;n++){ctx.fillStyle='#172d3a';ctx.fillRect(p.x+n*70,p.y+15,7,13)}ctx.restore();
 }
  // Keep the arena uncluttered: controls explain movement, not labels floating over monsters.
 
@@ -757,16 +674,16 @@ for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';
  if(c.warning>0){
  ctx.globalAlpha=.55+.35*Math.sin(now*15);ctx.strokeStyle=TREE_FORMS[c.variant||0].outline;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(c.x,G-5,42,10,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#fff7ca';ctx.font='900 28px system-ui';ctx.textAlign='center';ctx.fillText('!',c.x,G-24);
  }else{ctx.translate(c.x,c.y+hop);ctx.scale(c.dir||-1,1);drawGroundTree(c,now,hop)}
- }else imageDraw('newmob-3',c.x-40,c.y-54+hop,80,54);ctx.shadowBlur=0;ctx.restore();if(c.hp!==undefined&&!c.dead){const max=c.maxHP||3,ratio=Math.max(0,c.hp/max),bx=c.x-29,by=c.y-(c.level===0?105:87);ctx.fillStyle='#351c26';ctx.fillRect(bx,by,58,7);ctx.fillStyle=ratio>.5?'#79e6ac':ratio>.25?'#ffd16f':'#ff6679';ctx.fillRect(bx,by,58*ratio,7);ctx.strokeStyle='#f5f7ff';ctx.lineWidth=1;ctx.strokeRect(bx,by,58,7)}}
+ }else imageDraw('newmob-3',c.x-40,c.y-54+hop,80,54);ctx.shadowBlur=0;ctx.restore()}
 const pos=targets.map(t=>t);for(const t of pos){let bob=Math.sin(now*2.4+t.idx)*(t.level===0?6:4);let w=100,h=76;
- const outline=['#bfc9b5','#b6c3c4','#d4c49f','#b9bfaa'][t.idx%4];
+ const outline=['#7ff3ff','#ffb7ec','#b9ff9e','#ffd18e'][t.idx%4];
  ctx.save();ctx.fillStyle='#020b1938';ctx.beginPath();ctx.ellipse(t.x,t.y-h/2+bob,49,39,0,0,Math.PI*2);ctx.fill();
  ctx.strokeStyle=outline;ctx.globalAlpha=.5;ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(t.x,t.y+2,38,5,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
  ctx.shadowColor=t.hitGlow?'#ffffff':outline;ctx.shadowBlur=t.hitGlow?20:6;
  const sprite=t.level===0?t.kind.replace(/-idle$/,'-run'):t.kind;
  if(!imageDraw(sprite,t.x-w/2,t.y-h-12+bob,w,h))imageDraw(t.kind,t.x-w/2,t.y-h-12+bob,w,h);
- ctx.restore();ctx.save();ctx.font='900 38px system-ui';let label=question.choices[t.idx].html;let width=Math.max(80,ctx.measureText(label).width+28);box(t.x-width/2,t.y-39+bob,width,50,9,'#0b1517f9');ctx.strokeStyle='#e9d8aa';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(t.x-width/2,t.y-39+bob,width,50,9);ctx.stroke();ctx.fillStyle='#fffdf4';ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=5;ctx.fillText(label,t.x,t.y+1+bob);ctx.textAlign='start';ctx.restore()}
-if(stage!==2){let ex=patrolEnemy?.x||980,ey=patrolEnemy?.y||210;imageDraw('newmob-3',ex-44,ey-60,88,58);}else{let px=patrolEnemy?.x||980;imageDraw('art-lava-idle',70+Math.sin(now*1.5)*38,220,75,83);imageDraw('art-ghost-idle',px-67,230,67,73);imageDraw('art-boss-idle',938+Math.sin(now*.75)*18,174,174,176);ctx.fillStyle='#ffb2a1';ctx.font='bold 23px system-ui';ctx.fillText(bossCombo<2?'虛空核心守衛｜護盾':bossCombo<4?'虛空核心守衛｜狂暴':'虛空核心守衛｜終結',730,170);if(now<bossIntroUntil){const k=1-(bossIntroUntil-now)/3.5;ctx.save();ctx.fillStyle=`rgba(6,2,27,${Math.max(0,.65-.55*k)})`;ctx.fillRect(0,0,W,H);ctx.strokeStyle='#c289ff';ctx.lineWidth=5;ctx.shadowColor='#ca65ff';ctx.shadowBlur=25;for(let i=0;i<5;i++){let px=150+i*210;ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px+Math.sin(now*21+i)*35,65);ctx.lineTo(px-20,160);ctx.lineTo(px+Math.sin(now*26+i)*45,270);ctx.stroke()}ctx.restore()}}
+ ctx.restore();ctx.save();ctx.font='900 34px system-ui';let label=question.choices[t.idx].html.replace(/<sup>(.*?)<\/sup>/g,(_,n)=>String(n).replace(/[0-9\-]/g,c=>({'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'}[c])));let width=Math.max(72,ctx.measureText(label).width+20);box(t.x-width/2,t.y-36+bob,width,44,12,'#03172af2');ctx.strokeStyle='#ffe391';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(t.x-width/2,t.y-36+bob,width,44,12);ctx.stroke();ctx.fillStyle='#fffbea';ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText(label,t.x,t.y+bob);ctx.textAlign='start';ctx.restore()}
+if(stage!==2){let ex=patrolEnemy?.x||980,ey=patrolEnemy?.y||210;imageDraw('newmob-3',ex-44,ey-60,88,58);}else{let px=patrolEnemy?.x||980;imageDraw('art-lava-idle',70+Math.sin(now*1.5)*38,220,75,83);imageDraw('art-ghost-idle',px-67,230,67,73);imageDraw('art-boss-idle',938+Math.sin(now*.75)*18,174,174,176);ctx.fillStyle='#ffb2a1';ctx.font='bold 23px system-ui';ctx.fillText('虛空核心守衛',810,170)}
 
 if(fallingFoe){
  const f=fallingFoe;ctx.save();
@@ -782,28 +699,28 @@ if(fallingFoe){
  ctx.restore();
 }
 for(const shot of playerShots){
- ctx.save();ctx.strokeStyle='#e0e3db';ctx.globalAlpha=.72;ctx.lineWidth=2;ctx.shadowColor='#b7c0b9';ctx.shadowBlur=4;ctx.beginPath();ctx.moveTo(shot.x-Math.sign(shot.vx)*26,shot.y+2);ctx.lineTo(shot.x,shot.y);ctx.stroke();ctx.restore();
- ctx.save();ctx.translate(shot.x,shot.y);ctx.rotate(shot.vx>0?0:Math.PI);ctx.fillStyle='#eef0e9';ctx.strokeStyle='#9eafae';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(17,0);ctx.lineTo(2,-4);ctx.lineTo(-14,-3);ctx.lineTo(-14,3);ctx.lineTo(2,4);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+ ctx.save();ctx.strokeStyle='#72e6f4';ctx.globalAlpha=.54;ctx.lineWidth=9;ctx.shadowColor='#4aeeff';ctx.shadowBlur=20;ctx.beginPath();ctx.moveTo(shot.x-Math.sign(shot.vx)*72,shot.y);ctx.lineTo(shot.x,shot.y);ctx.stroke();ctx.restore();
+ paintSword(shot.x,shot.y,shot.vx>0?0:Math.PI,false,now);
 }
 if(ultShot){
  const a=ultShot,ang=Math.atan2(a.ty-a.sy,a.tx-a.sx);ctx.save();
  // Trail is behind the weapon and fades; the sword silhouette stays unobstructed.
  for(let j=10;j>=1;j--){const f=Math.max(0,a.elapsed/a.duration-j*.022),u=f*f*(3-2*f),x=a.sx+(a.tx-a.sx)*u,y=a.sy+(a.ty-a.sy)*u;
- ctx.globalAlpha=(11-j)/22;ctx.fillStyle=j%3?'#19201f':'#ece5cf';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=4;ctx.beginPath();ctx.arc(x,y,3+(11-j)*.54,0,Math.PI*2);ctx.fill()}
+ ctx.globalAlpha=(11-j)/17;ctx.fillStyle=j%3?'#7cddff':'#ffdc74';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=10;ctx.beginPath();ctx.arc(x,y,3+(11-j)*.54,0,Math.PI*2);ctx.fill()}
  ctx.restore();paintSword(a.x,a.y,ang,true,now);
 }
 for(const b of bullets){
  if(b.warning>0){
  ctx.save();const cy=b.y;
- const warnStart=b.platformHazard?b.platformX:W-300,warnWidth=b.platformHazard?b.platformWidth+30:280,warnEnd=warnStart+warnWidth;ctx.fillStyle=b.upperRoute?'#90dfff22':'#ffc56a22';ctx.fillRect(warnStart,cy-16,warnWidth,32);
- ctx.strokeStyle=b.upperRoute?'#a8ecff':'#ffcf7b';ctx.lineWidth=2;ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(warnStart,cy);ctx.lineTo(warnEnd,cy);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle=b.upperRoute?'#90dfff22':'#ffc56a22';ctx.fillRect(W-300,cy-16,280,32);
+ ctx.strokeStyle=b.upperRoute?'#a8ecff':'#ffcf7b';ctx.lineWidth=2;ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(W-300,cy);ctx.lineTo(W-25,cy);ctx.stroke();ctx.setLineDash([]);
  ctx.font='900 20px system-ui';ctx.textAlign='right';ctx.fillStyle='#fff5d7';ctx.strokeStyle='#0a1729';ctx.lineWidth=5;
- const hint=b.platformHazard?'⚡ 高台雷刃｜跳躍／閃躲':b.heavy?'⚠ 大彈來襲！跳起或閃避':b.upperRoute?'⚠ 高空彈｜留地面／跳下':'⚠ 低空彈｜跳躍';
- ctx.strokeText(hint,warnEnd,cy-25);ctx.fillText(hint,warnEnd,cy-25);ctx.restore();continue;
+ const hint=b.upperRoute?'⚠ 高空彈｜留地面／跳下':'⚠ 低空彈｜跳躍';
+ ctx.strokeText(hint,W-25,cy-25);ctx.fillText(hint,W-25,cy-25);ctx.restore();continue;
  }
  ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));
- const colors={flame:'#bb8665',crystal:'#a1b8b4',lightning:'#dbc284',blade:'#a5a9b3',heavy:'#d35a43'};
- const col=colors[b.kind]||'#d8a3ff';ctx.shadowColor=col;ctx.shadowBlur=b.heavy?28:14;if(b.heavy){ctx.fillStyle='#ff825b';ctx.beginPath();ctx.arc(0,0,33,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffe5a6';ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,0,39,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#fff0ac';ctx.font='900 19px system-ui';ctx.textAlign='center';ctx.fillText('!',0,7);ctx.restore();continue}
+ const colors={flame:'#ff9c49',crystal:'#72e2ff',lightning:'#ffe06b',blade:'#c0a0ff'};
+ const col=colors[b.kind]||'#d8a3ff';ctx.shadowColor=col;ctx.shadowBlur=14;
  if(b.warning>0){ctx.globalAlpha=.45+.3*Math.sin(now*18);ctx.strokeStyle=col;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,32,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(20,0);ctx.lineTo(10,-9);ctx.moveTo(20,0);ctx.lineTo(10,9);ctx.stroke();ctx.restore();continue}
  ctx.globalAlpha=.38;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(-b.r*2.3,0);ctx.lineTo(-5,-13);ctx.lineTo(0,0);ctx.lineTo(-5,13);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
  ctx.fillStyle=col;ctx.strokeStyle='#fff4dc';ctx.lineWidth=2.5;ctx.beginPath();
@@ -813,33 +730,26 @@ for(const b of bullets){
  else{ctx.moveTo(30,0);ctx.bezierCurveTo(13,-28,-9,-25,-29,-11);ctx.quadraticCurveTo(-12,-4,-23,0);ctx.quadraticCurveTo(-12,4,-29,11);ctx.bezierCurveTo(-9,25,13,28,30,0)}
  ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle='#ffffffb0';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-7,0);ctx.lineTo(17,0);ctx.stroke();ctx.restore();
 }
-ctx.save();if(now<hurtUntil&&Math.floor(now*13)%2===0)ctx.globalAlpha=.42;let ps=player,pose=now<attackUntil?'attack':ps.vy<-30?'jump':Math.abs(ps.vx)>8?'run':'idle';let heroKey=HERO[hero]+'-'+pose;let w=122,h=152;
- ctx.save();ctx.fillStyle='rgba(0,0,0,.29)';ctx.beginPath();ctx.ellipse(ps.x,ps.y+2,39,7,0,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.translate(ps.x,ps.y);ctx.scale(ps.face,1);ctx.filter='saturate(.78) contrast(1.08)';imageDraw(heroKey,-w/2,-h+7,w,h);ctx.filter='none';if(now<attackUntil){ctx.strokeStyle=lives===1?'#dcc590':'#c7cfbf';ctx.shadowColor='#151b1b';ctx.shadowBlur=12;ctx.lineWidth=lives===1?10:6;ctx.beginPath();ctx.arc(26,-72,95,-1.05,1.05);ctx.stroke()}ctx.restore();
+ctx.save();if(now<hurtUntil&&Math.floor(now*13)%2===0)ctx.globalAlpha=.42;let ps=player,pose=now<attackUntil?'attack':ps.vy<-30?'jump':Math.abs(ps.vx)>8?'run':'idle';let heroKey=HERO[hero]+'-'+pose;let w=122,h=152;ctx.translate(ps.x,ps.y);ctx.scale(ps.face,1);imageDraw(heroKey,-w/2,-h+7,w,h);if(now<attackUntil){ctx.strokeStyle=lives===1?'#ffd77f':'#83f3e7';ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=28;ctx.lineWidth=lives===1?13:8;ctx.beginPath();ctx.arc(26,-72,95,-1.05,1.05);ctx.stroke()}ctx.restore();
 // Charged sword aura: dynamic energy orbit follows the hero, never covers the question HUD.
 if(isCharging&&phase==='play'){
- const a=Math.min(1,energy/100),cx=player.x,cy=player.y-93;
- ctx.save();ctx.strokeStyle=energy>=100?'#ffd66d':'#8ceaf0';ctx.lineWidth=3+4*a;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=12+23*a;
+ const a=Math.min(1,energy/70),cx=player.x,cy=player.y-93;
+ ctx.save();ctx.strokeStyle=energy>=70?'#ffd66d':'#8ceaf0';ctx.lineWidth=3+4*a;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=12+23*a;
  ctx.beginPath();ctx.arc(cx,cy,38+9*a,-Math.PI/2,-Math.PI/2+Math.PI*2*a);ctx.stroke();
  for(let i=0;i<9;i++){let ang=now*2.9+i*Math.PI*2/9,r=42+Math.sin(now*4+i)*10;ctx.fillStyle=i%2?'#ffdf81':'#81f6ef';ctx.beginPath();ctx.arc(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r,2.3+2.5*a,0,Math.PI*2);ctx.fill()}
  ctx.restore();
 }
-// Neutral straight aiming guide, does not choose or reveal an answer.
-if(phase==='play'){
- const sx=player.x+player.face*36,sy=player.y-66;
- ctx.save();ctx.strokeStyle='rgba(205,242,255,.83)';ctx.lineWidth=2.4;
- const ex=Math.max(18,Math.min(W-18,sx+player.face*690));
- ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,sy);ctx.stroke();ctx.setLineDash([]);
- ctx.strokeStyle='#dffaff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(ex,sy,7,0,Math.PI*2);ctx.stroke();
- ctx.fillStyle='#dcf6ff';ctx.font='bold 13px system-ui';ctx.textAlign=player.face>0?'left':'right';ctx.fillText(player.face>0?'→ 射擊方向':'射擊方向 ←',sx,sy-13);
- ctx.restore();
+// White aim preview / gold attack-ready lock; never reveals whether the math answer is correct.
+const aimed=previewAim(),locked=aimTarget();
+if(aimed&&phase==='play'){
+ const valid=locked===aimed,ax=aimed.x,ay=aimed.y-48,rr=valid?48:44;
+ ctx.save();ctx.strokeStyle=valid?'#ffe462':'#f5fdff';ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=valid?36:16;ctx.lineWidth=valid?5.5:3.5;
+ ctx.setLineDash(valid?[]:[7,5]);ctx.beginPath();ctx.arc(ax,ay,rr,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+ const tick=rr-9;for(let d=0;d<4;d++){const a=d*Math.PI/2+Math.PI/4;ctx.beginPath();ctx.moveTo(ax+Math.cos(a)*(tick-8),ay+Math.sin(a)*(tick-8));ctx.lineTo(ax+Math.cos(a)*(tick+6),ay+Math.sin(a)*(tick+6));ctx.stroke()}
+ ctx.shadowBlur=0;ctx.font='bold 19px system-ui';ctx.fillStyle=valid?'#ffe985':'#f4fdff';ctx.textAlign='center';ctx.fillText(valid?'◎ 可命中':'◌ 靠近鎖定',ax,ay+rr+25);ctx.textAlign='start';ctx.restore();
 }
 for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));ctx.shadowColor=f.col;ctx.shadowBlur=25;
- if(f.type==='ink'){
- const t=1-f.life/f.maxLife;ctx.save();ctx.translate(f.x,f.y);ctx.globalAlpha=Math.max(0,.58*(1-t));
- for(let i=0;i<10;i++){const a=i*Math.PI*2/10+i*.13,d=12+t*(33+i%4*14);ctx.fillStyle=i%3===0?'#e3dfd1':'#101818';ctx.beginPath();ctx.ellipse(Math.cos(a)*d,Math.sin(a)*d,Math.max(1,(8+i%4*3)*(1-t*.65)),Math.max(1,3+i%3),a,0,Math.PI*2);ctx.fill()}
- ctx.strokeStyle='#e7e2d1';ctx.lineWidth=2*(1-t)+.5;ctx.beginPath();ctx.arc(0,0,14+t*46,-.8,1.7);ctx.stroke();ctx.restore();
- }else if(f.type==='vanish'){
+ if(f.type==='vanish'){
  const t=1-f.life/f.maxLife,ease=1-Math.pow(1-t,3);
  // A brief dissolving silhouette, then luminous shards and an expanding ring.
  ctx.globalAlpha=Math.max(0,1-t*2.8);const size=70*(1-t*.45);
@@ -858,19 +768,17 @@ if(lives===1){ctx.fillStyle='#ffda73';ctx.font='bold 18px system-ui';ctx.fillTex
 function frame(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform(C.width/W,0,0,C.height/H,0,0);ctx.clearRect(0,0,W,H);update(dt,now);draw(now);requestAnimationFrame(frame)}
 // Fixed aspect ratio canvas via CSS pixels, letterbox on different screens.
 function frame2(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform((C.width/vw)*s,0,0,(C.height/vh)*s,(C.width/vw)*offX,(C.height/vh)*offY);ctx.clearRect(-offX/s,-offY/s,vw/s,vh/s);update(dt,now);draw(now);drawDamageFeedback(now);requestAnimationFrame(frame2)}
-addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyK','KeyL'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyK')dodge();if(e.code==='KeyL')ultimate();}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if(e.code==='KeyJ'&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
+addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyK','KeyL'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyK')dodge();if(e.code==='KeyL')ultimate()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if(e.code==='KeyJ'&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
 function releaseDirection(pointerId){
  if(!heldDirs.has(pointerId))return;
- heldDirs.delete(pointerId);
- move.querySelectorAll('.direction').forEach(btn=>btn.classList.toggle('pressed',[...heldDirs.values()].includes(Number(btn.dataset.dir))));
- syncDirection();
- if(player&&!axis)player.vx=0;
+ resetStick();
+ if(player)player.vx=0;
 }
 for(const btn of move.querySelectorAll('.direction')){
  const direction=Number(btn.dataset.dir);
  btn.addEventListener('pointerdown',e=>{
   e.preventDefault();if(phase!=='play'||(e.pointerType==='mouse'&&e.button!==0))return;
-  if(joyID!==null){joyID=null;$('soloThumb').style.transform='translate(0px,0px)'}heldDirs.set(e.pointerId,direction);btn.classList.add('pressed');syncDirection();
+  resetStick();heldDirs.set(e.pointerId,direction);btn.classList.add('pressed');syncDirection();
   try{btn.setPointerCapture?.(e.pointerId)}catch(_){}
  });
  const release=e=>releaseDirection(e.pointerId);
