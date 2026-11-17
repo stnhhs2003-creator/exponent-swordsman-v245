@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V24.6.0｜無限小劍・敵人血條版</title><style>
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V24.6.1｜簡潔戰場版</title><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071521;color:#fff;font-family:system-ui,-apple-system,'PingFang TC','Noto Sans TC',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}#game{display:block;width:100vw;height:100dvh;touch-action:none}#hud{position:fixed;top:env(safe-area-inset-top);left:0;right:0;padding:4px 10px;display:none;pointer-events:none;text-shadow:0 2px 4px #000}#hud .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:900;font-size:clamp(12px,2.2vw,20px)}#q{font-size:clamp(18px,3.2vw,30px);background:#0b203be3;border:1px solid #78dad488;border-radius:9px;text-align:center;min-width:32%;padding:2px 10px}#health{display:flex;align-items:center;gap:5px}#bar{height:11px;width:100px;border-radius:6px;background:#331929;overflow:hidden;border:1px solid #fff6}#bar i{display:block;height:100%;background:#5ce0ae}#health.danger #bar{animation:blink .4s infinite alternate}#health.danger #bar i{background:#ff4141}@keyframes blink{to{filter:brightness(2.3)}}#sub{display:flex;align-items:center;justify-content:space-between;font-size:clamp(11px,1.6vw,14px);gap:10px}#energyTrack{height:9px;background:#223d4a;width:130px;border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle}#energyFill{height:100%;width:0%;background:linear-gradient(90deg,#45e2d0,#ffcc69);display:block}#controls{position:fixed;bottom:calc(8px + env(safe-area-inset-bottom));left:0;right:0;display:none;justify-content:space-between;align-items:flex-end;padding:0 clamp(10px,2.4vw,30px);pointer-events:none;gap:12px;z-index:3}#move{width:clamp(164px,25vw,235px);height:92px;display:flex;align-items:center;gap:8px;pointer-events:auto;touch-action:none}#move .direction{flex:1;height:90px;border:2px solid #78d8d9bb;background:#123d58dc;border-radius:22px;color:#dcffff;font-size:35px;font-weight:900;box-shadow:0 5px 0 #092637,0 0 18px #45ddbe33;touch-action:none;-webkit-tap-highlight-color:transparent}#move .direction.pressed{background:#2f9e9b;border-color:#ddffed;transform:translateY(3px);box-shadow:0 2px 0 #092637}#actions{display:flex;flex-direction:row;align-items:flex-end;gap:10px;pointer-events:auto}#actions button{border:2px solid #bce9eb91;border-radius:20px;background:#184665ed;color:#fff;font-weight:900;padding:4px;min-height:74px;min-width:76px;font-size:14px;text-shadow:0 2px #000;touch-action:none;-webkit-tap-highlight-color:transparent;box-shadow:0 5px 0 #0b243a;white-space:nowrap}#actions button:active,#actions button.pressed{transform:translateY(3px);box-shadow:0 2px 0 #0b243a;background:#2e8b9d}#actions #attackHold{width:118px;height:118px;min-width:118px;border-radius:50%;font-size:15px;line-height:1.5;border:3px solid #f8c87f;background:radial-gradient(circle at 35% 25%,#ce8447,#8c4118 78%);position:relative;isolation:isolate;overflow:hidden;box-shadow:0 0 20px #ffb23d66,0 5px 0 #52290f}#actions #attackHold::before{content:'';position:absolute;inset:0;background:conic-gradient(#ffe281 calc(var(--charge,0) * 1%),transparent 0);opacity:.52;z-index:-1}#actions #attackHold.ready{border-color:#fff1a7;box-shadow:0 0 22px 5px #ffe07b,0 5px 0 #52290f}#actions #attackHold.charging{border-color:#fff2a0;filter:brightness(1.15);transform:scale(1.025)}#actions #attackHold .attack-state{display:block;font-size:11px;color:#fff7c9;line-height:1.25;margin-top:3px}#actions .aux{display:flex;flex-direction:column;gap:10px}#actions .aux button{width:81px;height:65px;min-height:65px}#controls .control-hint{position:absolute;bottom:100%;font-size:12px;color:#e0f8fa;font-weight:800;text-shadow:0 2px 4px #000;padding-bottom:5px;pointer-events:none}#controls .hint-left{left:clamp(10px,2.4vw,30px)}#controls .hint-right{right:clamp(10px,2.4vw,30px)}@media(max-height:460px){#controls{bottom:calc(4px + env(safe-area-inset-bottom));padding:0 clamp(8px,1.8vw,22px)}#move{height:74px;width:clamp(152px,23vw,195px);gap:7px}#move .direction{height:73px;font-size:29px;border-radius:19px}#actions{gap:7px}#actions #attackHold{width:94px;height:94px;min-width:94px;font-size:13px}#actions #attackHold .attack-state{font-size:10px}#actions .aux{gap:7px}#actions .aux button{width:69px;height:52px;min-width:69px;min-height:52px;font-size:12px;border-radius:15px}#controls .control-hint{font-size:10px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}@media(orientation:portrait){#controls{gap:6px;padding:0 7px}#move{width:145px;height:72px;gap:6px}#move .direction{height:68px;font-size:28px;border-radius:14px}#actions{gap:5px}#actions #attackHold{width:81px;height:81px;min-width:81px;font-size:11px;line-height:1.2}#actions #attackHold .attack-state{font-size:9px}#actions .aux{gap:5px}#actions .aux button{width:54px;height:46px;min-width:54px;min-height:46px;font-size:11px;border-radius:12px}#controls .control-hint{display:none}}#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#071322ef,#13314fe8);padding:14px;z-index:4}#panel.hide{display:none}#card{max-width:640px;width:100%;max-height:96dvh;overflow:auto;text-align:center;padding:clamp(14px,3vw,26px);border:2px solid #75c7d780;background:#0b1b2df5;border-radius:22px;box-shadow:0 0 75px #32d7cd26}#card h1{font-size:clamp(24px,5vw,41px);margin:3px 0 10px;color:#f6d38f}#card h2{font-size:clamp(20px,3vw,28px)}#card p{line-height:1.55;margin:8px 0}#card button,#card select,#card input{background:#18354a;border:1px solid #80dbd0;color:#fff;border-radius:10px;padding:9px 16px;font-size:16px;margin:5px}#card button.primary{background:linear-gradient(120deg,#b76d29,#6b4226);border:2px solid #f5ce79;font-weight:900}#card .desc{color:#bcdbe2;font-size:14px}#card .choice{display:inline-block;margin:4px 8px}#card .version{color:#83e7dc;font-weight:900;letter-spacing:2px}#card .expl{background:#142f42;border-radius:12px;padding:12px;margin:12px 0;text-align:left}#card .key{color:#ffda78}#mute{position:fixed;top:92px;right:8px;z-index:2;display:none;border:1px solid #8dc;pointer-events:auto;background:#102e3ddc;border-radius:12px;color:white;padding:4px 8px}#banner{position:fixed;top:23%;width:100%;text-align:center;pointer-events:none;font-weight:900;font-size:clamp(19px,3.5vw,34px);color:#ffe9a4;text-shadow:0 0 15px #ff843e,0 3px 3px #000;opacity:0;transition:opacity .16s}#banner.show{opacity:1}@media(max-height:460px){#controls{padding:0 18px}#move{width:100px;height:100px}#stick{left:27px;top:27px}#actions{grid-template-columns:80px 66px}#actions #attackHold{min-height:90px;font-size:12px}#actions button{min-height:42px;padding:5px;font-size:12px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}
 
 /* V22.3 restored start screen with large touch targets and preview cards */
@@ -310,7 +310,7 @@ function unlockAudio(){
 function panel(title,body,buttons){if(phase==='lost'||phase==='win')body+=runStatsMarkup();stopPlayerInput();$('card').classList.remove('start-card');$('panel').classList.remove('hide');$('card').innerHTML='<div class="version">指數劍客 V24.5｜五世界冒險地圖</div><h1>'+title+'</h1>'+body+'<p>'+buttons.map((b,i)=>'<button class="'+(i===0?'primary':'')+'" data-panel="'+i+'">'+b[0]+'</button>').join('')+'</p>';buttons.forEach((b,i)=>$('card').querySelector('[data-panel="'+i+'"]').onclick=b[1]);$('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none'}
 function menu(){
  document.body.classList.remove('audio-open');phase='menu';document.body.classList.remove('in-game');resize();hero=hero||'yuanheng';theme=theme||'gear';
- const markup=`<div class="start-title">指數劍客 <em>V24.6.0｜無限小劍・敵人血條版</em></div><div class="start-hint">五個冒險世界擇一｜初階 10 題 → 進階 10 題 → 魔王連續答對 5 題</div>
+ const markup=`<div class="start-title">指數劍客 <em>V24.6.1｜簡潔戰場版</em></div><div class="start-hint">五個冒險世界擇一｜初階 10 題 → 進階 10 題 → 魔王連續答對 5 題</div>
  <div class="pick-label">① 選擇主角</div>
  <div class="pick-grid">
  <button type="button" class="pick" data-hero="yuanheng"><img src="assets/new_poses-yuanheng-idle.webp" alt="淵衡角色預覽"><span><strong>淵衡</strong><small>青刃劍士｜迅捷突擊</small></span></button>
@@ -640,28 +640,32 @@ function drawAtmosphere(now,w){
  ctx.restore();
 }
 function drawWorld(now){
- const w=world(),a=w.sky,gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,a[0]);gr.addColorStop(1,a[1]);ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
- drawAtmosphere(now,w);
- const inc=stage===0?0:stage===1?.10:.18;ctx.fillStyle=`rgba(12,6,34,${inc})`;ctx.fillRect(0,0,W,H);
- ctx.save();ctx.globalAlpha=.20+Math.sin(now*.45)*.035;
- for(let i=0;i<14;i++){let x=(i*151+67)%W,y=55+(i*51)%390,r=12+(i*23)%39;ctx.fillStyle=i%2?w.accent:'#d1f3ff';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}
- ctx.restore();
- const line=(x1,y1,x2,y2,c,width=6)=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.lineWidth=width;ctx.strokeStyle=c;ctx.stroke()};
- if(w.id==='gear'){
-  for(let i=0;i<7;i++){let x=20+i*185;ctx.fillStyle='#1a2839b9';ctx.fillRect(x,230-(i%3)*28,102,340);ctx.fillStyle='#dcb98b8a';ctx.fillRect(x+19,238-(i%3)*28,12,120);ctx.fillRect(x+51,238-(i%3)*28,12,120);
-    ctx.save();ctx.translate(x+48,130+(i%2)*75);ctx.rotate(now*(i%2?-.06:.06));ctx.strokeStyle='#d6ab6ca8';ctx.lineWidth=11;ctx.beginPath();ctx.arc(0,0,37,0,Math.PI*2);ctx.stroke();for(let k=0;k<8;k++){let t=k*Math.PI/4;line(Math.cos(t)*20,Math.sin(t)*20,Math.cos(t)*48,Math.sin(t)*48,'#dfc28b99',6)}ctx.restore()}
- }else if(w.id==='forest'){
-  for(let i=0;i<11;i++){let x=i*112+23,y=365+(i%3)*31;line(x,y+125,x,y-45,'#295e56aa',13);ctx.fillStyle=i%2?'#99d8d0a9':'#c58cdaad';ctx.beginPath();ctx.ellipse(x,y-60,46+(i%3)*10,23,0,Math.PI,0);ctx.fill();ctx.fillStyle='#e0fff8b8';for(let k=0;k<4;k++){ctx.beginPath();ctx.arc(x-24+k*14,y-62,3,0,7);ctx.fill()}}
- }else if(w.id==='sky'){
-  for(let i=0;i<9;i++){const x=i*150-70,y=275+(i%4)*39;ctx.fillStyle='#7697ac88';ctx.beginPath();ctx.ellipse(x,y,90,18,0,0,7);ctx.fill();ctx.fillStyle='#4a718490';ctx.beginPath();ctx.moveTo(x-57,y);ctx.lineTo(x+70,y);ctx.lineTo(x+23,y+38);ctx.lineTo(x-22,y+25);ctx.fill()}
- }else if(w.id==='ocean'){
-  for(let i=0;i<9;i++){let x=i*142+15;ctx.fillStyle='#123c4fa6';ctx.fillRect(x,210+(i%3)*34,62,310);ctx.fillStyle='#9af7ffb5';ctx.fillRect(x+14,248+(i%3)*34,11,105);ctx.beginPath();ctx.arc(x+31,218+(i%3)*34,17,0,7);ctx.strokeStyle='#88f4edaa';ctx.lineWidth=4;ctx.stroke()}for(let i=0;i<25;i++){ctx.strokeStyle='#d1ffff50';ctx.beginPath();ctx.arc((i*71+now*9)%W,(i*49+250)%H,3+(i%4),0,7);ctx.stroke()}
- }else if(w.id==='desert'){
-  for(let i=0;i<7;i++){let x=i*175-35;ctx.fillStyle='#573d46aa';ctx.fillRect(x,230+(i%3)*34,65,290);ctx.fillStyle='#e9c08199';ctx.fillRect(x+6,231+(i%3)*34,53,9);ctx.fillStyle='#44334488';ctx.beginPath();ctx.moveTo(x-20,230+(i%3)*34);ctx.lineTo(x+32,164+(i%3)*34);ctx.lineTo(x+85,230+(i%3)*34);ctx.fill()}for(let i=0;i<3;i++){let x=(now*4+i*400)%W;line(x,75,x+35,123,'#f5d2a877',2)}
+ // Low-noise scenic backdrop: protect gameplay readability and stable depth perception.
+ // Each world keeps its palette, but large animations/ornaments never compete with targets.
+ const w=world(),a=w.sky;
+ const gr=ctx.createLinearGradient(0,0,0,H);
+ gr.addColorStop(0,'#101d2d');
+ gr.addColorStop(.62,a[0]);
+ gr.addColorStop(1,'#1b3440');
+ ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+ ctx.save();
+ // Faint static distant silhouettes in the upper half only.
+ ctx.globalAlpha=.15;
+ ctx.fillStyle='#a9c6cf';
+ for(let i=0;i<5;i++){
+  const x=60+i*245,h=65+(i%3)*22;
+  ctx.beginPath();ctx.moveTo(x-76,410);ctx.lineTo(x,410-h);ctx.lineTo(x+96,410);ctx.closePath();ctx.fill();
  }
- if(stage>=1){ctx.save();ctx.globalAlpha=stage===2?.35:.15;ctx.strokeStyle=stage===2?'#ff657d':'#d09fff';ctx.lineWidth=4;for(let j=0;j<4;j++){ctx.beginPath();ctx.moveTo(j*320+24,0);ctx.lineTo(j*320+44+Math.sin(now+j)*16,120);ctx.lineTo(j*320+14,165);ctx.stroke()}ctx.restore()}
- if(stage===2){ctx.fillStyle='#25091f5c';ctx.fillRect(0,0,W,H);ctx.save();ctx.strokeStyle='#ff5a86bb';ctx.lineWidth=8;ctx.beginPath();ctx.ellipse(900,185,82+Math.sin(now)*8,120,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
+ ctx.restore();
+ // A quiet dark band behind gameplay; no particles, moving bubbles, rotating wheels or flashes.
+ ctx.fillStyle='rgba(5,16,27,.34)';ctx.fillRect(0,235,W,G-235);
+ ctx.fillStyle='rgba(4,13,22,.28)';ctx.fillRect(0,G,W,H-G);
+ // World accent as a thin, stationary distant skyline.
+ ctx.strokeStyle=w.accent+'42';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(0,409);ctx.lineTo(W,409);ctx.stroke();
+ if(stage===2){ctx.fillStyle='rgba(35,13,31,.13)';ctx.fillRect(0,0,W,H)}
 }
+
 function paintSword(x,y,angle,big,time){
  ctx.save();ctx.translate(x,y);ctx.rotate(angle);const k=big?1.42:.85;ctx.scale(k,k);
  ctx.shadowColor=big?'#ffd76a':'#77ecff';ctx.shadowBlur=big?36:15;
@@ -691,7 +695,7 @@ function drawGroundTree(c,now,hop){
  ctx.shadowColor=now<c.hitUntil?'#fff5c2':form.outline;ctx.shadowBlur=now<c.hitUntil?14:5;
  imageDraw('newmob-'+(c.variant||0),-form.w/2,-form.h,form.w,form.h);
 }
-function draw(now){ctx.clearRect(0,0,W,H);drawWorld(now);ctx.fillStyle='#07131a38';ctx.fillRect(0,0,W,H);if(phase==='menu'||!player)return;
+function draw(now){ctx.clearRect(0,0,W,H);drawWorld(now);ctx.fillStyle='#07131a1b';ctx.fillRect(0,0,W,H);if(phase==='menu'||!player)return;
 // Two accessible levels: ground and a single raised platform tier.
 ctx.fillStyle='#314a45';ctx.fillRect(0,G+8,W,H-G);
 ctx.fillStyle=world().accent;ctx.globalAlpha=.72;ctx.fillRect(0,G+7,W,8);ctx.globalAlpha=1;
