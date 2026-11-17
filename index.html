@@ -430,11 +430,11 @@ function previewAim(){
 function ultimate(){
  if(phase!=='play'||ultShot)return;
  if(energy<100){banner('需滿格 100% 才能擊中答案怪',.8);return}
- faceNearbyTarget();energy=0;attackUntil=performance.now()/1000+.35;sound('ult');
+ faceNearbyTarget();energy=0;attackUntil=performance.now()/1000+.35;sound('ult');fx.push({type:'rune',x:player.x,y:player.y-68,life:.48,maxLife:.48,col:'#ffe8a0',radius:44});
  const best=aimTarget(),sx=player.x+player.face*42,sy=player.y-80;
  const tx=best?best.x:Math.max(40,Math.min(W-25,sx+player.face*355)),ty=best?best.y-63:sy;
  const duration=Math.max(.36,Math.min(.85,Math.hypot(tx-sx,ty-sy)/590));
- ultShot={sx,sy,x:sx,y:sy,tx,ty,duration,elapsed:0,target:best,idx:best?.idx??-1,face:player.face};
+ ultShot={sx,sy,x:sx,y:sy,tx,ty,duration,elapsed:0,trailAt:0,target:best,idx:best?.idx??-1,face:player.face};
  banner('⚔ 金色飛劍出鞘！',.7);updateHUD();
 }
 function resolveUltimate(shot){
@@ -442,7 +442,7 @@ function resolveUltimate(shot){
  const target=shot.target;
  const right=shot.idx===question.correct;
  targets=targets.filter(t=>t!==target);
- monsterBurst(target.x,target.y-52,target.kind,right?'#ffdc7b':'#ff7898');
+ monsterBurst(target.x,target.y-52,target.kind,right?'#ffdc7b':'#ff7898');fx.push({type:'lightning',x:shot.tx,y:shot.ty,life:.42,maxLife:.42,col:right?'#ffe7a6':'#ff7898',radius:58});
  fx.push({type:'impact',x:shot.tx,y:shot.ty,life:.84,maxLife:.84,col:right?'#ffdc7b':'#ff5c71',radius:55});
  // Let the disappearance read clearly before the next question or explanation.
  const resolvedQuestion=question,wrongLabel=question.choices[shot.idx].html;
@@ -500,7 +500,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  // Sword is a real visible moving projectile; answer resolves only on impact.
  if(ultShot){
   const a=ultShot;a.elapsed+=dt;const t=Math.min(1,a.elapsed/a.duration);
-  const smooth=t*t*(3-2*t);a.x=a.sx+(a.tx-a.sx)*smooth;a.y=a.sy+(a.ty-a.sy)*smooth;
+  const smooth=t*t*(3-2*t);a.x=a.sx+(a.tx-a.sx)*smooth;a.y=a.sy+(a.ty-a.sy)*smooth;if(a.elapsed-a.trailAt>.075){a.trailAt=a.elapsed;fx.push({type:'rune',x:a.x,y:a.y,life:.24,maxLife:.24,col:'#fff0ad',radius:20})}
   if(t>=1){ultShot=null;resolveUltimate(a);if(phase!=='play')return}
  }
  // Answer monsters patrol in bounded lanes, never swapping floors or crowding labels.
@@ -515,12 +515,12 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  if(patrolEnemy){if(now>patrolEnemy.changeAt){patrolEnemy.changeAt=now+rand(18,34)/10;patrolEnemy.vx=rand(20,42)*(Math.random()<.5?-1:1)}patrolEnemy.x+=patrolEnemy.vx*dt;if(patrolEnemy.x<1000){patrolEnemy.x=1000;patrolEnemy.vx=Math.abs(patrolEnemy.vx)}if(patrolEnemy.x>1080){patrolEnemy.x=1080;patrolEnemy.vx=-Math.abs(patrolEnemy.vx)}patrolEnemy.y=stage===2?UP-58:UP-47+Math.sin(now*2)*12}
  if(now>fireAt){
  const pressure=enemyAttackProfile(stage,qIndex,bossCombo);
- fireAt=now+pressure.interval;
+ fireAt=now+pressure.interval*(stage===2?.90:1);
  if(bullets.length<pressure.limit){
  const upperRoute=!(stage===0&&qIndex<3)&&actionSeq%3===2;
  const x=W-30,y=upperRoute?UP-30:G-30;
  const kinds=['flame','crystal','lightning','blade'],kind=kinds[(actionSeq++)%kinds.length];
- bullets.push({x,y,vx:-pressure.speed,vy:0,r:26,life:13,warning:pressure.warning,kind,upperRoute});
+ bullets.push({x,y,vx:-pressure.speed*(stage===2?1.08:1),vy:0,r:26,life:13,warning:pressure.warning,kind,upperRoute});if(stage===2)fx.push({type:'rune',x:W-70,y,life:.65,maxLife:.65,col:upperRoute?'#8ee8ff':'#ffc47b',radius:34});
  sound('beam');
  }
  }
@@ -573,7 +573,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
   }
  }
  for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('受到攻擊！',.65);if(HP<=0){die('HP 歸零，被怪物擊敗')}updateHUD()}}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil||now<dodgeUntil){energy=Math.min(100,energy+11);continue}takeDamage(stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');fx.push({type:'impact',x:player.x,y:player.y-55,life:.36,maxLife:.36,col:'#ff815d',radius:27});banner('受到攻擊！',.65);if(HP<=0){die('HP 歸零，被怪物擊敗')}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -749,7 +749,7 @@ if(aimed&&phase==='play'){
  ctx.shadowBlur=0;ctx.font='bold 19px system-ui';ctx.fillStyle=valid?'#ffe985':'#f4fdff';ctx.textAlign='center';ctx.fillText(valid?'◎ 可命中':'◌ 靠近鎖定',ax,ay+rr+25);ctx.textAlign='start';ctx.restore();
 }
 for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));ctx.shadowColor=f.col;ctx.shadowBlur=25;
- if(f.type==='vanish'){
+ if(f.type==='rune'){const t=1-f.life/f.maxLife;ctx.globalAlpha=Math.max(0,(1-t)*.75);ctx.strokeStyle=f.col;ctx.lineWidth=3*(1-t)+1;ctx.beginPath();ctx.arc(f.x,f.y,f.radius*(.65+t*.7),0,Math.PI*2);ctx.stroke();for(let n=0;n<6;n++){const a=n*Math.PI/3+t*2,rr=f.radius*(.65+t*.7);ctx.beginPath();ctx.moveTo(f.x+Math.cos(a)*rr*.75,f.y+Math.sin(a)*rr*.75);ctx.lineTo(f.x+Math.cos(a)*rr,f.y+Math.sin(a)*rr);ctx.stroke()}}else if(f.type==='lightning'){const t=1-f.life/f.maxLife;ctx.globalAlpha=Math.max(0,1-t);ctx.strokeStyle=f.col;ctx.lineWidth=5*(1-t)+1;for(let arm=0;arm<7;arm++){const a=arm*Math.PI*2/7,length=f.radius*(.6+t*.8);ctx.beginPath();ctx.moveTo(f.x,f.y);for(let seg=1;seg<=4;seg++){const d=length*seg/4,side=Math.sin(seg*13.7+arm*6.2)*10*(1-t);ctx.lineTo(f.x+Math.cos(a)*d-Math.sin(a)*side,f.y+Math.sin(a)*d+Math.cos(a)*side)}ctx.stroke()}}else if(f.type==='vanish'){
  const t=1-f.life/f.maxLife,ease=1-Math.pow(1-t,3);
  // A brief dissolving silhouette, then luminous shards and an expanding ring.
  ctx.globalAlpha=Math.max(0,1-t*2.8);const size=70*(1-t*.45);
