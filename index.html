@@ -768,6 +768,21 @@ if(ultShot){
  ctx.restore();paintSword(a.x,a.y,ang,true,now);
 }
 for(const b of bullets){
+ // Small bullets are plain, easily readable dots with a short direction indicator.
+ if(!b.heavy){
+  ctx.save();
+  if(b.warning>0){
+   ctx.globalAlpha=.7;ctx.strokeStyle='#eee4c8';ctx.lineWidth=2;
+   ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(b.x,b.y);
+   ctx.lineTo(Math.max(0,b.x-100),b.y+b.vy/Math.max(1,Math.abs(b.vx))*100);
+   ctx.stroke();ctx.setLineDash([]);
+  }else{
+   ctx.fillStyle='#f1dcc0';ctx.strokeStyle='#644d40';ctx.lineWidth=2;
+   ctx.beginPath();ctx.arc(b.x,b.y,Math.min(10,b.r||10),0,Math.PI*2);
+   ctx.fill();ctx.stroke();
+  }
+  ctx.restore();continue;
+ }
  if(b.warning>0){
  ctx.save();const cy=b.y;
  if(b.source==='ground'){
