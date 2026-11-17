@@ -961,6 +961,17 @@ document.addEventListener('touchend',e=>{if(e.touches.length===0){resetStick();i
 document.addEventListener('touchcancel',stopPlayerInput,{passive:true,capture:true});
 for(const b of document.querySelectorAll('#actions [data-action]'))if(b.dataset.action!=='attackHold'){b.addEventListener('pointerdown',e=>{e.preventDefault();if(phase!=='play')return;b.setPointerCapture?.(e.pointerId);b.classList.add('pressed');act(b.dataset.action)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>b.classList.remove('pressed'))}
 const attackHold=$('attackHold');attackHold.addEventListener('pointerdown',chargeBegin);attackHold.addEventListener('pointerup',e=>chargeEnd(e));attackHold.addEventListener('pointercancel',e=>chargeEnd(e,true));attackHold.addEventListener('lostpointercapture',e=>{if(chargePointer===e.pointerId)chargeEnd(e,true)});
-$('musicVolume').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;$('musicValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix()});$('sfxVolume').addEventListener('input',e=>{sfxVolume=Number(e.target.value)/100;$('sfxValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix()});$('mute').onclick=()=>{unlockAudio();const open=document.body.classList.toggle('audio-open');$('mute').setAttribute('aria-expanded',String(open));$('mute').setAttribute('aria-label',open?'關閉音量設定':'開啟音量設定')};document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('touchmove',e=>{if(e.target.closest('#controls'))e.preventDefault()},{passive:false});document.addEventListener('pointerdown',()=>{if(phase==='play'&&(!aCtx||aCtx.state!=='running'))unlockAudio()},{passive:true});setInterval(()=>{pumpMusic();updateMusicMeter(performance.now()/1000)},75);preload();menu();requestAnimationFrame(frame2);
+$('musicVolume').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;$('musicValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix()});$('sfxVolume').addEventListener('input',e=>{sfxVolume=Number(e.target.value)/100;$('sfxValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix()});$('mute').onclick=()=>{unlockAudio();const open=document.body.classList.toggle('audio-open');$('mute').setAttribute('aria-expanded',String(open));$('mute').setAttribute('aria-label',open?'關閉音量設定':'開啟音量設定')};document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('touchmove',e=>{if(e.target.closest('#controls'))e.preventDefault()},{passive:false});document.addEventListener('pointerdown',()=>{if(phase==='play'&&(!aCtx||aCtx.state!=='running'))unlockAudio()},{passive:true});setInterval(()=>{pumpMusic();updateMusicMeter(performance.now()/1000)},75);preload();
+// Teacher-friendly boss preview: the URL opens the actual boss arena immediately.
+const previewParams=new URLSearchParams(window.location.search);
+if(previewParams.get('boss')==='1'){
+ bigScreen=true;
+ newStage(2,true);
+ const previewForm=Math.max(0,Math.min(2,Number(previewParams.get('form')||0)||0));
+ bossCombo=previewForm*2;
+ if(bossActor){bossActor.form=previewForm;bossActor.born=performance.now()/1000-.9}
+ updateHUD();
+}else menu();
+requestAnimationFrame(frame2);
 })();
 </script></body></html>
