@@ -452,7 +452,7 @@ function ultimate(){
  banner('⚔ 金色飛劍出鞘！',.7);updateHUD();
 }
 function resolveUltimate(shot){
- if(!shot.target){fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');banner('蓄力飛劍射空！請調整位置或跳躍高度',1.3);updateHUD()return}
+ if(!shot.target){fx.push({x:shot.tx,y:shot.ty,life:.5,col:'#ffde8e',radius:26});sound('beam');banner('蓄力飛劍射空！請調整位置或跳躍高度',1.3);updateHUD();return}
  const target=shot.target;
  const right=shot.idx===question.correct;
  targets=targets.filter(t=>t!==target);
