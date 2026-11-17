@@ -205,7 +205,7 @@ body.in-game #q .math-expression sup{position:static;vertical-align:super;top:au
 body.in-game #q .math-expression sup.exponent-blank{color:#ffe18a;font-weight:950;font-size:.65em;vertical-align:super;position:static;top:auto}
 </style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 15</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">100%</output></label><input type="range" id="musicVolume" min="0" max="100" value="100" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">35%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="35" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="controls"><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" data-action="drop" aria-label="從平台跳下">⬇ 跳下</button><button type="button" data-action="dodge" aria-label="向面朝方向閃避">💨 閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
-const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:230,w:190,y:415},{x:580,w:190,y:390}];const FULL_CHARGE_SECONDS=1.05;let bossIntroUntil=0;
+const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:230,w:190,y:415},{x:580,w:190,y:390}];const FULL_CHARGE_SECONDS=.85;let bossIntroUntil=0;
 let musicVolume=1,sfxVolume=0.35,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,dashMoveUntil=0,dodgeReadyAt=0,dashDirection=1;
 const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan'},scenes=['scenery-bamboo','scenery-cherry','scenery-temple'];
 const WORLDS=[
@@ -396,15 +396,15 @@ function supportedPlayer(){
  return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+10&&player.x<=p.x+p.w-10&&Math.abs(player.y-p.y)<3));
 }
 function tryBufferedJump(now){
- if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.12)){
+ if(jumpBufferUntil>now&&now>=dropUntil&&(supportedPlayer()||now-lastGroundedAt<=.16)){
  player.vy=-655;player.level=0;jumpBufferUntil=0;lastGroundedAt=-10;sound('jump');return true;
  }return false;
 }
-function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.15;tryBufferedJump(now)}
+function jump(){if(phase!=='play'||!player)return;const now=performance.now()/1000;jumpBufferUntil=now+.22;tryBufferedJump(now)}
 function drop(){if(phase!=='play'||!player)return;let on=PLATFORMS.some(p=>player.x>p.x-8&&player.x<p.x+p.w+8&&Math.abs(player.y-p.y)<8);if(on){dropUntil=performance.now()/1000+.42;player.y+=10;player.vy=165;player.level=0;banner('⬇ 跳至下一層',.6);sound('jump')}}
 function dodge(){
  if(phase!=='play'||!player)return;const now=performance.now()/1000;if(now<dodgeReadyAt)return;
- dodgeReadyAt=now+.8;dashDirection=player.face;dashMoveUntil=now+.19;dodgeUntil=now+.48;
+ const left=!!(keys['ArrowLeft']||keys['KeyA']),right=!!(keys['ArrowRight']||keys['KeyD']);const dir=left!==right?(left?-1:1):(axis||player.face);dashDirection=dir;player.face=dir;dodgeReadyAt=now+.85;dashMoveUntil=now+.16;dodgeUntil=now+.40;
  energy=Math.min(100,energy+9);fx.push({x:player.x,y:player.y-40,life:.28,col:'#b6faff',radius:23});sound('jump');updateHUD();
 }
 // Facing follows the closest visible target, never its answer correctness.
@@ -459,7 +459,7 @@ function act(k){if(k==='slash')slash();if(k==='jump')jump();if(k==='drop')drop()
 // Single combat button: tap = sword slash; hold >= 0.5s = gain Qi; release = special attack.
 let chargePointer=null, chargeStarted=0, isCharging=false, chargeAnnounced=false;
 function chargeBegin(e){if(phase!=='play'||chargePointer!==null)return;e.preventDefault();chargePointer=e.pointerId;chargeStarted=performance.now()/1000;isCharging=true;energy=0;faceNearbyTarget();const b=$('attackHold');b.classList.add('charging');if(typeof e.pointerId==='number'){try{b.setPointerCapture?.(e.pointerId)}catch(_){}}}
-function chargeEnd(e, cancelled=false){if(chargePointer!==e.pointerId)return;e.preventDefault();const duration=performance.now()/1000-chargeStarted;chargePointer=null;isCharging=false;$('attackHold').classList.remove('charging');if(cancelled||phase!=='play')return;if(duration<.48){slash();return}if(duration>=FULL_CHARGE_SECONDS){energy=100;ultimate()}else{energy=0;slash();banner('蓄力不足：已改為劍氣防禦，下次按滿發射！',.9)}updateHUD();}
+function chargeEnd(e, cancelled=false){if(chargePointer!==e.pointerId)return;e.preventDefault();const duration=performance.now()/1000-chargeStarted;chargePointer=null;isCharging=false;$('attackHold').classList.remove('charging');if(cancelled||phase!=='play')return;if(duration<.32){slash();return}if(duration>=FULL_CHARGE_SECONDS){energy=100;ultimate()}else{energy=0;slash();banner('蓄力不足：已改為劍氣防禦，下次按滿發射！',.9)}updateHUD();}
 function getXY(e){return {x:(e.clientX-offX)/s,y:(e.clientY-offY)/s}}
 // Three physical tiers: bottom floor, two middle platforms, and short central top platform.
 // Landing occurs only when descending across the top of a platform.
@@ -488,7 +488,7 @@ function projectileTouchesPlayer(b){
 function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<=0)fx.splice(i,1)}return}if(phase!=='play'||!player)return;
  if(stage===2&&now<bossIntroUntil)return;if(isCharging){energy=Math.min(100,(now-chargeStarted)/FULL_CHARGE_SECONDS*100);if(energy>=100&&!chargeAnnounced){chargeAnnounced=true;banner('🔥 100% 滿格！放開發射答案砲',.8);sound('ok')}updateHUD()}else chargeAnnounced=false;let go=axis;const leftHeld=!!(keys['ArrowLeft']||keys['KeyA']),rightHeld=!!(keys['ArrowRight']||keys['KeyD']);if(leftHeld||rightHeld)go=leftHeld===rightHeld?0:leftHeld?-1:1;
  if(supportedPlayer())lastGroundedAt=now;tryBufferedJump(now);
- player.vx=now<dashMoveUntil?dashDirection*620:go*255;if(go&&now>=dashMoveUntil&&now>=attackUntil)player.face=Math.sign(go);
+ player.vx=now<dashMoveUntil?dashDirection*620:go*255;if(go&&now>=dashMoveUntil)player.face=Math.sign(go);
  const prevX=player.x,prevY=player.y,wasGrounded=Math.abs(player.vy)<1;
  player.x=Math.min(1060,Math.max(36,player.x+player.vx*dt));
  // Gravity + landing on the first platform crossed from above.
@@ -776,14 +776,16 @@ function frame2(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);l
 addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyK','KeyL'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyK')dodge();if(e.code==='KeyL')ultimate()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if(e.code==='KeyJ'&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
 function releaseDirection(pointerId){
  if(!heldDirs.has(pointerId))return;
- resetStick();
- if(player)player.vx=0;
+ heldDirs.delete(pointerId);
+ move.querySelectorAll('.direction').forEach(btn=>btn.classList.toggle('pressed',[...heldDirs.values()].includes(Number(btn.dataset.dir))));
+ syncDirection();
+ if(player&&!axis)player.vx=0;
 }
 for(const btn of move.querySelectorAll('.direction')){
  const direction=Number(btn.dataset.dir);
  btn.addEventListener('pointerdown',e=>{
   e.preventDefault();if(phase!=='play'||(e.pointerType==='mouse'&&e.button!==0))return;
-  resetStick();heldDirs.set(e.pointerId,direction);btn.classList.add('pressed');syncDirection();
+  if(joyID!==null){joyID=null;$('soloThumb').style.transform='translate(0px,0px)'}heldDirs.set(e.pointerId,direction);btn.classList.add('pressed');syncDirection();
   try{btn.setPointerCapture?.(e.pointerId)}catch(_){}
  });
  const release=e=>releaseDirection(e.pointerId);
