@@ -360,7 +360,7 @@ else if(type===2){a=rand(2,4);b=rand(2,3);answer=a*b;q=`(${base}<sup>${a}</sup>)
 else if(type===3){a=rand(3,7);b=rand(2,4);const c=rand(1,a+b-1);answer=a+b-c;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b+c,a+b,a-b+c,a+b-c+1,Math.abs(a-b-c)]}
 else{a=rand(2,5);b=rand(2,3);const c=rand(1,a*b-1);answer=a*b-c;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b-c,a*b+c,a*b-c+1,a*b-c-1,a*(b-c)]}
 let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);q=`<span class="math-expression">${q.replace(' = ?',` = ${base}<sup class="exponent-blank">□</sup>`)}</span>`;let choices=shuffle(nums.map(n=>({html:String(n),n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0?'同底數相乘，指數相加。':type===1?'同底數相除，指數相減。':type===2?'冪的乘方，指數相乘。':type===3?'同底數乘除混合：相乘的指數相加，再減去除式的指數。':'先算冪的乘方（指數相乘），再減去除式的指數。';return {q,choices,correct,explain,base,answer};}
-function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(310,340),y:PLATFORMS[0].y,level:1,lo:290,hi:360},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'newmob-'+i,vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+2;updateHUD()};let questionStart=0;
+function nextQuestion(){question=makeQ();let positions=[{x:rand(100,115),y:G,level:0,lo:93,hi:127},{x:rand(353,367),y:PLATFORMS[0].y,level:1,lo:345,hi:377},{x:rand(980,997),y:G,level:0,lo:972,hi:1007},{x:rand(716,731),y:PLATFORMS[1].y,level:1,lo:709,hi:740}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'newmob-'+i,vx:rand(10,16)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+2;updateHUD()};let questionStart=0;
 function showDamageFeedback(amount){
  const now=performance.now()/1000;
  damagePopups.push({x:player.x,y:player.y-115,time:now,amount});
@@ -500,8 +500,8 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  // Answer monsters patrol in bounded lanes, never swapping floors or crowding labels.
  for(const t of targets){
- if(t.level===0){t.vx=(t.vx<0?-1:1)*(stage===0?22:27)}
- else if(now>t.roamUntil){t.roamUntil=now+rand(14,28)/10;t.vx=rand(17,31)*(Math.random()<.5?-1:1)}
+ if(t.level===0){t.vx=(t.vx<0?-1:1)*(stage===0?12:16)}
+ else if(now>t.roamUntil){t.roamUntil=now+rand(14,28)/10;t.vx=rand(10,17)*(Math.random()<.5?-1:1)}
  t.x+=t.vx*dt;
  if(t.x<t.lo){t.x=t.lo;t.vx=Math.abs(t.vx);t.roamUntil=now+.6}
  if(t.x>t.hi){t.x=t.hi;t.vx=-Math.abs(t.vx);t.roamUntil=now+.6}
