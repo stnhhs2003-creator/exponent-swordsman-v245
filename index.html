@@ -574,6 +574,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  }
  for(const c of chasers){const desiredY=c.level===1?PLATFORMS[1].y:G;
+  if(c.level===1)c.y=desiredY;
   const sameLane=Math.abs(player.y-c.y)<115;
   if(c.level===0){
    if(c.warning>0)c.warning=Math.max(0,c.warning-dt);
