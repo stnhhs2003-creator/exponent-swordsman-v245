@@ -449,8 +449,8 @@ for(const p of PLATFORMS){
 }
  // Keep the arena uncluttered: controls explain movement, not labels floating over monsters.
 
-for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';ctx.shadowBlur=26}imageDraw(c.level===1?'art-ghost-idle':'art-tree-idle',c.x-31,c.y-70,62,70);ctx.shadowBlur=0;ctx.restore()}
-const pos=targets.map(t=>t);for(const t of pos){let bob=Math.sin(now*3+t.idx)*3;let w=112,h=126;
+for(const c of chasers){ctx.save();if(c.hitUntil>now){ctx.shadowColor='#aaffea';ctx.shadowBlur=26}const hop=Math.sin(now*3.2+c.x*.015)*5;imageDraw(c.level===1?'art-ghost-idle':'art-tree-idle',c.x-31,c.y-70+hop,62,70);ctx.shadowBlur=0;ctx.restore()}
+const pos=targets.map(t=>t);for(const t of pos){let bob=Math.sin(now*2.4+t.idx)*(t.level===0?6:4);let w=112,h=126;
  const outline=['#7ff3ff','#ffb7ec','#b9ff9e','#ffd18e'][t.idx%4];
  ctx.save();ctx.fillStyle='#020b19b8';ctx.beginPath();ctx.ellipse(t.x,t.y-h/2+bob,68,76,0,0,Math.PI*2);ctx.fill();
  ctx.strokeStyle=outline;ctx.globalAlpha=.75;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(t.x,t.y+2,53,8,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
