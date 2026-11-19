@@ -1022,7 +1022,7 @@ function drawPixelFx(f,now){
  ctx.restore();
 }
 for(const f of fx){ctx.save();ctx.globalAlpha=Math.min(1,Math.max(0,f.life*2));ctx.shadowColor=f.col;ctx.shadowBlur=25;
- if(f.type.startsWith('pix-'))drawPixelFx(f,now);
+ if(f.type&&f.type.startsWith('pix-'))drawPixelFx(f,now);
  else if(f.type==='ink'){const k=1-f.life/f.maxLife;ctx.globalAlpha=Math.max(0,.75-k*.65);ctx.strokeStyle='#181f1d';ctx.lineWidth=(1-k)*15;for(let n=0;n<11;n++){const a=n*Math.PI*2/11+k*.6,rr=9+k*(f.radius+n%3*12);ctx.beginPath();ctx.moveTo(f.x+Math.cos(a)*rr*.38,f.y+Math.sin(a)*rr*.38);ctx.lineTo(f.x+Math.cos(a)*rr,f.y+Math.sin(a)*rr);ctx.stroke()}}else if(f.type==='vanish'){
  const t=1-f.life/f.maxLife,ease=1-Math.pow(1-t,3);
  // A brief dissolving silhouette, then luminous shards and an expanding ring.
