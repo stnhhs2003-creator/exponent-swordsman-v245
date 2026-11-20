@@ -594,7 +594,7 @@ function background(t){
 // Image asset registry. Optional art never blocks startup or input.
 const ART={players:["player-island","player-orbital","player-city"],bosses:["boss-island","boss-orbital","boss-city"],enemies:["enemy-scout","enemy-speed","enemy-bomber","enemy-elite"],cards:["card-island","card-orbital","card-city"],bullets:"bullets-player",enemyBullets:"bullets-enemy",powerups:"powerups",explosion:"explosion",space:"background-space"};
 const SPRITES={};let missingAssets=0;
-function asset(name){if(!SPRITES[name]){const img=new Image();SPRITES[name]={img,ready:false};img.onload=()=>SPRITES[name].ready=true;img.onerror=()=>{SPRITES[name].ready=false;missingAssets++};img.src="assets/"+name+".webp"}return SPRITES[name].ready?SPRITES[name].img:null}
+function asset(name){if(!SPRITES[name]){const img=new Image();SPRITES[name]={img,ready:false};img.onload=()=>SPRITES[name].ready=true;img.onerror=()=>{SPRITES[name].ready=false;missingAssets++};img.src="assets/"+name+".webp?v=transparent-56361b3"}return SPRITES[name].ready?SPRITES[name].img:null}
 function drawAtlas(name,cell,cols,rows,x,y,w,h){const img=asset(name);if(!img)return false;const sw=img.width/cols,sh=img.height/rows;ctx.drawImage(img,(cell%cols)*sw,Math.floor(cell/cols)*sh,sw,sh,x-w/2,y-h/2,w,h);return true}
 let explosions=[];
 function sprite(name,x,y,w,h,rotate=0){
@@ -602,7 +602,7 @@ function sprite(name,x,y,w,h,rotate=0){
  ctx.save();ctx.translate(x,y);ctx.rotate(rotate);ctx.drawImage(img,-w/2,-h/2,w,h);ctx.restore();return true
 }
 for(const names of [ART.players,ART.bosses,ART.enemies,ART.cards,[ART.bullets,ART.enemyBullets,ART.powerups,ART.explosion,ART.space]])for(const n of names)asset(n);
-for(let i=0;i<3;i++){const target=document.querySelector('[data-theme="'+i+'"] .world-art');if(!target)continue;const img=new Image();img.className="card-photo";img.alt="";img.onload=()=>img.classList.add("loaded");img.src="assets/"+ART.cards[i]+".webp";target.appendChild(img)}
+for(let i=0;i<3;i++){const target=document.querySelector('[data-theme="'+i+'"] .world-art');if(!target)continue;const img=new Image();img.className="card-photo";img.alt="";img.onload=()=>img.classList.add("loaded");img.src="assets/"+ART.cards[i]+".webp?v=transparent-56361b3";target.appendChild(img)}
 function ship(x,y,kind="hero",s=1,t=0,enemyType=0){
  const name=kind==="hero"?ART.players[gameTheme]:ART.enemies[enemyType%4],width=(kind==="hero"?91:80)*s,height=(kind==="hero"?110:91)*s;
  if(sprite(name,x,y,width,height,0))return;
