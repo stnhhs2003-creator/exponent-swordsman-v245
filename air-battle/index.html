@@ -97,8 +97,16 @@ body.bigscreen #actions #special{width:110px}
 .guide-title{color:#ffdf99;font-size:15px}
 @media(max-width:620px){#panel.launch-panel{padding:10px 12px;max-height:94dvh}.themes{gap:6px}.world-art{height:100px}.world-name{font-size:12px}.world-desc{font-size:9px}.world-check{font-size:10px}#panel .units{grid-template-columns:repeat(2,minmax(0,1fr))}.launch-footer .game-rules{font-size:10px}}
 @media(max-height:510px){#panel.launch-panel{padding:7px 13px;max-height:96dvh}.launch-head h1{font-size:23px}.launch-sub{font-size:10px}.selection-label{font-size:11px;margin:5px 0 3px}.world-art{height:80px;min-height:70px}.world-jet{font-size:39px}.world-name{font-size:13px;padding-top:4px}.world-desc,.world-check{font-size:9px}.world-card{padding-bottom:4px}#panel .units{margin:4px 0;grid-template-columns:repeat(4,minmax(0,1fr))}#panel .units button{min-height:35px;padding:3px;font-size:11px}.launch-footer .game-rules{font-size:10px;line-height:1.3}.launch-buttons{margin-top:4px}#start{min-height:36px;padding:3px 22px;font-size:17px}#howto{min-height:35px;padding:3px 14px}#guide{padding:7px}}
+
+.world-art .theme-illustration{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
+.world-art .world-disc,.world-art .world-shape,.world-art .world-orbit,.world-art .world-buildings,.world-art .world-jet{display:none}
+.world-art{height:clamp(132px,22vh,226px)}
+.world-card.selected .theme-illustration{filter:saturate(1.15) brightness(1.08)}
+#game-error{position:absolute;z-index:12;top:40%;left:5%;width:90%;padding:18px;border:2px solid #f6aa76;background:#18253cee;color:#ffe9bd;border-radius:12px;text-align:center;display:none}
+@media(max-height:510px){.world-art{height:92px}}
+@media(max-width:620px){.world-art{height:110px}}
 </style></head><body><canvas id="game"></canvas><div id="hud"><span id="unitName">數學空戰</span><span id="stats">❤️3　⭐0　關卡1/3</span></div><div id="prompt">清除敵機後，射擊正確答案！</div><div id="message"></div><div id="sceneName">01｜天空海域</div><div id="bossHud">👹 最終魔王<div id="bossBar"><div id="bossLife"></div></div></div>
-<div id="pad"><div id="movement"><i></i><button data-key="up">▲</button><i></i><button data-key="left">◀</button><button data-key="down">▼</button><button data-key="right">▶</button></div><div id="actions"><button id="special" data-act="special">⚡ 必殺</button><button id="fire" data-key="fire">🔥<span>掃射</span></button></div></div><div id="settingsWrap"><button id="settingsToggle" aria-label="開啟遊戲設定" aria-expanded="false">⚙</button><div id="settingsPanel" hidden><button data-act="pause">⏸ 暫停</button><button data-act="sound" id="soundButton">🔊 聲音</button><div id="mixer"><label>🎵 配樂 <input id="musicVolume" type="range" min="0" max="100" value="14"></label><label>💥 特效 <input id="effectVolume" type="range" min="0" max="100" value="56"></label></div></div></div><div id="overlay"><div id="panel" class="launch-panel">
+<div id="pad"><div id="movement"><i></i><button data-key="up">▲</button><i></i><button data-key="left">◀</button><button data-key="down">▼</button><button data-key="right">▶</button></div><div id="actions"><button id="special" data-act="special">⚡ 必殺</button><button id="fire" data-key="fire">🔥<span>掃射</span></button></div></div><div id="settingsWrap"><button id="settingsToggle" aria-label="開啟遊戲設定" aria-expanded="false">⚙</button><div id="settingsPanel" hidden><button data-act="pause">⏸ 暫停</button><button data-act="sound" id="soundButton">🔊 聲音</button><div id="mixer"><label>🎵 配樂 <input id="musicVolume" type="range" min="0" max="100" value="14"></label><label>💥 特效 <input id="effectVolume" type="range" min="0" max="100" value="56"></label></div></div></div><div id="game-error" role="alert"></div><div id="overlay"><div id="panel" class="launch-panel">
 <div class="launch-head"><div class="launch-kicker">✦ ARCADE MATH MISSION ✦</div><h1 id="title">✈️ 數學空戰</h1><div class="launch-sub">三大戰場 · 四個數學單元 · 全班合作闖關</div></div>
 <div class="selection-label">01　選擇戰場主題</div>
 <div id="themes" class="themes">
@@ -182,6 +190,58 @@ function say(s){$("#message").textContent=s;clearTimeout(say.timer);say.timer=se
 function showProblem(){if(!playing||question>=25)return;const t=ACTIVE_BANK[unit][question];$("#prompt").textContent=(question<10?"初階":question<20?"進階":"Boss")+"｜第 "+(question+1)+" 題： "+t[0]}function setHUD(){$("#stats").textContent="❤️"+life+"　⭐"+score+"　⚡"+energy+"/3　關卡"+(stage+1)+"/3";$("#unitName").textContent={exp:"指數",frac:"分數",expr:"一元一次式",eq:"一元一次方程式"}[unit]+"｜數學空戰";$("#bar").style.width=Math.round(question/25*100)+"%";$("#bossHud").style.display=state==="boss"?"block":"none";if(boss)$("#bossLife").style.width=(boss.hp/boss.max*100)+"%";if(playing&&state!=="done"&&state!=="boss"&&state!=="celebrate")showProblem()}
 function reset(){ACTIVE_BANK[unit]=makeRound(unit);musicClock=0;musicIndex=0;sceneTick=0;state="wave";stage=0;question=0;life=3;score=0;energy=0;bossStreak=0;bossReview=false;celebrateTimer=0;celebrateNext="";answerReveal=0;stageFlash=0;screenShake=0;kills=0;needEnemies=3;plane={x:.5,y:.78};bullets=[];enemyBullets=[];enemies=[];particles=[];cards=[];boss=null;spawnTick=0;autoFire=0;invincible=2;held.clear();setHUD();showProblem();say("戰機起飛！")}
 function start(){audioInit();if(!playing||state==="done"){reset();playing=true;showProblem()}$("#overlay").style.display="none";if(state==="paused")state=pausedFrom;beep(550,.09)}
+
+function createThemeArtwork(){
+ const palettes=[
+ {sky:["#213865","#fa947b","#ffdd98"],sea:["#3bc2d5","#00557d"],body:"#e1f7ff",wing:"#398bf6",glow:"#55edff",trim:"#f6c56d"},
+ {sky:["#120d41","#50318f","#151c50"],sea:["#182b6a","#050b29"],body:"#f8eeff",wing:"#9157e5",glow:"#e084ff",trim:"#e5b2ff"},
+ {sky:["#332a72","#ce739e","#214d8f"],sea:["#184a8b","#081a3b"],body:"#fff0f0",wing:"#ed5365",glow:"#6ff5ff",trim:"#f6b17e"}
+ ];
+ function jetSVG(p){
+  return '<g transform="translate(240 194)"><ellipse cx="0" cy="8" rx="92" ry="20" fill="#000" opacity=".32"/>'+
+  '<g filter="url(#aura)"><path d="M-11 33L-7 71 0 84 7 71 11 33" fill="'+p.glow+'" opacity=".85"/></g>'+
+  '<path d="M0-88L19-32 50-8 123 31 114 51 46 40 26 79 12 69 -12 69 -26 79 -46 40 -114 51 -123 31 -50-8 -19-32Z" fill="'+p.trim+'" stroke="#08162d" stroke-width="5"/>'+
+  '<path d="M0-85L18-29 48-4 115 32 109 44 38 30 21 69 9 58 -9 58 -21 69 -38 30 -109 44 -115 32 -48-4 -18-29Z" fill="'+p.wing+'" stroke="'+p.body+'" stroke-width="3"/>'+
+  '<path d="M0-87L15-32 18 40 0 71 -18 40 -15-32Z" fill="'+p.body+'" stroke="'+p.trim+'" stroke-width="3"/>'+
+  '<path d="M0-59L13-25 9 6 0 20 -9 6 -13-25Z" fill="#18436e" stroke="'+p.trim+'" stroke-width="3"/>'+
+  '<path d="M0-52L8-27 5 3 0 9 -5 3 -8-27Z" fill="'+p.glow+'" opacity=".93"/>'+
+  '<path d="M-100 37L-51 14 -43 29 -103 45Z M100 37L51 14 43 29 103 45Z" fill="'+p.body+'" opacity=".92"/>'+
+  '<path d="M-33 33L-20 24 -15 60 -26 71Z M33 33L20 24 15 60 26 71Z" fill="#233b63"/>'+
+  '<circle cx="-101" cy="39" r="4" fill="'+p.glow+'"/><circle cx="101" cy="39" r="4" fill="'+p.glow+'"/></g>'
+ }
+ for(let i=0;i<3;i++){
+  const p=palettes[i],target=document.querySelector('[data-theme="'+i+'"] .world-art');
+  if(!target)continue;
+  const id='art'+i;
+  let details='';
+  if(i===0){
+   details='<circle cx="336" cy="60" r="37" fill="#fff0b5" filter="url(#aura)"/>'+
+   '<path d="M0 119L58 77 100 111 156 70 201 118 267 94 304 125H0Z" fill="#1a6580"/>'+
+   '<path d="M0 155L75 113 117 144 164 114 206 155H0Z" fill="#267c78"/>'+
+   '<path d="M0 164Q130 148 250 166T480 169V260H0Z" fill="#0d6a97"/>'+
+   '<g opacity=".86"><path d="M18 160L126 152 148 177 39 192Z" fill="#29465e" stroke="#b5cad8" stroke-width="3"/><path d="M76 150V117M55 173L130 169" stroke="#def5ff" stroke-width="3"/><path d="M59 166L107 163" stroke="#edc26d" stroke-width="3"/></g>'+
+   '<g opacity=".5" stroke="#b7e7ed" stroke-width="2"><path d="M0 197L90 189M170 204L320 195M330 231L450 223"/></g>'
+  }else if(i===1){
+   details='<circle cx="92" cy="65" r="54" fill="url(#planet'+i+')" stroke="#a0d7ff" stroke-width="3"/>'+
+   '<path d="M0 185Q112 68 260 182T480 166V260H0Z" fill="#2364b0" opacity=".8"/>'+
+   '<g transform="translate(371 69) rotate(-20)"><ellipse rx="117" ry="48" fill="none" stroke="#9ee6ff" stroke-width="14"/><ellipse rx="117" ry="48" fill="none" stroke="#2d83d6" stroke-width="4"/><rect x="-25" y="-23" width="50" height="46" rx="7" fill="#b1cff0" stroke="#2c5d95" stroke-width="6"/><path d="M-20-7H20M-20 8H20" stroke="#66f4ff" stroke-width="5"/></g>'+
+   Array.from({length:24},(_,n)=>'<circle cx="'+((n*83)%480)+'" cy="'+((n*47)%210)+'" r="'+(n%4===0?2:1)+'" fill="#fff" opacity=".8"/>').join('')
+  }else{
+   details='<circle cx="333" cy="72" r="36" fill="#ffbdc7" opacity=".62"/>'+
+   '<path d="M0 210V135H34V175H58V108H103V160H127V76H173V174H202V114H249V166H276V58H322V175H345V94H397V157H419V126H480V260H0Z" fill="#112654" stroke="#67c6ef" stroke-width="2"/>'+
+   '<g stroke="#65d6fa" stroke-width="3" opacity=".8">'+Array.from({length:14},(_,n)=>'<path d="M'+(15+n*34)+' 157v51"/>').join('')+'</g>'+
+   '<path d="M0 235Q146 151 300 233T480 196" fill="none" stroke="#91cfff" stroke-width="14" opacity=".65"/>'+
+   '<g fill="#d67eff" opacity=".8"><rect x="145" y="91" width="16" height="19"/><rect x="282" y="68" width="20" height="25"/><rect x="363" y="116" width="24" height="18"/></g>'
+  }
+  const img='<svg class="theme-illustration" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 260" preserveAspectRatio="xMidYMid slice" role="img" aria-label="'+["藍金戰機飛越夕陽航母海域","紫電戰機飛越星球軌道站","紅銀戰機飛越霓虹城市"][i]+'">'+
+   '<defs><linearGradient id="sky'+i+'" x2="0" y2="1"><stop offset="0" stop-color="'+p.sky[0]+'"/><stop offset=".57" stop-color="'+p.sky[1]+'"/><stop offset="1" stop-color="'+p.sky[2]+'"/></linearGradient>'+
+   '<radialGradient id="planet'+i+'"><stop stop-color="#bceaff"/><stop offset=".65" stop-color="#2f7dce"/><stop offset="1" stop-color="#162b73"/></radialGradient>'+
+   '<filter id="aura"><feGaussianBlur stdDeviation="5"/></filter></defs>'+
+   '<rect width="480" height="260" fill="url(#sky'+i+')"/>'+details+jetSVG(p)+'</svg>';
+  target.insertAdjacentHTML('beforeend',img)
+ }
+}
+createThemeArtwork();
 document.querySelectorAll("[data-theme]").forEach(b=>b.onclick=()=>{if(playing&&state!=="done")return;gameTheme=Number(b.dataset.theme);document.querySelectorAll("[data-theme]").forEach(el=>{const selected=el===b;el.classList.toggle("selected",selected);el.setAttribute("aria-pressed",String(selected));el.querySelector(".world-check").textContent=selected?"✓ 已選擇":"點選主題"})});$("#howto").onclick=()=>{$("#guide").hidden=!$("#guide").hidden;$("#howto").textContent=$("#guide").hidden?"📖 玩法說明":"✕ 收起說明"};document.querySelectorAll("[data-unit]").forEach(b=>b.onclick=()=>{unit=b.dataset.unit;document.querySelectorAll("[data-unit]").forEach(z=>z.classList.toggle("active",z===b));setHUD()});$("#start").onclick=start;$("#musicVolume").oninput=e=>musicVolume=Number(e.target.value)/100;$("#effectVolume").oninput=e=>effectVolume=Number(e.target.value)/100;$("#bigScreen").addEventListener("change",e=>document.body.classList.toggle("bigscreen",e.target.checked));
 document.querySelectorAll("[data-key]").forEach(b=>{const k=b.dataset.key;b.addEventListener("pointerdown",e=>{e.preventDefault();b.setPointerCapture(e.pointerId);held.add(k);beep(350,.025)});for(const ev of ["pointerup","pointercancel","lostpointercapture"])b.addEventListener(ev,()=>held.delete(k))});const keys={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right",w:"up",s:"down",a:"left",d:"right"," ":"fire"};document.addEventListener("keydown",e=>{const k=keys[e.key];if(k){e.preventDefault();held.add(k)}});document.addEventListener("keyup",e=>{const k=keys[e.key];if(k)held.delete(k)});addEventListener("blur",()=>held.clear());
 $("#settingsToggle").onclick=()=>{const panel=$("#settingsPanel"),opened=!panel.hidden;panel.hidden=opened;$("#settingsToggle").setAttribute("aria-expanded",String(!opened))};document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{const a=b.dataset.act;if(a==="special")special();else if(a==="sound"){sound=!sound;b.textContent=sound?"🔊 聲音":"🔇 靜音";if(sound)audioInit()}else if(a==="pause"){if(state==="paused"){state=pausedFrom;$("#overlay").style.display="none"}else if(state!=="menu"&&state!=="done"){pausedFrom=state;state="paused";$("#title").textContent="遊戲暫停";$("#start").textContent="繼續遊戲";$("#overlay").style.display="flex"}}});
@@ -345,5 +405,6 @@ function draw(t){
  if(!(invincible>0&&Math.floor(t/90)%2===0))ship(plane.x*W,plane.y*H,"hero",1.06,t);if(state==="celebrate"){const p=1-celebrateTimer/1.65;ctx.save();ctx.translate(celebrateX*W,celebrateY*H);ctx.strokeStyle="#ffeea1";ctx.lineWidth=5;ctx.shadowColor="#fff2a4";ctx.shadowBlur=20;for(let j=0;j<3;j++){ctx.globalAlpha=Math.max(0,1-p-j*.16);ctx.beginPath();ctx.arc(0,0,22+p*110+j*24,0,Math.PI*2);ctx.stroke()}ctx.restore();ctx.fillStyle="#092943dc";ctx.beginPath();ctx.roundRect(W*.28,H*.48,W*.44,52,14);ctx.fill();ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillStyle="#ffe6a5";ctx.font="900 "+Math.min(27,Math.max(16,W*.045))+"px system-ui";ctx.fillText("✅ 答對！+"+(celebrateNext.startsWith("boss")?150:100),W*.5,H*.48+26)}ctx.restore();if(stageFlash>0){ctx.fillStyle="rgba(255,235,189,"+(Math.min(.32,stageFlash*.27))+")";ctx.fillRect(0,0,W,H)}
 
 }
-function loop(t){requestAnimationFrame(loop);let dt=Math.min(.045,(t-last)/1000||.016);last=t;step(dt);draw(t)}setHUD();requestAnimationFrame(loop);
+let fatalError=false;function reportGameError(e){fatalError=true;const el=$("#game-error");el.textContent="遊戲發生錯誤："+(e&&e.message?e.message:String(e))+"。請重新整理頁面，若持續出現請截圖回報。";el.style.display="block";console.error(e)}
+function loop(t){if(fatalError)return;requestAnimationFrame(loop);try{let dt=Math.min(.045,(t-last)/1000||.016);last=t;step(dt);draw(t)}catch(e){reportGameError(e)}}try{setHUD();requestAnimationFrame(loop)}catch(e){reportGameError(e)}
 })();</script></body></html>
