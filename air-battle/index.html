@@ -290,7 +290,7 @@ function makeRound(unit){
  for(let tier=0;tier<3;tier++){
   const start=tier===0?0:tier===1?10:20,end=tier===0?10:tier===1?20:25,count=tier===2?5:10;
   const all=unit==="gcd"?generateGcd(tier):unit==="signed"?generateSigned(tier):unit==="exp"?[...generateExponent(tier),...BANK.exp.slice(start,end)]:[...BANK[unit].slice(start,end),...extraQuestions(unit,tier)];
-  const unique=all.filter((q,i)=>all.findIndex(t=>t[0]===q[0])===i);
+  const unique=all.filter((q,i)=>all.findIndex(t=>t[0]===q[0])===i&&!result.some(t=>t[0]===q[0]));
   const fresh=shuffled(unique.filter(q=>!prev.has(q[0])));
   const old=shuffled(unique.filter(q=>prev.has(q[0])));
   result.push(...fresh.concat(old).slice(0,count))
