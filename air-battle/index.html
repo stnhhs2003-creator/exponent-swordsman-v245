@@ -409,7 +409,73 @@ function carrier(x,y,z=1){ctx.save();ctx.translate(x,y);ctx.scale(z,z);ctx.shado
  ctx.fillStyle="#71828a";ctx.fillRect(24,-28,17,65);ctx.fillStyle="#aec7c8";ctx.fillRect(27,-12,11,19);ctx.restore()}
 function island(x,y,size){ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.fillStyle="#1a7690";ctx.beginPath();ctx.ellipse(0,0,64,43,0,0,7);ctx.fill();ctx.fillStyle="#d0b67c";ctx.beginPath();ctx.ellipse(0,0,52,29,0,0,7);ctx.fill();ctx.fillStyle="#308971";ctx.beginPath();ctx.ellipse(0,-4,44,24,0,0,7);ctx.fill();
  polygon([[-24,1],[-5,-33],[12,-23],[31,3]],"#3a6559");polygon([[-5,-33],[12,-23],[4,-10]],"#79a085");ctx.restore()}
+
+// Vertically seamless scrolling backgrounds. The space photo is overlap-blended
+// to an exact matching seam; sea/city tiles use periodic procedural artwork.
+let bgTiles=[null,null,null],bgImageRef=null;
+function paintSoftGlow(g,x,y,r,color,tw,th){
+ for(const dy of [-th,0,th]){const grad=g.createRadialGradient(x,y+dy,1,x,y+dy,r);grad.addColorStop(0,color);grad.addColorStop(1,"#00000000");g.fillStyle=grad;g.fillRect(x-r,y+dy-r,r*2,r*2)}
+}
+function makeBgTile(theme){
+ const iw=512,ih=768,can=document.createElement("canvas");can.width=iw;can.height=ih;
+ const g=can.getContext("2d");if(!g)return null;
+ const source=theme===1?asset(ART.space):null;
+ if(source){
+   const cut=source.height*.2;
+   g.drawImage(source,0,cut,source.width,source.height-cut,0,0,iw,ih);
+   const bands=48,fadeH=ih*.25;
+   for(let k=0;k<bands;k++){const y=ih-fadeH+k*fadeH/bands,h=fadeH/bands+1;
+     g.globalAlpha=(k+1)/bands;
+     g.drawImage(source,0,k*source.height*.2/bands,source.width,source.height*.2/bands,0,y,iw,h);
+   }g.globalAlpha=1;
+ }else{
+   const base=theme===0?"#075472":theme===1?"#0e1233":"#101c43";
+   g.fillStyle=base;g.fillRect(0,0,iw,ih);
+   const hash=n=>{const z=Math.sin(n*138.821+theme*129.63)*43758.5453;return z-Math.floor(z)};
+   if(theme===0){
+     for(let i=0;i<90;i++){
+       const x=hash(i+20)*iw,y=hash(i+100)*ih,w=18+hash(i+150)*82;
+       g.strokeStyle=i%4===0?"#7bdbea44":"#8edbe826";g.lineWidth=i%5===0?3:1.4;
+       for(const yy of [-ih,0,ih]){g.beginPath();g.moveTo(x-w/2,y+yy);g.quadraticCurveTo(x,y+yy-4,x+w/2,y+yy);g.stroke()}
+     }
+     for(let i=0;i<5;i++){
+       const x=hash(i+240)*iw,y=hash(i+310)*ih;
+       for(const yy of [-ih,0,ih]){
+         g.save();g.translate(x,y+yy);g.scale(.75,.75);g.fillStyle="#1b3b57";g.strokeStyle="#91b6c8";g.lineWidth=3;
+         g.beginPath();g.moveTo(0,-65);g.lineTo(31,-22);g.lineTo(26,63);g.lineTo(-26,63);g.lineTo(-31,-22);g.closePath();g.fill();g.stroke();
+         g.fillStyle="#325977";g.fillRect(-21,-32,42,64);g.fillStyle="#f8d48f";g.fillRect(-3,-18,6,52);g.fillStyle="#a8e9ff";g.fillRect(-14,14,28,4);g.restore()
+       }
+     }
+     paintSoftGlow(g,100,170,210,"#1eafba39",iw,ih);paintSoftGlow(g,390,620,190,"#3eafcc29",iw,ih)
+   }else if(theme===1){
+     for(let i=0;i<130;i++){const x=hash(i+100)*iw,y=hash(i+500)*ih,r=i%11===0?2:1;g.fillStyle=i%6?"#b9c7fa":"#f1baff";g.globalAlpha=.35+hash(i+9)*.6;for(const yy of [-ih,0,ih])g.fillRect(x,y+yy,r,r)}g.globalAlpha=1;
+     paintSoftGlow(g,115,150,180,"#9c35c245",iw,ih);paintSoftGlow(g,420,590,235,"#1767cc5e",iw,ih)
+   }else{
+     for(let i=0;i<17;i++){
+       const x=i*36-10,bw=25+hash(i+120)*25,y=hash(i+65)*ih;
+       for(const yy of [-ih,0,ih]){
+         g.fillStyle=i%2===0?"#1c2e63":"#263b6c";g.fillRect(x,y+yy,bw,110+hash(i+90)*110);
+         g.fillStyle=i%2?"#ff72cf":"#53d5ff";g.globalAlpha=.45;
+         for(let w=7;w<bw-4;w+=12)for(let h=11;h<90;h+=20)g.fillRect(x+w,y+yy+h,4,8);
+         g.globalAlpha=1;
+       }
+     }
+     for(let i=0;i<7;i++){const y=hash(i+400)*ih;g.strokeStyle=i%2?"#62dfff77":"#f878db55";g.lineWidth=5;for(const yy of [-ih,0,ih]){g.beginPath();g.moveTo(0,y+yy+30);g.bezierCurveTo(140,y+yy-18,355,y+yy+85,iw,y+yy+24);g.stroke()}}
+     paintSoftGlow(g,235,190,230,"#dd40b633",iw,ih);paintSoftGlow(g,370,550,160,"#248ae745",iw,ih)
+   }
+ }
+ return can;
+}
+function seamlessBackground(){
+ if(gameTheme===1){const img=asset(ART.space);if(img&&img!==bgImageRef){bgImageRef=img;bgTiles[1]=null}}
+ if(!bgTiles[gameTheme])bgTiles[gameTheme]=makeBgTile(gameTheme);
+ const tile=bgTiles[gameTheme];if(!tile)return false;
+ const h=tile.height*W/tile.width,shift=(sceneTick*57)%h;
+ for(let y=shift-h;y<H;y+=h)ctx.drawImage(tile,0,y,W,h+0.5);
+ return true
+}
 function background(t){
+ if(seamlessBackground())return;
  let phase=gameTheme;
  if(phase===1){const img=asset(ART.space);if(img){const h=W*img.height/img.width;const offset=(sceneTick*55)%h;for(let y=offset-h;y<H;y+=h)ctx.drawImage(img,0,y,W,h);return}}
 
