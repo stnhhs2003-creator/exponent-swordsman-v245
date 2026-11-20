@@ -513,7 +513,7 @@ for(const names of [ART.players,ART.bosses,ART.enemies,ART.cards,[ART.bullets,AR
 for(let i=0;i<3;i++){const target=document.querySelector('[data-theme="'+i+'"] .world-art');if(!target)continue;const img=new Image();img.className="card-photo";img.alt="";img.onload=()=>img.classList.add("loaded");img.src="assets/"+ART.cards[i]+".webp";target.appendChild(img)}
 function ship(x,y,kind="hero",s=1,t=0,enemyType=0){
  const name=kind==="hero"?ART.players[gameTheme]:ART.enemies[enemyType%4],width=(kind==="hero"?91:80)*s,height=(kind==="hero"?110:91)*s;
- if(sprite(name,x,y,width,height,kind==="hero"?0:Math.PI))return;
+ if(sprite(name,x,y,width,height,0))return;
  ctx.save();ctx.translate(x,y);ctx.scale(s,s);if(kind==="enemy")ctx.rotate(Math.PI);
  const hero=kind==="hero",pal=[["#1964ac","#358adb","#f5ca65"],["#6332bb","#a36cf2","#eac9ff"],["#a53748","#e85966","#ffd6d6"]][gameTheme],main=hero?pal[0]:"#88394e",wing=hero?pal[1]:"#b65d65",gold=hero?pal[2]:"#efab72";
  ctx.shadowColor=hero?"#66e4ff":"#ff7795";ctx.shadowBlur=12;
@@ -528,7 +528,7 @@ function ship(x,y,kind="hero",s=1,t=0,enemyType=0){
  ctx.restore()
 }
 function bossShip(x,y,t){
- if(sprite(ART.bosses[gameTheme],x,y,Math.min(W*.55,254),Math.min(H*.42,255),Math.PI)){
+ if(sprite(ART.bosses[gameTheme],x,y,Math.min(W*.55,254),Math.min(H*.42,255),0)){
   if(boss?.shield){ctx.save();ctx.strokeStyle="#a8f5ff";ctx.lineWidth=5;ctx.shadowBlur=16;ctx.shadowColor="#80efff";ctx.beginPath();ctx.ellipse(x,y,Math.min(W*.3,146),Math.min(H*.24,143),0,0,Math.PI*2);ctx.stroke();ctx.restore()}return}
  ctx.save();ctx.translate(x,y);const pulse=Math.sin(t*.002)*5;ctx.shadowColor="#f25fbc";ctx.shadowBlur=20;
  polygon([[0,-68],[40,-55],[75,-24],[112,-3],[119,45],[78,59],[41,48],[22,78],[-22,78],[-41,48],[-78,59],[-119,45],[-112,-3],[-75,-24],[-40,-55]],"#642c6e","#d96fc0",4);
