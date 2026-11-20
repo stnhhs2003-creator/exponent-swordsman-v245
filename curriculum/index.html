@@ -1121,7 +1121,7 @@ if(previewParams.get('boss')==='1'){
  bossCombo=previewForm*2;
  if(bossActor){bossActor.form=previewForm;bossActor.born=performance.now()/1000-.9}
  updateHUD();
-}else menu();
+}else{const preset=previewParams.get('unit');if(UNITS.some(u=>u[0]===preset))unit=preset;if(previewParams.get('mode')==='screen'||previewParams.get('mode')==='phone')bigScreen=previewParams.get('mode')==='screen';menu()}
 requestAnimationFrame(frame2);
 })();
 </script></body></html>
