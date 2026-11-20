@@ -11,16 +11,16 @@
 <button class="choice selected" data-scene="city">🏙️ 城市街道<small>都市與棋盤風格</small></button><button class="choice" data-scene="wuxia">🏯 古城山谷<small>武俠冒險風格</small></button><button class="choice" data-scene="zombie">🧟 廢棄迷宮<small>殭屍探索風格</small></button>
 </div><p class="muted">場景會決定推薦的玩法；既有頁面尚不能隨意切換地圖素材。</p></section>
 <section class="panel"><h2 class="step"><span class="num">4</span>選擇遊戲玩法</h2><div class="choice-grid three" id="modes"><button class="choice selected" data-mode="city">🎲 3D 城市大富翁<small>擲骰、走格、答題</small></button><button class="choice" data-mode="wuxia">⚔️ 3D 武俠打怪<small>移動、跳躍、劍氣</small></button><button class="choice" data-mode="zombie">🎯 3D 殭屍戰場<small>迷宮、射擊、答題</small></button></div></section>
-<section class="panel"><h2 class="step"><span class="num">5</span>開始遊戲</h2><div id="summary" aria-live="polite"></div><button id="go" type="button">選擇對應遊戲 ▶</button><div id="message" role="status" aria-live="polite"></div><div class="links"><a href="../" target="_blank" rel="noopener">原版《指數劍客》</a><a href="../linear3d/" target="_blank" rel="noopener">3D 武俠雙版本</a><a href="../zombie3d/" target="_blank" rel="noopener">3D 殭屍雙版本</a></div></section>
+<section class="panel"><h2 class="step"><span class="num">5</span>開始遊戲</h2><div id="summary" aria-live="polite"></div><button id="go" type="button">選擇對應遊戲 ▶</button><div id="message" role="status" aria-live="polite"></div><div class="links"><a href="../" target="_blank" rel="noopener">原版《指數劍客》</a><a href="https://stnhhs2003-creator.github.io/fraction-charge/" target="_blank" rel="noopener">分數舊版遊戲</a><a href="https://stnhhs2003-creator.github.io/equation-city-3d/" target="_blank" rel="noopener">方程式城市舊版</a><a href="../linear3d/" target="_blank" rel="noopener">3D 武俠雙版本</a><a href="../zombie3d/" target="_blank" rel="noopener">3D 殭屍雙版本</a></div></section>
 <p class="muted">整合版 v1｜同一入口串接現有遊戲。未完成的單元×場景×玩法組合不會假裝已開放。遊戲需在支援 WebGL 的瀏覽器中執行。</p></main>
 <script>(()=>{"use strict";const state={unit:"exp",hero:"yuan",scene:"city",mode:"city"},names={unit:{exp:"指數",frac:"分數",expr:"一元一次式",eq:"一元一次方程式"},hero:{yuan:"淵衡",zhi:"芷言"},scene:{city:"城市街道",wuxia:"古城山谷",zombie:"廢棄迷宮"},mode:{city:"3D 城市大富翁",wuxia:"3D 武俠打怪",zombie:"3D 殭屍戰場"}};const available={
 "exp:wuxia":"../",
-"frac:wuxia":"https://stnhhs2003-creator.github.io/fraction-charge/",
+
 "expr:wuxia":"../linear3d/expression.html",
 "eq:wuxia":"../linear3d/equation.html",
 "expr:zombie":"../zombie3d/expression.html",
 "eq:zombie":"../zombie3d/equation.html",
-"eq:city":"https://stnhhs2003-creator.github.io/equation-city-3d/"
+
 };const $=x=>document.querySelector(x),sections={unit:"#units",hero:"#heroes",scene:"#scenes",mode:"#modes"};
 function update(){const destination=available[state.unit+":"+state.mode];const matching=state.scene===state.mode;$("#summary").textContent=names.unit[state.unit]+" → "+names.hero[state.hero]+" → "+names.scene[state.scene]+" → "+names.mode[state.mode];$("#go").disabled=!destination||!matching;$("#go").textContent=!matching?"場景與玩法不相符":destination?"開始遊戲 ▶":"此組合尚未開放";$("#message").textContent=!matching?"請選相對應的場景與玩法（城市／古城／迷宮）。":!destination?"此單元的這種玩法尚未完成，請選其他玩法。":"目前連結既有版本；主角及場景外觀不一定會同步。";for(const [kind,sel] of Object.entries(sections)){document.querySelectorAll(sel+" button").forEach(b=>b.classList.toggle("selected",b.dataset[kind]===state[kind]))}}
 for(const [kind,sel] of Object.entries(sections)){document.querySelectorAll(sel+" button").forEach(b=>b.addEventListener("click",()=>{state[kind]=b.dataset[kind];if(kind==="scene")state.mode=state.scene;if(kind==="mode")state.scene=state.mode;update()}))}
