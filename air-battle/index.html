@@ -592,13 +592,23 @@ function background(t){
 }
 
 // Image asset registry. Optional art never blocks startup or input.
-const ART={players:["player-island","player-orbital","player-city"],bosses:["boss-island","boss-orbital","boss-city"],enemies:["enemy-scout","enemy-speed","enemy-bomber","enemy-elite"],cards:["card-island","card-orbital","card-city"],bullets:"bullets-player",enemyBullets:"bullets-enemy",powerups:"powerups",explosion:"explosion",space:"background-space"};
+const ART={players:["player-island-clear-v2","player-orbital-clear-v2","player-city-clear-v2"],bosses:["boss-island","boss-orbital","boss-city"],enemies:["enemy-scout","enemy-speed","enemy-bomber","enemy-elite"],cards:["card-island","card-orbital","card-city"],bullets:"bullets-player",enemyBullets:"bullets-enemy",powerups:"powerups",explosion:"explosion",space:"background-space"};
 const SPRITES={};let missingAssets=0;
 function asset(name){if(!SPRITES[name]){const img=new Image();SPRITES[name]={img,ready:false};img.onload=()=>SPRITES[name].ready=true;img.onerror=()=>{SPRITES[name].ready=false;missingAssets++};img.src="assets/"+name+".webp?v=transparent-56361b3"}return SPRITES[name].ready?SPRITES[name].img:null}
 function drawAtlas(name,cell,cols,rows,x,y,w,h){const img=asset(name);if(!img)return false;const sw=img.width/cols,sh=img.height/rows;ctx.drawImage(img,(cell%cols)*sw,Math.floor(cell/cols)*sh,sw,sh,x-w/2,y-h/2,w,h);return true}
 let explosions=[];
 function sprite(name,x,y,w,h,rotate=0){
  const img=asset(name);if(!img)return false;
+ // Guard against opaque black backgrounds: if the image corner is opaque,
+ // reject it and use the original vector aircraft instead.
+ if(name.includes("-clear-v2")){
+  const record=SPRITES[name];
+  if(record.alphaChecked!==true){
+   record.alphaChecked=true;
+   try{const test=document.createElement("canvas");test.width=2;test.height=2;const g=test.getContext("2d",{willReadFrequently:true});g.drawImage(img,0,0,2,2);const a=g.getImageData(0,0,1,1).data[3];record.hasAlpha=a<32}catch(e){record.hasAlpha=true}
+  }
+  if(record.hasAlpha===false)return false;
+ }
  ctx.save();ctx.translate(x,y);ctx.rotate(rotate);ctx.drawImage(img,-w/2,-h/2,w,h);ctx.restore();return true
 }
 for(const names of [ART.players,ART.bosses,ART.enemies,ART.cards,[ART.bullets,ART.enemyBullets,ART.powerups,ART.explosion,ART.space]])for(const n of names)asset(n);
