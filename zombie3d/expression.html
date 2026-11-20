@@ -43,7 +43,7 @@ for(const z of zombies)if(z.alive){box(z.x,z.boss?1.9:1.05,z.z,z.boss?2:1.05,z.b
 const coat=heroStyle==='a'?'#4c9ab6':'#b0a3d2',dark=heroStyle==='a'?'#254e67':'#4c4672';box(px,1.18+py,pz,.75,1.48,.55,coat,facing);box(px,2.15+py,pz,.6,.67,.6,'#ebc8a5',facing);box(px,2.53+py,pz,.7,.3,.68,'#263045',facing);box(px-.5,1.22+py,pz,.28,1.1,.4,dark,facing);box(px+.5,1.22+py,pz,.28,1.1,.4,dark,facing);box(px-.2,.4+py,pz,.28,.8,.43,'#172b3b',facing);box(px+.2,.4+py,pz,.28,.8,.43,'#172b3b',facing);box(px+.42,1.29+py,pz-.6,.19,.18,.96,'#9fb8a7',facing);if(t<shootUntil)box(px+Math.sin(camAngle)*1.5,1.5+py,pz-Math.cos(camAngle)*1.5,.3,.3,1.1,'#ffe7a3',camAngle);
 if(renderedFrames++===0){debug.textContent='WebGL 繪圖已啟動';debug.className='ok'}
  const e=gl.getError();if(e!==gl.NO_ERROR&&renderedFrames<15){debug.textContent='WebGL 回報錯誤碼：'+e;debug.className='fail'}
- }requestAnimationFrame(frame)}
+ }
  addEventListener('error',event=>{warn3D('3D 程式錯誤：'+event.message+'（第 '+event.lineno+' 行）')});
  addEventListener('unhandledrejection',event=>{warn3D('3D 啟動失敗：'+String(event.reason))});
  cv.addEventListener('webglcontextlost',event=>{event.preventDefault();warn3D('3D 繪圖環境中斷。按「重新載入 3D」重試')});
