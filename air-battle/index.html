@@ -77,7 +77,7 @@ function extraQuestions(unit,tier){
     q=makeQuestion("("+n+" 的 "+p+" 次方) 的 "+k+" 次方 = ?",n+" 的 "+z+" 次方",[n+" 的 "+(p+k)+" 次方",n+" 的 "+(z+1)+" 次方",n+" 的 "+(z+k)+" 次方"],"乘方的乘方，指數相乘："+p+"×"+k+"="+z,i)}
   }
   if(unit==="frac"){
-   const d=4+i%9,n=1+i%3;
+   const d=4+i%9,n=1+Math.floor(i/9)%3;
    if(tier===0){q=makeQuestion(n+"/"+d+" + "+(d-n)+"/"+d+" = ?","1",["2",(d-1)+"/"+d,(d+1)+"/"+d],"同分母相加，分子總共 "+d+"，答案 1",i)}
    if(tier===1){q=makeQuestion("1 + "+n+"/"+d+" = ?", (d+n)+"/"+d,[n+"/"+d,(d+n+1)+"/"+d,(d+n-1)+"/"+d],"把 1 換成 "+d+"/"+d+"，得 "+(d+n)+"/"+d,i)}
    if(tier===2){const k=2+i%5,z=d*k;
