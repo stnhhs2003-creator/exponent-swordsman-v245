@@ -677,5 +677,5 @@ function draw(t){
 
 }
 let fatalError=false;function reportGameError(e){fatalError=true;const el=$("#game-error");el.textContent="遊戲發生錯誤："+(e&&e.message?e.message:String(e))+"。請重新整理頁面，若持續出現請截圖回報。";el.style.display="block";console.error(e)}
-function loop(t){if(fatalError)return;requestAnimationFrame(loop);try{let dt=Math.min(.045,(t-last)/1000||.016);last=t;step(dt);draw(t)}catch(e){reportGameError(e)}}try{setHUD();requestAnimationFrame(loop)}catch(e){reportGameError(e)}
+function loop(t){if(fatalError)return;requestAnimationFrame(loop);try{let dt=Math.min(.045,(t-last)/1000||.016);last=t;step(dt);draw(t)}catch(e){reportGameError(e)}}try{const p=new URLSearchParams(location.search);const picked=[...document.querySelectorAll("[data-unit]")].find(b=>b.dataset.unit===p.get("unit"));if(picked)picked.click();if(p.get("mode")==="screen"||p.get("mode")==="phone"){const box=$("#bigScreen");box.checked=p.get("mode")==="screen";box.dispatchEvent(new Event("change"));}setHUD();requestAnimationFrame(loop)}catch(e){reportGameError(e)}
 })();</script></body></html>
