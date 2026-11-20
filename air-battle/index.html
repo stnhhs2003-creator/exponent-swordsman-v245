@@ -127,7 +127,13 @@ html,body{overscroll-behavior:none}
  #start{min-height:52px;min-width:160px}
 }
 @media(max-height:500px){#panel.launch-panel{max-height:calc(100dvh - 8px)}.launch-buttons{bottom:-5px;padding:5px 3px}}
-#progress{position:absolute;z-index:2;top:calc(max(5px,env(safe-area-inset-top)) + 41px);left:12px;right:12px;width:auto;height:4px;margin:0;background:#122b46af;border:0;pointer-events:none}#bar{height:100%;background:linear-gradient(90deg,#58d8ff,#fbd37e);width:0%;transition:width .24s}body.bigscreen #progress{top:calc(max(5px,env(safe-area-inset-top)) + 51px)}</style></head><body><canvas id="game"></canvas><div id="hud"><span id="unitName">數學空戰</span><span id="stats">❤️3　⭐0　關卡1/3</span></div><div id="progress" aria-label="題目進度"><div id="bar"></div></div><div id="prompt">清除敵機後，射擊正確答案！</div><div id="message"></div><div id="sceneName">01｜天空海域</div><div id="bossHud">👹 最終魔王<div id="bossBar"><div id="bossLife"></div></div></div>
+#progress{position:absolute;z-index:2;top:calc(max(5px,env(safe-area-inset-top)) + 41px);left:12px;right:12px;width:auto;height:4px;margin:0;background:#122b46af;border:0;pointer-events:none}#bar{height:100%;background:linear-gradient(90deg,#58d8ff,#fbd37e);width:0%;transition:width .24s}body.bigscreen #progress{top:calc(max(5px,env(safe-area-inset-top)) + 51px)}
+/* Real sprite assets: renders actual images when deployed; safe vector fallback otherwise. */
+.world-art .card-photo{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;z-index:4;pointer-events:none}
+.world-art .card-photo:not(.loaded){display:none}
+.world-art .card-photo.loaded~.theme-illustration{visibility:hidden}
+.world-art{background-color:#10233f}
+</style></head><body><canvas id="game"></canvas><div id="hud"><span id="unitName">數學空戰</span><span id="stats">❤️3　⭐0　關卡1/3</span></div><div id="progress" aria-label="題目進度"><div id="bar"></div></div><div id="prompt">清除敵機後，射擊正確答案！</div><div id="message"></div><div id="sceneName">01｜天空海域</div><div id="bossHud">👹 最終魔王<div id="bossBar"><div id="bossLife"></div></div></div>
 <div id="pad"><div id="movement"><i></i><button data-key="up">▲</button><i></i><button data-key="left">◀</button><button data-key="down">▼</button><button data-key="right">▶</button></div><div id="actions"><button id="special" data-act="special">⚡ 必殺</button><button id="fire" data-key="fire">🔥<span>掃射</span></button></div></div><div id="settingsWrap"><button id="settingsToggle" aria-label="開啟遊戲設定" aria-expanded="false">⚙</button><div id="settingsPanel" hidden><button data-act="pause">⏸ 暫停</button><button data-act="sound" id="soundButton">🔊 聲音</button><div id="mixer"><label>🎵 配樂 <input id="musicVolume" type="range" min="0" max="100" value="14"></label><label>💥 特效 <input id="effectVolume" type="range" min="0" max="100" value="56"></label></div></div></div><div id="game-error" role="alert"></div><div id="overlay"><div id="panel" class="launch-panel">
 <div class="launch-head"><div class="launch-kicker">✦ ARCADE MATH MISSION ✦</div><h1 id="title">✈️ 數學空戰</h1><div class="launch-sub">三大戰場 · 四個數學單元 · 全班合作闖關</div></div>
 <div class="selection-label">01　選擇戰場主題</div>
@@ -352,7 +358,7 @@ function bossHitAnswer(i){
 function end(won){playing=false;state="done";held.clear();$("#overlay").style.display="flex";$("#title").textContent=won?"🏆 全員勝利！魔王已擊敗":"💥 挑戰失敗";$("#start").textContent="重新挑戰 ▶";$("#prompt").textContent=won?"成功擊敗最終 Boss！":"請再挑戰一次";setHUD()}
 function damage(){if(invincible>0)return;life--;invincible=2;beep(130,.18,"sawtooth");say("戰機受到攻擊！生命 -1");if(life<=0)end(false);setHUD()}
 function step(dt){music(dt);if(state==="answer"||state==="bossAnswer")answerReveal=Math.min(1,answerReveal+dt/3.8);stageFlash=Math.max(0,stageFlash-dt);screenShake=Math.max(0,screenShake-dt);for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.984;p.vy*=.984;p.life-=dt}particles=particles.filter(p=>p.life>0);sceneTick+=dt;if(state==="celebrate"){celebrateTimer-=dt;if(celebrateTimer<=0){const next=celebrateNext;celebrateNext="";if(next==="round")advanceRound();else if(next==="bossNext")bossQuestion();else if(next==="bossAttack"){state="boss";cards=[];enemyBullets=[];bullets=[];spawnTick=0;$("#prompt").textContent="👹 連答5題成功｜Boss護盾解除，全力掃射！";say("連答5題！魔王護盾解除！")}}return}if(state==="menu"||state==="paused"||state==="feedback"||state==="bossFeedback"||state==="done")return;const v=.6*dt;plane.x=clamp(plane.x+((held.has("right")?1:0)-(held.has("left")?1:0))*v,.07,.93);plane.y=clamp(plane.y+((held.has("down")?1:0)-(held.has("up")?1:0))*v,.25,.86);autoFire=Math.max(0,autoFire-dt);invincible=Math.max(0,invincible-dt);if(held.has("fire"))fire();
-if(state==="wave"){spawnTick+=dt;if(spawnTick>(stage===0?.85:.68)&&kills+enemies.length<needEnemies){spawnTick=0;enemies.push({x:rand(.08,.92),y:-.06,hp:stage===0?1:2,phase:rand(0,6),shot:0})}
+if(state==="wave"){spawnTick+=dt;if(spawnTick>(stage===0?.85:.68)&&kills+enemies.length<needEnemies){spawnTick=0;enemies.push({x:rand(.08,.92),y:-.06,hp:stage===0?1:2,phase:rand(0,6),shot:0,type:(Math.random()*Math.min(4,stage===0?2:4))|0})}
 for(const e of enemies){e.phase+=dt*3;e.y+=dt*(.085+stage*.025);e.x=clamp(e.x+Math.sin(e.phase)*dt*.09,.06,.94);e.shot+=dt;if(e.shot>(stage===0?4:2.8)){e.shot=0;if(enemyBullets.length<4)enemyBullets.push({x:e.x,y:e.y,vy:stage===0?.18:.24})}if(e.y>.96){e.hp=0;score=Math.max(0,score-10);say("敵機逃走 −10 分（不扣生命）")}}enemies=enemies.filter(e=>e.hp>0);if(kills>=needEnemies){transition();return}}
 if(state==="answer"||state==="bossAnswer"){if(answerReveal>=1)answerTimer=Math.max(0,answerTimer-dt);enemyBullets=[];for(const c of cards){c.y=((H<380?Math.max(148,H*.46):Math.max(185,Math.min(H*.35,H-175)))+43)/H}}
 if(state==="boss"){boss.t+=dt;boss.x=.5+Math.sin(boss.t*1.2)*.24;boss.y=.17;spawnTick+=dt;if(spawnTick>1.45){spawnTick=0;if(enemyBullets.length<5)enemyBullets.push({x:boss.x,y:.28,vy:.23})}if(boss.shield&&boss.t>2){bossQuestion();return}}
@@ -372,6 +378,8 @@ function island(x,y,size){ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx
  polygon([[-24,1],[-5,-33],[12,-23],[31,3]],"#3a6559");polygon([[-5,-33],[12,-23],[4,-10]],"#79a085");ctx.restore()}
 function background(t){
  let phase=gameTheme;
+ if(phase===1){const img=asset(ART.space);if(img){const h=W*img.height/img.width;const offset=(sceneTick*55)%h;for(let y=offset-h;y<H;y+=h)ctx.drawImage(img,0,y,W,h);return}}
+
  if(phase===0){
   let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#05466c");g.addColorStop(.55,"#087c9d");g.addColorStop(1,"#0c507b");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   for(let i=0;i<23;i++){let x=(i*137+65)%W,y=(i*183+sceneTick*95)%(H+120)-60;ctx.strokeStyle=i%3?"#79c4d2":"#d3eef3";ctx.globalAlpha=.12+i%4*.035;ctx.beginPath();ctx.moveTo(x-24,y);ctx.lineTo(x+33,y);ctx.stroke()}ctx.globalAlpha=1;
@@ -391,7 +399,20 @@ function background(t){
   for(let i=0;i<5;i++){ctx.fillStyle="#725375";ctx.fillRect(-W*.15,-75+i*55,W*.3,9)}ctx.restore();
  }
 }
-function ship(x,y,kind="hero",s=1,t=0){
+
+// Image asset registry. Optional art never blocks startup or input.
+const ART={players:["player-island","player-orbital","player-city"],bosses:["boss-island","boss-orbital","boss-city"],enemies:["enemy-scout","enemy-speed","enemy-bomber","enemy-elite"],cards:["card-island","card-orbital","card-city"],bullets:"bullets-player",enemyBullets:"bullets-enemy",powerups:"powerups",explosion:"explosion",space:"background-space"};
+const SPRITES={};let missingAssets=0;
+function asset(name){if(!SPRITES[name]){const img=new Image();SPRITES[name]={img,ready:false};img.onload=()=>SPRITES[name].ready=true;img.onerror=()=>{SPRITES[name].ready=false;missingAssets++};img.src="assets/"+name+".webp"}return SPRITES[name].ready?SPRITES[name].img:null}
+function sprite(name,x,y,w,h,rotate=0){
+ const img=asset(name);if(!img)return false;
+ ctx.save();ctx.translate(x,y);ctx.rotate(rotate);ctx.drawImage(img,-w/2,-h/2,w,h);ctx.restore();return true
+}
+for(const names of [ART.players,ART.bosses,ART.enemies,ART.cards,[ART.bullets,ART.enemyBullets,ART.powerups,ART.explosion,ART.space]])for(const n of names)asset(n);
+for(let i=0;i<3;i++){const target=document.querySelector('[data-theme="'+i+'"] .world-art');if(!target)continue;const img=new Image();img.className="card-photo";img.alt="";img.onload=()=>img.classList.add("loaded");img.src="assets/"+ART.cards[i]+".webp";target.appendChild(img)}
+function ship(x,y,kind="hero",s=1,t=0,enemyType=0){
+ const name=kind==="hero"?ART.players[gameTheme]:ART.enemies[enemyType%4],width=(kind==="hero"?91:80)*s,height=(kind==="hero"?110:91)*s;
+ if(sprite(name,x,y,width,height,kind==="hero"?0:Math.PI))return;
  ctx.save();ctx.translate(x,y);ctx.scale(s,s);if(kind==="enemy")ctx.rotate(Math.PI);
  const hero=kind==="hero",pal=[["#1964ac","#358adb","#f5ca65"],["#6332bb","#a36cf2","#eac9ff"],["#a53748","#e85966","#ffd6d6"]][gameTheme],main=hero?pal[0]:"#88394e",wing=hero?pal[1]:"#b65d65",gold=hero?pal[2]:"#efab72";
  ctx.shadowColor=hero?"#66e4ff":"#ff7795";ctx.shadowBlur=12;
@@ -406,6 +427,8 @@ function ship(x,y,kind="hero",s=1,t=0){
  ctx.restore()
 }
 function bossShip(x,y,t){
+ if(sprite(ART.bosses[gameTheme],x,y,Math.min(W*.55,254),Math.min(H*.42,255),Math.PI)){
+  if(boss?.shield){ctx.save();ctx.strokeStyle="#a8f5ff";ctx.lineWidth=5;ctx.shadowBlur=16;ctx.shadowColor="#80efff";ctx.beginPath();ctx.ellipse(x,y,Math.min(W*.3,146),Math.min(H*.24,143),0,0,Math.PI*2);ctx.stroke();ctx.restore()}return}
  ctx.save();ctx.translate(x,y);const pulse=Math.sin(t*.002)*5;ctx.shadowColor="#f25fbc";ctx.shadowBlur=20;
  polygon([[0,-68],[40,-55],[75,-24],[112,-3],[119,45],[78,59],[41,48],[22,78],[-22,78],[-41,48],[-78,59],[-119,45],[-112,-3],[-75,-24],[-40,-55]],"#642c6e","#d96fc0",4);
  ctx.shadowBlur=0;polygon([[0,-65],[31,-40],[31,45],[0,80],[-31,45],[-31,-40]],"#342959","#968ada",3);
@@ -416,7 +439,7 @@ function bossShip(x,y,t){
 function draw(t){
  ctx.setTransform(scale,0,0,scale,0,0);ctx.save();if(screenShake>0){ctx.translate(rand(-1,1)*screenShake*8,rand(-1,1)*screenShake*8)}background(t);
  if(state==="boss"||state==="bossAnswer"||state==="bossFeedback"||(state==="celebrate"&&celebrateNext.startsWith("boss")))bossShip((boss?.x??.5)*W,(boss?.y??.2)*H,t);
- for(const e of enemies)ship(e.x*W,e.y*H,"enemy",.64,t);
+ for(const e of enemies)ship(e.x*W,e.y*H,"enemy",.64,t,e.type||0);
 
  if(state==="answer"||state==="bossAnswer"){
   const r=Math.min(1,answerReveal),top=(H<380?Math.max(148,H*.46):Math.max(185,Math.min(H*.35,H-175))),cardY=top+43;
