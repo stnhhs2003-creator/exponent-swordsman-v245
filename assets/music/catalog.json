@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "reviewed": "2026-11-21",
   "provider": "Larch",
   "licenseSources": [
@@ -55,6 +55,22 @@
       "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224611601_sky-island-journey.mp3",
       "licenseStatus": "individual-pack-license-pending",
       "deployment": "catalog-only"
+    },
+    {
+      "id": "dragon",
+      "title": "Dragon King",
+      "pack": "larch-rpg-kingdom",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/larch-rpg-kingdom/music/1790630754885_dragon-king.mp3",
+      "licenseStatus": "individual-pack-license-pending",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "slime",
+      "title": "Slime Battle",
+      "pack": "chibi-adventure",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224614208_slime-battle.mp3",
+      "licenseStatus": "individual-pack-license-pending",
+      "deployment": "catalog-only"
     }
   ],
   "assignments": [
@@ -63,13 +79,14 @@
       "game": "數學空戰",
       "normal": "sky",
       "alternate": "aurora",
-      "status": "planned"
+      "status": "planned",
+      "bossCandidate": "dragon"
     },
     {
       "number": "02",
       "game": "指數劍客",
       "normal": "oath",
-      "alternate": "aurora",
+      "alternate": "dragon",
       "status": "planned"
     },
     {
@@ -83,7 +100,7 @@
       "number": "04",
       "game": "數學格鬥競技場",
       "normal": "oath",
-      "alternate": "aurora",
+      "alternate": "dragon",
       "status": "planned"
     },
     {
@@ -104,7 +121,7 @@
       "number": "07",
       "game": "式靈大冒險",
       "normal": "sky",
-      "alternate": "oath",
+      "alternate": "slime",
       "status": "planned"
     },
     {
