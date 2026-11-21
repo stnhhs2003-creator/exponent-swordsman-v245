@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "reviewed": "2026-11-21",
   "provider": "Larch",
   "licenseSources": [
@@ -80,7 +80,10 @@
       "normal": "sky",
       "alternate": "aurora",
       "status": "planned",
-      "bossCandidate": "dragon"
+      "bossCandidate": "dragon",
+      "originalNormal": "original-sky",
+      "originalBoss": "original-dragon",
+      "originalStatus": "integrated"
     },
     {
       "number": "02",
@@ -145,5 +148,23 @@
     "fadeSeconds": 1.2,
     "userGestureRequired": true,
     "keepExistingFallback": true
-  }
+  },
+  "originalTracks": [
+    {
+      "id": "original-sky",
+      "title": "蒼穹遠征",
+      "bpm": 136,
+      "source": "assets/music/original-scores.json",
+      "format": "procedural score",
+      "deployment": "air-battle integrated"
+    },
+    {
+      "id": "original-dragon",
+      "title": "龍皇決戰",
+      "bpm": 160,
+      "source": "assets/music/original-scores.json",
+      "format": "procedural score",
+      "deployment": "air-battle integrated"
+    }
+  ]
 }
