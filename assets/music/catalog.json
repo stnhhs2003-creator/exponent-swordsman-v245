@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "reviewed": "2026-11-21",
+  "provider": "Larch",
+  "licenseSources": [
+    "https://larch.ink/",
+    "https://larch.ink/wiki/faq-plans-saving-copyright"
+  ],
+  "policy": "Official first-party packs permitted in finished games across platforms, no standalone redistribution. Verify individual marketplace license and delivery permission before embedding or hotlinking. No raw MP3 redistribution. Titles-based assignments, not auditioned.",
+  "tracks": [
+    {
+      "id": "aurora",
+      "title": "Aurora at the Last Outpost",
+      "pack": "korean-webtoon-ensemble",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134816004_10-aurora-at-the-last-outpost.mp3",
+      "licenseStatus": "official-pack-general-license-confirmed; individual track not independently verified",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "oath",
+      "title": "Oath Under White Banners",
+      "pack": "korean-webtoon-ensemble",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134813769_09-oath-under-white-banners.mp3",
+      "licenseStatus": "official-pack-general-license-confirmed; individual track not independently verified",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "violet",
+      "title": "Violet Thread Between Us",
+      "pack": "korean-webtoon-ensemble",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134798472_03-violet-thread-between-us.mp3",
+      "licenseStatus": "official-pack-general-license-confirmed; individual track not independently verified",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "rain",
+      "title": "Rain on the Evidence Board",
+      "pack": "korean-webtoon-ensemble",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134804054_05-rain-on-the-evidence-board.mp3",
+      "licenseStatus": "official-pack-general-license-confirmed; individual track not independently verified",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "forest",
+      "title": "Forest Stroll",
+      "pack": "chibi-adventure",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224601911_forest-stroll.mp3",
+      "licenseStatus": "individual-pack-license-pending",
+      "deployment": "catalog-only"
+    },
+    {
+      "id": "sky",
+      "title": "Sky Island Journey",
+      "pack": "chibi-adventure",
+      "source": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224611601_sky-island-journey.mp3",
+      "licenseStatus": "individual-pack-license-pending",
+      "deployment": "catalog-only"
+    }
+  ],
+  "assignments": [
+    {
+      "number": "01",
+      "game": "數學空戰",
+      "normal": "sky",
+      "alternate": "aurora",
+      "status": "planned"
+    },
+    {
+      "number": "02",
+      "game": "指數劍客",
+      "normal": "oath",
+      "alternate": "aurora",
+      "status": "planned"
+    },
+    {
+      "number": "03",
+      "game": "螺絲戰機",
+      "normal": "aurora",
+      "alternate": "oath",
+      "status": "planned"
+    },
+    {
+      "number": "04",
+      "game": "數學格鬥競技場",
+      "normal": "oath",
+      "alternate": "aurora",
+      "status": "planned"
+    },
+    {
+      "number": "05",
+      "game": "大富翁",
+      "normal": "forest",
+      "alternate": null,
+      "status": "planned"
+    },
+    {
+      "number": "06",
+      "game": "口袋工坊",
+      "normal": "forest",
+      "alternate": "violet",
+      "status": "planned"
+    },
+    {
+      "number": "07",
+      "game": "式靈大冒險",
+      "normal": "sky",
+      "alternate": "oath",
+      "status": "planned"
+    },
+    {
+      "number": "08",
+      "game": "古堡殘響 3D",
+      "normal": "rain",
+      "alternate": "aurora",
+      "status": "planned"
+    },
+    {
+      "number": "10",
+      "game": "數學城市大富翁",
+      "normal": "forest",
+      "alternate": "sky",
+      "status": "planned"
+    }
+  ],
+  "audioDefaults": {
+    "musicVolume": 0.18,
+    "loop": true,
+    "fadeSeconds": 1.2,
+    "userGestureRequired": true,
+    "keepExistingFallback": true
+  }
+}
