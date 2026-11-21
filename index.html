@@ -329,7 +329,26 @@ function applyAudioMix(){
  sfxBus.gain.setTargetAtTime(sfxVolume*.85,aCtx.currentTime,.06);
 }
 function sound(kind){if(muted)return;try{aCtx=aCtx||new(window.AudioContext||window.webkitAudioContext);if(aCtx.state==='suspended')aCtx.resume();ensureAudioMix();const now=aCtx.currentTime;let f=180,d=.1,wave='triangle',gain=.09;if(kind==='slash'){f=310;d=.11;wave='sawtooth'}if(kind==='hit'){f=110;d=.18;gain=.18;wave='sawtooth'}if(kind==='ok'){f=660;d=.22;gain=.15}if(kind==='bad'){f=90;d=.4;gain=.19;wave='sawtooth'}if(kind==='ult'){f=140;d=.48;gain=.2;wave='sawtooth'}if(kind==='jump'){f=300;d=.11}if(kind==='hurt'){f=80;d=.3;gain=.17}if(kind==='beam'){f=470;d=.16}if(kind==='boss'){f=70;d=.55;gain=.15}if(kind==='death'){f=210;d=.65;gain=.18;wave='sawtooth'}if(kind==='revive'){f=480;d=.27;gain=.12}let o=aCtx.createOscillator(),g=aCtx.createGain();o.type=wave;o.frequency.setValueAtTime(f,now);o.frequency.exponentialRampToValueAtTime(Math.max(35,f*(kind==='ok'?1.65:.43)),now+d);g.gain.setValueAtTime(gain,now);g.gain.exponentialRampToValueAtTime(.001,now+d);o.connect(g);g.connect(sfxBus);o.start(now);o.stop(now+d+.02)}catch(e){}}
+const larchTracks=["https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224614208_slime-battle.mp3","https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/larch-rpg-kingdom/music/1790630749185_battle.mp3","https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/larch-rpg-kingdom/music/1790630754885_dragon-king.mp3","https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224599333_demon-lord-castle.mp3"];
+let larchAudio=null,larchTrack=-1,larchFailed=false,larchPending=false,larchRetryAt=0;
+function syncLarchMusic(){
+ if(!larchAudio)return false;
+ const active=!muted&&musicVolume>0&&['play','impact'].includes(phase)&&!document.hidden;
+ if(!active){larchAudio.pause();return false}
+ const wanted=stage===2?(bossCombo>=4?3:2):stage===1?1:0;
+ if(larchTrack!==wanted){larchTrack=wanted;larchFailed=false;larchPending=false;larchAudio.src=larchTracks[wanted];larchAudio.load()}
+ if(larchFailed)return false;
+ larchAudio.volume=Math.min(1,musicVolume*.8);
+ if(larchAudio.paused&&!larchPending&&performance.now()>larchRetryAt){larchPending=true;const track=larchTrack;larchAudio.play().catch(()=>{if(track===larchTrack)larchRetryAt=performance.now()+1500}).finally(()=>{if(track===larchTrack)larchPending=false})}
+ return !larchAudio.paused&&larchAudio.readyState>=2;
+}
+function initLarchMusic(){
+ if(!larchAudio){larchAudio=new Audio();larchAudio.loop=true;larchAudio.preload='auto';larchAudio.addEventListener('error',()=>{larchFailed=true});larchAudio.src=larchTracks[0];larchTrack=0}
+ if(phase==='menu'&&larchAudio.paused&&!larchPending){larchAudio.volume=0;larchPending=true;larchAudio.play().catch(()=>{}).finally(()=>{larchPending=false;if(phase==='menu')larchAudio.pause()})}
+ else syncLarchMusic();
+}
 function pumpMusic(){
+ if(syncLarchMusic()){nextMusicAt=0;return}
  if(muted||!['play','impact'].includes(phase)||musicVolume<=0||!aCtx||aCtx.state!=='running'){nextMusicAt=0;return}
  const now=aCtx.currentTime,beat=HP<25?.19:stage===2?.205:stage===1?.255:.30;
  if(nextMusicAt<now||nextMusicAt>now+1)nextMusicAt=now+.025;
@@ -339,7 +358,7 @@ function music(dt){pumpMusic();updateMusicMeter(performance.now()/1000)}
 function updateMusicMeter(now){
  if(now<audioMeterAt)return;audioMeterAt=now+.15;
  const status=$('musicStatus'),meter=$('musicLevel');if(!status||!meter)return;
- let rms=0;if(musicAnalyser&&musicSamples&&aCtx&&aCtx.state==='running'){musicAnalyser.getFloatTimeDomainData(musicSamples);for(const n of musicSamples)rms+=n*n;rms=Math.sqrt(rms/musicSamples.length)}
+ let rms=0;if(larchAudio&&!larchAudio.paused&&larchAudio.readyState>=2){rms=.12*musicVolume}else if(musicAnalyser&&musicSamples&&aCtx&&aCtx.state==='running'){musicAnalyser.getFloatTimeDomainData(musicSamples);for(const n of musicSamples)rms+=n*n;rms=Math.sqrt(rms/musicSamples.length)}
  meter.value=Math.min(100,Math.round(rms*400));
  status.textContent=musicVolume===0?'♫ 配樂音量為零':!['play','impact'].includes(phase)?'♫ 等待開始':!aCtx||aCtx.state!=='running'?'♫ 點音量按鈕啟動':rms>.0001?'♫ 配樂播放中':'♫ 配樂準備中';
 }
@@ -383,6 +402,7 @@ function unlockAudio(){
  if(aCtx.state==='suspended'||aCtx.state==='interrupted'){const p=aCtx.resume();if(p&&p.catch)p.catch(()=>{})}
  const buffer=aCtx.createBuffer(1,1,aCtx.sampleRate),source=aCtx.createBufferSource();source.buffer=buffer;source.connect(aCtx.destination);source.start(0);
  musicTimer=0;nextMusicAt=0;
+ initLarchMusic();
  }catch(e){}
 }
 
