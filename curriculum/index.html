@@ -311,16 +311,16 @@ const WORLDS=[
  {id:'forest',icon:'🎋',name:'竹影劍谷',short:'翠竹晨霧・蒼山劍影',sky:['#18312f','#728e7f'],accent:'#b2d5b3',mob:['art-tree-idle','art-ghost-idle','art-mage-idle','art-armor-idle']},
  {id:'fire',icon:'🔥',name:'天火神殿',short:'熔岩赤月・終局試煉',sky:['#321529','#b64b3e'],accent:'#f6a470',mob:['art-lava-idle','art-armor-idle','art-mage-idle','art-ghost-idle']}
 ];
-const CLASSROOM_BALANCE={targetWinRate:.30,version:'fair-dodge-v2'};
+const CLASSROOM_BALANCE={targetWinRate:.10,version:'boss-skill-v3'};
 let runOpen=false,runStats={finished:0,wins:0};
-try{const saved=JSON.parse(localStorage.getItem('v245-fair-dodge-v2')||'null');if(saved&&Number.isFinite(saved.finished)&&Number.isFinite(saved.wins))runStats=saved}catch(_){}
+try{const saved=JSON.parse(localStorage.getItem('v245-boss-skill-v3')||'null');if(saved&&Number.isFinite(saved.finished)&&Number.isFinite(saved.wins))runStats=saved}catch(_){}
 function recordRun(won){
  if(!runOpen)return;runOpen=false;runStats.finished++;if(won)runStats.wins++;
- try{localStorage.setItem('v245-fair-dodge-v2',JSON.stringify(runStats))}catch(_){}
+ try{localStorage.setItem('v245-boss-skill-v3',JSON.stringify(runStats))}catch(_){}
 }
 function runStatsMarkup(){
  const rate=runStats.finished?Math.round(runStats.wins/runStats.finished*100)+'%':'待試玩';
- return '<p class="desc">本機完成 '+runStats.finished+' 次挑戰｜通關率 '+rate+'｜設計目標約 30%（需班級試玩校準）</p>';
+ return '<p class="desc">本機完成 '+runStats.finished+' 次挑戰｜通關率 '+rate+'｜設計目標約 10%（需班級試玩校準）</p>';
 }
 function world(){return WORLDS.find(w=>w.id===theme)||WORLDS[0]}
 const srcAsset=(key)=>'assets/'+key+'.webp';let inlineAssets=null;
@@ -490,7 +490,7 @@ else if(type===2){a=rand(2,4);b=rand(2,3);answer=a*b;q=`(${base}<sup>${a}</sup>)
 else if(type===3){a=rand(3,7);b=rand(2,4);const c=rand(1,a+b-1);answer=a+b-c;q=`${base}<sup>${a}</sup> × ${base}<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b+c,a+b,a-b+c,a+b-c+1,Math.abs(a-b-c)]}
 else{a=rand(2,5);b=rand(2,3);const c=rand(1,a*b-1);answer=a*b-c;q=`(${base}<sup>${a}</sup>)<sup>${b}</sup> ÷ ${base}<sup>${c}</sup> = ?`;wrong=[a+b-c,a*b+c,a*b-c+1,a*b-c-1,a*(b-c)]}
 q=q.replace('= ?',`= ${base}<sup>□</sup>`);let nums=[answer];shuffle(wrong);for(const n of wrong){if(n>=0&&!nums.includes(n))nums.push(n);if(nums.length===4)break}for(let n=0;nums.length<4;n++)if(!nums.includes(n))nums.push(n);let choices=shuffle(nums.map(n=>({html:String(n),n})));let correct=choices.findIndex(c=>c.n===answer);let explain=type===0?'同底數相乘，指數相加。':type===1?'同底數相除，指數相減。':type===2?'冪的乘方，指數相乘。':type===3?'同底數乘除混合：相乘的指數相加，再減去除式的指數。':'先算冪的乘方（指數相乘），再減去除式的指數。';return {q,choices,correct,explain,base,answer};}
-function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(372,392),y:PLATFORMS[0].y,level:1,lo:365,hi:410},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'answer-box',vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+3.2;nextGroundShotAt=Math.max(nextGroundShotAt,questionStart+2.8);updateHUD()};let questionStart=0;
+function nextQuestion(){question=makeQ();let positions=[{x:rand(120,160),y:G,level:0,lo:105,hi:180},{x:rand(372,392),y:PLATFORMS[0].y,level:1,lo:365,hi:410},{x:rand(930,980),y:G,level:0,lo:910,hi:1000},{x:rand(655,695),y:PLATFORMS[1].y,level:1,lo:640,hi:710}];shuffle(positions);targets=positions.map((p,i)=>({...p,idx:i,letter:'ABCD'[i],alive:true,hitGlow:0,kind:'answer-box',vx:rand(17,28)*(Math.random()<.5?-1:1),roamUntil:0}));bullets=[];energy=Math.max(25,energy);questionStart=performance.now()/1000;fireAt=questionStart+3.2;if(stage===2&&bossActor)bossActor.weaponAt=questionStart+Math.max(1.7,3.2-bossCombo*.35);nextGroundShotAt=Math.max(nextGroundShotAt,questionStart+2.8);updateHUD()};let questionStart=0;
 function showDamageFeedback(amount){
  const now=performance.now()/1000;
  damagePopups.push({x:player.x,y:player.y-115,time:now,amount});
@@ -506,7 +506,7 @@ function drawDamageFeedback(now){
  ctx.restore();
 }
 function updateHUD(){let str=stage===2?`${bossCombo<2?'①鎮魂鐵衛':bossCombo<4?'②炎刃魔將':'③虛空劍尊'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=UNITS.find(v=>v[0]===unit)[1]+'｜'+str;$('q').innerHTML=question.q;$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / 10`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
-function die(reason,wrong=false){answerStreak=0;stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：檢查本單元計算規則。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;nextPlatformSpawnAt=fireAt+rand(50,100)/10;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
+function die(reason,wrong=false){answerStreak=0;stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0;bossActor.weaponAt=bossActor.born+3.5;bossActor.wave=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：檢查本單元計算規則。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;nextPlatformSpawnAt=fireAt+rand(50,100)/10;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
 function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>請依上面的解題說明檢查。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
 function solved(){sound('ok');answerStreak++;banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);if(answerStreak>=3&&answerStreak%3===0){fx.push({type:'pix-combo',x:player?.x||W*.5,y:(player?.y||G)-118,life:.78,maxLife:.78,col:'#ffe58c',label:`${answerStreak} 連擊`});banner(`✨ ${answerStreak} 連擊！劍氣共鳴`,.85)}energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){if(bossActor)bossActor.hurtUntil=performance.now()/1000+1.15;bossCombo++;if(bossCombo===2||bossCombo===4){if(bossActor){bossActor.form=bossCombo===2?1:2;bossActor.shiftAt=performance.now()/1000+1.15;bossActor.born=performance.now()/1000}banner(bossCombo===2?'🔥 炎刃魔將登場！狂暴突進！':'⚡ 虛空劍尊覺醒！終結劍陣！',2);sound('boss');fx.push({type:'impact',x:884,y:250,life:.9,maxLife:.9,col:bossCombo===2?'#f2a05f':'#b5a8f2',radius:95})}if(bossCombo>=5){phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
 else{qIndex++;if(qIndex>=(10)){phase='transition';const next=stage+1;stopPlayerInput();bullets=[];banner(next===1?'✨ 初階通關！即將進入進階':'🔥 進階通關！魔王即將登場',1.5);setTimeout(()=>{if(phase==='transition')newStage(next,true)},1450);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
@@ -655,7 +655,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  // Shooter patrols along the upper right without obscuring answer tags.
  if(patrolEnemy){if(now>patrolEnemy.changeAt){patrolEnemy.changeAt=now+rand(18,34)/10;patrolEnemy.vx=rand(20,42)*(Math.random()<.5?-1:1)}patrolEnemy.x+=patrolEnemy.vx*dt;if(patrolEnemy.x<1000){patrolEnemy.x=1000;patrolEnemy.vx=Math.abs(patrolEnemy.vx)}if(patrolEnemy.x>1080){patrolEnemy.x=1080;patrolEnemy.vx=-Math.abs(patrolEnemy.vx)}patrolEnemy.y=stage===2?UP-58:UP-47+Math.sin(now*2)*12}
- if(now>fireAt){
+ if(stage!==2&&now>fireAt){
  const pressure=enemyAttackProfile(stage,qIndex,bossCombo);
  fireAt=now+pressure.interval;
  if(bullets.length<pressure.limit&&!bullets.some(b=>b.warning<=0&&Math.abs(b.x-player.x)<275)){
@@ -668,9 +668,24 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  sound('beam');
  }
  }
- if(stage===2&&bossActor){const a=bossActor;if(!Number.isFinite(a.weaponAt))a.weaponAt=now+3;if(now>a.weaponAt&&now-a.born>2.3&&bullets.filter(b=>b.source==='bossWeapon').length<(bossCombo>=4?5:3)){a.weaponAt=now+Math.max(2.6,6.2-bossCombo*.85);a.attackUntil=now+1.4;const x= Math.max(770,875+Math.sin(now*1.8)*18)-45,y=(actionSeq++%2===0)?G-82:Math.max(230,Math.min(G-30,player.y-32)),dir=player.x<x?-1:1;const speeds=a.form===2?[0,-.19,.19]:a.form===1?[0,-.18]:[0];for(const slope of speeds){const v=205+bossCombo*17;bullets.push({x,y,vx:dir*v,vy:slope*v,r:15,life:5,warning:Math.max(.9,1.3-bossCombo*.09),kind:'blade',heavy:false,source:'bossWeapon'})}sound('beam');banner(y===G-82?'⚠ 高空紫雷！蹲下閃避':'⚠ 低空飛劍！跳躍閃避',1.1)}}
+ if(stage===2&&bossActor){
+ const a=bossActor,p=Math.min(4,bossCombo);
+ if(!Number.isFinite(a.weaponAt))a.weaponAt=now+3;
+ if(now>=a.weaponAt&&now-a.born>2.3&&now>=hurtUntil&&!bullets.some(b=>b.source==='bossWeapon'&&(b.warning>0||Math.abs(b.x-player.x)<150))){
+ const lane=player.y<G-10&&supportedPlayer()?player.y:G;
+ const high=(a.wave||0)%2===0;a.wave=(a.wave||0)+1;
+ const dir=player.x<550?-1:1;
+ // Start on the boss side, or at the opposite arena edge when the hero is too close.
+ const x=dir<0?835:Math.max(36,player.x-360);
+ const y=lane-(high?83:29),v=180+26*p,warning=Math.max(1.0,1.4-.1*p);
+ a.weaponAt=now+[5.0,4.4,3.8,3.2,2.65][p];a.attackUntil=now+warning+.25;
+ const actualDir=player.x<x?-1:1;
+ bullets.push({x,y,vx:actualDir*v,vy:0,r:15,life:6,warning,kind:'blade',heavy:false,source:'bossWeapon',lane:high?'high':'low'});
+ sound('beam');banner(high?'⚠ 高空紫雷！按住蹲下':'⚠ 低空飛劍！向上跳躍',warning);
+ }
+ }
  // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
- if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<3)){
+ if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<3)&&!(stage===2&&bullets.some(b=>b.source==='bossWeapon'&&b.warning>0))){
  const nearShot=bullets.some(b=>b.warning<=0&&Math.abs(b.x-player.x)<220);
  if(!nearShot){let dropX=rand(220,960);if(Math.abs(dropX-player.x)<120)dropX=player.x<550?820:280;
  fallingFoe={x:dropX,y:-80,vy:stage===0?90:110,warning:1.3}}
@@ -779,7 +794,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  chasers=chasers.filter(c=>!c.dead);
  for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?18:stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?24+bossCombo*3:stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -961,7 +976,7 @@ if(ultShot){
 }
 for(const b of bullets){
  // Small bullets are plain, easily readable dots with a short direction indicator.
- if(b.source==='bossWeapon'){ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));if(b.warning>0){ctx.strokeStyle='#d6a5ff';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(145,0);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#f3ceff';ctx.beginPath();ctx.arc(0,0,16+4*Math.sin(now*12),0,Math.PI*2);ctx.stroke()}else{ctx.shadowColor='#ae43ff';ctx.shadowBlur=13;ctx.fillStyle='#dbb3ff';ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(-11,-8);ctx.lineTo(-5,0);ctx.lineTo(-11,8);ctx.closePath();ctx.fill();ctx.strokeStyle='#a651ff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-43,0);ctx.stroke()}ctx.restore();continue}
+ if(b.source==='bossWeapon'){if(b.warning>0){ctx.save();ctx.fillStyle=b.lane==='high'?'#bd6cff19':'#ffb65d19';ctx.fillRect(0,b.y-13,W,26);ctx.strokeStyle=b.lane==='high'?'#cf91ff':'#ffcb85';ctx.lineWidth=2;ctx.setLineDash([10,9]);ctx.beginPath();ctx.moveTo(0,b.y);ctx.lineTo(W,b.y);ctx.stroke();ctx.restore()}ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));if(b.warning>0){ctx.strokeStyle='#d6a5ff';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(145,0);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#f3ceff';ctx.beginPath();ctx.arc(0,0,16+4*Math.sin(now*12),0,Math.PI*2);ctx.stroke()}else{ctx.shadowColor='#ae43ff';ctx.shadowBlur=13;ctx.fillStyle='#dbb3ff';ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(-11,-8);ctx.lineTo(-5,0);ctx.lineTo(-11,8);ctx.closePath();ctx.fill();ctx.strokeStyle='#a651ff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-43,0);ctx.stroke()}ctx.restore();continue}
  if(!b.heavy){
   ctx.save();
   if(b.warning>0){
