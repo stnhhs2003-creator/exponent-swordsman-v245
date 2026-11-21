@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "reviewDate": "2026-11-21",
+  "provider": "Larch",
+  "providerUrl": "https://larch.ink/",
+  "licenseSources": [
+    "https://larch.ink/",
+    "https://larch.ink/wiki/faq-plans-saving-copyright",
+    "https://larch.ink/wiki/assets-packs-and-image-sizes"
+  ],
+  "licensePolicy": "第一方官方素材允許各平台商業及非商業成品使用，禁止原始檔獨立轉售或重新分發；第三方素材依個別條款。六曲個別商城授權與第一方身分尚未核實；不自動下載、熱連結播放、公開重分發或部署。",
+  "tracks": [
+    {
+      "id": "aurora",
+      "title": "Aurora at the Last Outpost",
+      "pack": "korean-webtoon-ensemble",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134816004_10-aurora-at-the-last-outpost.mp3",
+      "tags": [
+        "太空",
+        "Boss"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    },
+    {
+      "id": "oath",
+      "title": "Oath Under White Banners",
+      "pack": "korean-webtoon-ensemble",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134813769_09-oath-under-white-banners.mp3",
+      "tags": [
+        "武俠",
+        "格鬥",
+        "Boss"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    },
+    {
+      "id": "violet",
+      "title": "Violet Thread Between Us",
+      "pack": "korean-webtoon-ensemble",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134798472_03-violet-thread-between-us.mp3",
+      "tags": [
+        "首頁",
+        "劇情"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    },
+    {
+      "id": "rain",
+      "title": "Rain on the Evidence Board",
+      "pack": "korean-webtoon-ensemble",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/korean-webtoon-ensemble/music/1787134804054_05-rain-on-the-evidence-board.mp3",
+      "tags": [
+        "迷宮",
+        "解謎"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    },
+    {
+      "id": "forest",
+      "title": "Forest Stroll",
+      "pack": "chibi-adventure",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224601911_forest-stroll.mp3",
+      "tags": [
+        "大富翁",
+        "卡通冒險"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    },
+    {
+      "id": "sky",
+      "title": "Sky Island Journey",
+      "pack": "chibi-adventure",
+      "sourceUrl": "https://pub-4b20b43f5acf4dfaa3f6ab842daa51cf.r2.dev/2d3b0242-9a6d-4051-9825-46aa4efd064a/larch/built-in-assets/packs/chibi-adventure/music/1793224611601_sky-island-journey.mp3",
+      "tags": [
+        "空戰",
+        "天空冒險"
+      ],
+      "licenseStatus": "individual-verification-pending",
+      "approvedForDeployment": false,
+      "auditionStatus": "not-auditioned"
+    }
+  ]
+}
