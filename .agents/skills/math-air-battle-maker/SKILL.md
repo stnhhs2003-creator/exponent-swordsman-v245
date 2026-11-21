@@ -59,3 +59,6 @@ description: 製作與改造「數學空戰」風格的國中數學 HTML 空戰�
 - 常用素材來源：https://larch.ink/ 。有新素材需求時提供官網讓使用者挑選。
 - 官方通用授權允許成品使用但禁止原始素材獨立重分發；逐曲確認商城授權、是否第一方、署名及發布條件，並確認外部網址使用許可。`approvedForDeployment` 為 false 時不得下載到公開儲存庫、熱連結播放或整合發布。
 - 正式使用前試聽，確認循環接點、音量、淡入淡出、Boss 切換及 iPhone 首次互動解鎖音訊；保留靜音及音量控制。不得因加入素材索引而自動修改現有遊戲。
+
+## 共用原創配樂素材
+優先讀取 `assets/music/catalog.json` 與 `assets/music/original-scores.json`。蒼穹遠征（136 BPM）為一般戰鬥、龍皇決戰（160 BPM）為 Boss 配樂，使用原創 Web Audio 樂譜合成，不載入 Larch MP3。預設音樂 35%、音效 65%，原版可切換，記憶選擇，遵守首次點擊解鎖。實際試聽與 Safari 測試需另行驗證。
