@@ -332,7 +332,7 @@ function sound(kind){if(muted)return;try{aCtx=aCtx||new(window.AudioContext||win
 const swordScores={"sword":{"bpm":108,"melody":[69,72,74,72,69,67,64,67,69,72,76,74,72,69,67,64,67,69,72,74,76,74,72,69,67,64,67,69,72,69,67,64],"roots":[45,48,43,45]},"boss":{"bpm":132,"melody":[62,65,69,65,62,57,60,62,58,62,65,67,65,62,61,57,62,65,69,72,69,65,62,60,58,62,65,69,67,64,61,57],"roots":[38,34,36,33]}};let swordMusicChoice='new',swordLastStage=-1;try{let p=JSON.parse(localStorage.getItem('sword-audio-v2')||'{}');if(['new','classic','off'].includes(p.choice))swordMusicChoice=p.choice;if(Number.isFinite(p.music))musicVolume=Math.max(0,Math.min(1,p.music));if(Number.isFinite(p.sfx))sfxVolume=Math.max(0,Math.min(1,p.sfx))}catch(e){}function saveSwordAudio(){try{localStorage.setItem('sword-audio-v2',JSON.stringify({choice:swordMusicChoice,music:musicVolume,sfx:sfxVolume}))}catch(e){}}
 function pumpMusic(){
  if(document.hidden||swordMusicChoice==='off'||muted||!['play','impact'].includes(phase)||musicVolume<=0||!aCtx||aCtx.state!=='running'){nextMusicAt=0;return}
- const now=aCtx.currentTime,beat=swordMusicChoice==='classic'?(HP<25?.19:stage===2?.205:stage===1?.255:.30):60/(stage===2?(HP<25?140:132):108)/2;if(swordLastStage!==stage){swordLastStage=stage;musicStep=0;nextMusicAt=0;}
+ const now=aCtx.currentTime,beat=swordMusicChoice==='classic'?(HP<25?.19:stage===2?.205:stage===1?.255:.30):60/(stage===2?(HP<25?144:128+bossCombo*4):108)/2;if(swordLastStage!==stage){swordLastStage=stage;musicStep=0;nextMusicAt=0;}
  if(nextMusicAt<now||nextMusicAt>now+1)nextMusicAt=now+.025;
  let scheduled=0;while(nextMusicAt<now+.18&&scheduled++<4){soundMusic(nextMusicAt);nextMusicAt+=beat}
 }
@@ -598,9 +598,9 @@ function groundSpeed(variant){
 function enemyAttackProfile(stage,index,bossProgress){
  const p=dangerProgress();
  return {speed:Math.round(95+55*p),
-  interval:4.7-1.0*p,
+  interval:stage===2?Math.max(2.15,3.8-bossProgress*.4):4.7-1.0*p,
   warning:1.65-.15*p,
-  limit:stage===0&&index<4?1:2};
+  limit:stage===2?(bossProgress>=4?4:3):stage===0&&index<4?1:2};
 }
 function projectileTouchesPlayer(b){
  const radius=b.heavy?19:11,left=player.x-17,right=player.x+17,top=player.y-105,bottom=player.y-15;
@@ -653,7 +653,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  sound('beam');
  }
  }
- if(stage===2&&bossActor){const a=bossActor;if(!Number.isFinite(a.weaponAt))a.weaponAt=now+3;if(now>a.weaponAt&&now-a.born>2.3&&bullets.filter(b=>b.source==='bossWeapon').length<3){a.weaponAt=now+(a.form===2?5.2:a.form===1?6.2:7.5);a.attackUntil=now+1.4;const x= Math.max(770,875+Math.sin(now*1.8)*18)-45,y=a.form===0?G-45:Math.max(230,Math.min(G-48,player.y-58)),dir=player.x<x?-1:1;const speeds=a.form===2?[0,-.19,.19]:a.form===1?[0,-.18]:[0];for(const slope of speeds){const v=205+a.form*27;bullets.push({x,y,vx:dir*v,vy:slope*v,r:15,life:5,warning:1.25,kind:'blade',heavy:false,source:'bossWeapon'})}sound('beam');banner('⚠ 魔王蓄力！紫雷飛劍',1.1)}}
+ if(stage===2&&bossActor){const a=bossActor;if(!Number.isFinite(a.weaponAt))a.weaponAt=now+3;if(now>a.weaponAt&&now-a.born>2.3&&bullets.filter(b=>b.source==='bossWeapon').length<(bossCombo>=4?5:3)){a.weaponAt=now+Math.max(2.6,6.2-bossCombo*.85);a.attackUntil=now+1.4;const x= Math.max(770,875+Math.sin(now*1.8)*18)-45,y=a.form===0?G-45:Math.max(230,Math.min(G-48,player.y-58)),dir=player.x<x?-1:1;const speeds=a.form===2?[0,-.19,.19]:a.form===1?[0,-.18]:[0];for(const slope of speeds){const v=205+bossCombo*17;bullets.push({x,y,vx:dir*v,vy:slope*v,r:15,life:5,warning:Math.max(.9,1.3-bossCombo*.09),kind:'blade',heavy:false,source:'bossWeapon'})}sound('beam');banner('⚠ 魔王蓄力！紫雷飛劍',1.1)}}
  // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
  if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<3)){
  const nearShot=bullets.some(b=>b.warning<=0&&Math.abs(b.x-player.x)<220);
@@ -854,9 +854,9 @@ function drawBoss(now){
  const hurt=alive&&now<bossActor.hurtUntil;
  const transforming=alive&&now<bossActor.shiftAt;
  // Guard stands grounded, berserker lunges toward the arena, final form levitates and turns.
- const x=form===0?905+Math.sin(now*1.25)*12:form===1?875+Math.sin(now*2.7)*20:875+Math.sin(now*1.8)*18;
+ const approach=attacking?Math.sin(Math.PI*Math.max(0,Math.min(1,(bossActor.attackUntil-now)/1.4))):0;const x=(form===0?870:form===1?850:835)+Math.sin(now*(form===1?2.7:1.8))*12-approach*(form===2?80:42);
  const foot=form===2?507+Math.sin(now*2.4)*5:form===1?505+Math.sin(now*4.2)*4:508;
- const scale=(form===0?1.65:form===1?1.82:2.00)*(1+Math.sin(now*(form===1?7:3.5))*.025);
+ const scale=(form===0?1.88:form===1?2.12:2.40)*(1+Math.sin(now*(form===1?7:3.5))*.025+approach*.10);
  const face=(form===2?Math.sin(now*1.8)<0:form===1?Math.sin(now*2.7)>0:true)?-1:1;
  ctx.save();ctx.globalAlpha=appearing;const aura=ctx.createRadialGradient(x,foot-165,18,x,foot-165,225);aura.addColorStop(0,'#b658ff66');aura.addColorStop(.45,'#6428a855');aura.addColorStop(1,'#00000000');ctx.fillStyle=aura;ctx.fillRect(x-225,foot-390,450,450);
  for(let j=0;j<9;j++){let a=now*.55+j*2.399,px=x+Math.sin(a)*135,py=foot-110+Math.cos(a*.83)*105,r=48+20*Math.sin(a+j);let fog=ctx.createRadialGradient(px,py,0,px,py,r);fog.addColorStop(0,'#07041188');fog.addColorStop(.5,'#200d3b55');fog.addColorStop(1,'#05000b00');ctx.fillStyle=fog;ctx.fillRect(px-r,py-r,r*2,r*2)}
@@ -869,7 +869,7 @@ function drawBoss(now){
  if(transforming){ctx.shadowColor=info.color;ctx.shadowBlur=35;ctx.globalAlpha=.7+.3*Math.sin(now*22)}
  if(hurt){ctx.filter='brightness(1.8) saturate(.6)';ctx.translate(Math.sin(now*45)*7,0)}
  ctx.translate(x,foot);ctx.scale(face*scale,scale);
- if(attacking){ctx.rotate((form===1?.13:.07)*Math.sin(now*15));ctx.translate(0,-9)}
+ if(attacking){ctx.rotate((form===1?.13:.07)*Math.sin(now*15));ctx.translate(0,-9-approach*12)}else if(transforming){ctx.rotate(Math.sin(now*12)*.055)}else{ctx.rotate(Math.sin(now*1.8+form)*.025)}
  if(form===2)ctx.rotate(Math.sin(now*1.4)*.08);
  const drawn=imageDraw(info.key,-info.w/2,-info.h,info.w,info.h);
  if(!drawn){ctx.fillStyle=info.color;ctx.fillRect(-35,-130,70,120)}
