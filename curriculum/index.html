@@ -671,21 +671,23 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  if(stage===2&&bossActor){
  const a=bossActor,p=Math.min(4,bossCombo);
  if(!Number.isFinite(a.weaponAt))a.weaponAt=now+3;
- if(now>=a.weaponAt&&now-a.born>2.3&&now>=hurtUntil&&!bullets.some(b=>b.source==='bossWeapon'&&(b.warning>0||Math.abs(b.x-player.x)<150))){
+ const active=bullets.filter(b=>b.source==='bossWeapon');
+ if(now>=a.weaponAt&&now-a.born>2.3&&now>=hurtUntil&&!active.some(b=>b.warning>0)&&active.length<3){
  const lane=player.y<G-10&&supportedPlayer()?player.y:G;
  const high=(a.wave||0)%2===0;a.wave=(a.wave||0)+1;
- const dir=player.x<550?-1:1;
- // Start on the boss side, or at the opposite arena edge when the hero is too close.
- const x=dir<0?835:Math.max(36,player.x-360);
- const y=lane-(high?83:29),v=180+26*p,warning=Math.max(1.0,1.4-.1*p);
- a.weaponAt=now+[5.0,4.4,3.8,3.2,2.65][p];a.attackUntil=now+warning+.25;
- const actualDir=player.x<x?-1:1;
- bullets.push({x,y,vx:actualDir*v,vy:0,r:15,life:6,warning,kind:'blade',heavy:false,source:'bossWeapon',lane:high?'high':'low'});
- sound('beam');banner(high?'⚠ 高空紫雷！按住蹲下':'⚠ 低空飛劍！向上跳躍',warning);
+ const x=player.x<720?850:Math.min(W-25,player.x+210);
+ const y=lane-(high?83:29),v=250+15*p,warning=Math.max(.82,1.15-.08*p);
+ const intervals=[2.8,2.4,2.0,1.7,1.4];
+ const charged=p>=3&&a.wave%5===0,burst=p>=2&&a.wave%4===0&&!charged;
+ a.weaponAt=now+intervals[p]*(.95+Math.random()*.14)+(burst?.6:charged?.75:0);a.attackUntil=now+warning+.25;
+ const dir=player.x<x?-1:1;
+ bullets.push({x,y,vx:dir*v,vy:0,r:charged?26:15,life:6,warning:warning+(charged?.3:0),kind:'blade',heavy:false,source:'bossWeapon',lane:high?'high':'low',charged});
+ if(burst&&active.length<2)bullets.push({x,y,vx:dir*v,vy:0,r:15,life:6,warning:warning+.46,kind:'blade',heavy:false,source:'bossWeapon',lane:high?'high':'low',charged:false});
+ sound('beam');banner((charged?'⚠ 蓄力魔砲！':burst?'⚠ 連續飛劍！':'⚠ 紫雷劍氣！')+(high?'按住蹲下':'跳躍閃避'),warning);
  }
  }
  // Chasers move toward the hero on their own lane; do not obscure or become answer targets.
- if(!fallingFoe&&now>=nextFallingSpawn&&!(stage===0&&qIndex<3)&&!(stage===2&&bullets.some(b=>b.source==='bossWeapon'&&b.warning>0))){
+ if(!fallingFoe&&now>=nextFallingSpawn&&(stage!==2||bossCombo>=3)&&!(stage===0&&qIndex<3)&&!(stage===2&&bullets.some(b=>b.source==='bossWeapon'&&b.warning>0))){
  const nearShot=bullets.some(b=>b.warning<=0&&Math.abs(b.x-player.x)<220);
  if(!nearShot){let dropX=rand(220,960);if(Math.abs(dropX-player.x)<120)dropX=player.x<550?820:280;
  fallingFoe={x:dropX,y:-80,vy:stage===0?90:110,warning:1.3}}
@@ -706,10 +708,10 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  if(now>=nextTreeSpawn){
  // Continuous right-to-left ground-monster stream; each spawn has an independent speed and hop.
- nextTreeSpawn=now+(stage===0?rand(40,56):rand(32,45))/10;
+ nextTreeSpawn=now+(stage===2?rand(55,80):stage===0?rand(40,56):rand(32,45))/10;
  const groundCount=chasers.filter(c=>c.level===0&&!c.dead).length;
- const maxGround=stage===0?2:3;
- if(groundCount<maxGround){
+ const maxGround=stage===2?1:stage===0?2:3;
+ if(groundCount<maxGround&&!(stage===2&&bullets.some(b=>b.source==='bossWeapon'&&b.warning>0))){
   const variant=rand(0,TREE_FORMS.length-1);
   const lastRight=chasers.filter(c=>c.level===0&&!c.dead).reduce((x,c)=>Math.max(x,c.x),W);
   chasers.push({x:Math.max(W+95,lastRight+rand(200,290)),y:G,level:0,dir:-1,warning:0.9,
@@ -718,7 +720,7 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
  }
  }
  // Only one upper patrol is active; walk a few seconds, then intentionally step off the ledge.
- if(now>=nextPlatformSpawnAt){
+ if(now>=nextPlatformSpawnAt&&stage!==2){
   nextPlatformSpawnAt=now+rand(100,165)/10;
   if(!chasers.some(c=>c.platformPatrol&&c.level!==0)){
    const k=rand(0,PLATFORMS.length-1),p=PLATFORMS[k];
@@ -793,8 +795,8 @@ function update(dt,now){tick+=dt;music(dt);if(phase==='impact'){for(let i=fx.len
   }
  }
  chasers=chasers.filter(c=>!c.dead);
- for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?24+bossCombo*3:stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
+ for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(bullets[j].warning<=0&&Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?(b.charged?42:24+bossCombo*3):stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -973,7 +975,7 @@ if(ultShot){
 }
 for(const b of bullets){
  // Small bullets are plain, easily readable dots with a short direction indicator.
- if(b.source==='bossWeapon'){if(b.warning>0){ctx.save();ctx.fillStyle=b.lane==='high'?'#bd6cff19':'#ffb65d19';ctx.fillRect(0,b.y-13,W,26);ctx.strokeStyle=b.lane==='high'?'#cf91ff':'#ffcb85';ctx.lineWidth=2;ctx.setLineDash([10,9]);ctx.beginPath();ctx.moveTo(0,b.y);ctx.lineTo(W,b.y);ctx.stroke();ctx.restore()}ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));if(b.warning>0){ctx.strokeStyle='#d6a5ff';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(145,0);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#f3ceff';ctx.beginPath();ctx.arc(0,0,16+4*Math.sin(now*12),0,Math.PI*2);ctx.stroke()}else{ctx.shadowColor='#ae43ff';ctx.shadowBlur=13;ctx.fillStyle='#dbb3ff';ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(-11,-8);ctx.lineTo(-5,0);ctx.lineTo(-11,8);ctx.closePath();ctx.fill();ctx.strokeStyle='#a651ff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-43,0);ctx.stroke()}ctx.restore();continue}
+ if(b.source==='bossWeapon'){if(b.warning>0){ctx.save();ctx.fillStyle=b.lane==='high'?'#bd6cff19':'#ffb65d19';ctx.fillRect(0,b.y-13,W,26);ctx.strokeStyle=b.lane==='high'?'#cf91ff':'#ffcb85';ctx.lineWidth=2;ctx.setLineDash([10,9]);ctx.beginPath();ctx.moveTo(0,b.y);ctx.lineTo(W,b.y);ctx.stroke();ctx.restore()}ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));if(b.warning>0){ctx.strokeStyle='#d6a5ff';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(145,0);ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#f3ceff';ctx.beginPath();ctx.arc(0,0,16+4*Math.sin(now*12),0,Math.PI*2);ctx.stroke()}else{ctx.shadowColor='#ae43ff';ctx.shadowBlur=b.charged?25:13;if(b.charged){ctx.fillStyle='#922ddc88';ctx.beginPath();ctx.ellipse(0,0,32,18,0,0,Math.PI*2);ctx.fill();ctx.scale(1.5,1.4)}ctx.fillStyle='#dbb3ff';ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(-11,-8);ctx.lineTo(-5,0);ctx.lineTo(-11,8);ctx.closePath();ctx.fill();ctx.strokeStyle='#a651ff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-43,0);ctx.stroke()}ctx.restore();continue}
  if(!b.heavy){
   ctx.save();
   if(b.warning>0){
