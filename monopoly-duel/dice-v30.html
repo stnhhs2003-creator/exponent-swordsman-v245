@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學城市大富翁｜V3.0 地圖專注測試版</title><style>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學城市大富翁｜V3.1 自然透視骰子測試版</title><style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Noto Sans TC',sans-serif;background:#e4f6ff;color:#18364a;overflow-x:hidden}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:14px;min-height:46px;font-weight:800;touch-action:manipulation;box-shadow:0 4px 0 #0002}button:active{transform:translateY(2px);box-shadow:0 2px 0 #0002}button:disabled{opacity:.45;cursor:default}button:focus-visible{outline:3px solid #e7a600}h1,h2,p{margin:0}.hero{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(90deg,#062b4bdb,#12395655),url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') center/cover fixed}.setup{width:min(680px,100%);background:#fffffff2;border:4px solid white;border-radius:28px;padding:24px;box-shadow:0 16px 50px #1236;backdrop-filter:blur(8px)}.eyebrow{font-weight:900;color:#137ea9;letter-spacing:2px;font-size:13px}.setup h1{font-size:clamp(26px,6vw,49px);line-height:1.1;color:#123854;margin:8px 0}.subtitle{font-size:15px;color:#486577;margin-bottom:16px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px;font-weight:800;font-size:14px}.field select,.field input{min-width:0;border:1px solid #b8d4df;border-radius:10px;padding:10px;background:white;color:#15354a}.names{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.rules{background:#dff3fa;border-radius:14px;padding:12px;line-height:1.7;font-size:13px}.primary{background:linear-gradient(#ff7652,#de3f2d);color:white;padding:12px 20px}.start{width:100%;font-size:20px;margin-top:14px}.hidden{display:none!important}.game{min-height:100dvh;display:flex;flex-direction:column}.top{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#173c56;color:white;padding:10px 16px;flex-wrap:wrap}.title{font-weight:950;font-size:clamp(17px,2.3vw,25px)}.top small{display:block;color:#bce7ff;font-size:12px}.toolbar{display:flex;gap:6px;flex-wrap:wrap}.toolbar button{background:#eaf7ff;color:#17425a;min-height:38px;padding:6px 11px;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,345px);gap:12px;padding:12px;flex:1}.boardwrap{position:relative;min-width:0;border:3px solid white;border-radius:22px;overflow:hidden;background:#c5efff;box-shadow:0 7px 20px #1b4d6720;display:flex;flex-direction:column}.boardhead{position:absolute;z-index:1;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.tag{border-radius:10px;background:#fffef0ed;box-shadow:0 3px 8px #1233;padding:7px 10px;font-weight:850;font-size:12px}.boardhead .tag:last-child{background:#18435eea;color:#fff}.canvas{width:100%;display:block;aspect-ratio:1.42;min-height:350px;max-height:70dvh}.legend{display:flex;flex-wrap:wrap;gap:5px 12px;padding:9px 12px;background:#fff9;font-size:12px;font-weight:750}.legend span{white-space:nowrap}.side{display:flex;flex-direction:column;gap:10px;min-width:0}.card{border:2px solid white;border-radius:18px;background:#fff;box-shadow:0 4px 12px #183c5514;padding:12px}.turnlabel{display:flex;align-items:center;justify-content:space-between;font-weight:900}.timer{background:#eef3f7;padding:5px 9px;border-radius:12px;font-variant-numeric:tabular-nums}.bar{height:7px;background:#d8e6ed;border-radius:5px;margin:8px 0;overflow:hidden}.bar>i{display:block;height:100%;background:#20b583;transition:width .2s linear}.question{font-size:clamp(22px,3.4vw,34px);font-weight:900;text-align:center;min-height:70px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3px;line-height:1.35}.question sup,.ans sup{font-size:.62em}.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 .18em;line-height:1.1}.frac b{border-bottom:2px solid currentColor;padding:0 .2em}.frac i{font-style:normal;padding:0 .2em}.answers{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.ans{min-height:56px;background:#e7f2fa;border:2px solid #c9e3f2;color:#18364a;font-size:21px}.correct{background:#c7f7d6!important;border-color:#22a66a!important}.wrong{background:#ffdbd6!important;border-color:#e65d54!important}.feedback{font-size:14px;line-height:1.5;min-height:40px;color:#2c4a5c;white-space:pre-wrap}.rollrow{display:flex;align-items:center;gap:9px;margin-top:8px}.die{display:grid;place-items:center;width:58px;height:58px;flex:0 0 58px;border-radius:15px;background:linear-gradient(140deg,#ff765d,#bd201f);color:#fff;font-size:38px;font-weight:1000;box-shadow:0 5px 0 #8d2821,inset 0 2px 5px #fff7}.rollrow button{flex:1}.rank{display:grid;gap:6px}.rankitem{display:grid;grid-template-columns:30px 1fr auto;gap:7px;align-items:center;border-radius:12px;padding:8px;border:2px solid #e5edf3;background:#f8fbfd}.rankitem.active{border-color:#f0b43e;background:#fff6ce}.avatar{display:grid;place-items:center;border-radius:50%;color:white;width:29px;height:29px;font-weight:900}.rankitem strong{font-size:14px;overflow-wrap:anywhere}.rankitem small{display:block;font-size:11px;color:#607987}.rankitem .distance{font-size:15px;font-weight:900}.events{max-height:98px;overflow:auto;font-size:12px;color:#4d6675;line-height:1.6}.duelpanels{display:none}.duel .layout{grid-template-columns:155px minmax(0,1fr) 300px}.duel .duelpanels{display:flex;flex-direction:column;gap:8px}.duel .duelpanels .rankitem{grid-template-columns:25px 1fr}.duel .duelpanels .distance{grid-column:2}.duel .side .rankingcard{display:none}.big .layout{grid-template-columns:minmax(0,1fr) minmax(350px,410px)}.big .question{font-size:clamp(28px,3.5vw,48px)}.big .ans{font-size:28px;min-height:65px}.big .canvas{max-height:77dvh}.overlay{position:fixed;inset:0;z-index:5;background:#103c5dd9;display:grid;place-items:center;padding:20px}.winner{background:white;border-radius:25px;text-align:center;padding:30px;max-width:480px;width:100%;box-shadow:0 10px 40px #0003}.winner h1{font-size:35px;color:#ca7800}.winner p{margin:10px 0}.winner button{margin-top:12px;width:100%}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:6}.confetti i{position:absolute;width:10px;height:17px;animation:fall 3s linear forwards}@keyframes fall{from{transform:translateY(-10vh) rotate(0)}to{transform:translateY(110vh) rotate(700deg)}}@media(max-width:900px){.layout,.big .layout,.duel .layout{grid-template-columns:minmax(0,1fr)}.duel .duelpanels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.duel .duelpanels .rankitem{grid-template-columns:30px 1fr auto}.duel .duelpanels .distance{grid-column:auto}.canvas,.big .canvas{min-height:0;max-height:none;aspect-ratio:1.3}.side{display:grid;grid-template-columns:1fr 1fr}.questioncard{grid-column:1/-1}.big .question{font-size:30px}.hero{background-attachment:scroll}}@media(max-width:520px){.hero{padding:12px}.setup{padding:17px}.formgrid{gap:8px}.field select{font-size:13px}.layout{padding:7px;gap:7px}.top{padding:8px}.toolbar button{font-size:11px;padding:5px 8px}.canvas{aspect-ratio:1.12}.side{display:flex}.question{min-height:52px}.questioncard{padding:10px}.ans{min-height:48px}.legend{font-size:10px}.tag{font-size:10px;padding:5px}.duel .duelpanels .rankitem{font-size:11px;padding:5px}.boardhead{top:6px;left:6px;right:6px}}
 </style></head><body>
 <section class="hero" id="home"><div class="setup"><div class="eyebrow">七年級數學 × CITY ADVENTURE</div><h1>數學城市大富翁</h1><p class="subtitle">解開數學任務，擲骰探索立體城市，率先抵達終點旗幟！</p><div class="formgrid"><label class="field">課程單元<select id="unit"><option>指數律</option><option>分數四則</option><option>一元一次式</option><option>一元一次方程式</option><option>最大公因數與最小公倍數</option><option>正負數四則運算</option><option>六單元混合</option></select></label><label class="field">難易度<select id="level"><option value="0">簡單 · 35 秒</option><option value="1" selected>普通 · 30 秒</option><option value="2">困難 · 22 秒</option></select></label><label class="field">參賽人數<select id="count"><option value="2">2 人／組</option><option value="3">3 人／組</option><option value="4" selected>4 人／組</option><option value="5">5 人／組</option></select></label><label class="field">顯示模式<select id="mode"><option value="big">教室大屏</option><option value="duel">對屏競賽</option><option value="mobile">手機／平板</option></select></label></div><div class="names" id="names"></div><div class="rules">🏁 勝利目標：由第 0 格「GO」出發，最先抵達第 31 格終點旗幟獲勝。<br>🎲 答對才可擲骰；難度越高，越有機會取得額外步數。答錯或超時顯示詳解並換人。<br>🎁 機會卡可前進或獎勵；休息站暫停一回合；地標可累積城市星星。</div><button class="primary start" id="start">開始城市冒險 →</button></div></section>
@@ -301,7 +301,7 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 .game.big .questioncard .feedback{flex:0 0 auto;min-height:1.2em;max-height:none;overflow:visible}
 .game.big .questioncard .rollrow{flex:none;margin-top:auto}
 }
-</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.0 地圖專注立體擲骰測試版';</script><style id="city-tabletop-dice-v27">
+</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.1 自然透視骰子測試版';</script><style id="city-tabletop-dice-v27">
 .boardwrap{position:relative}
 .city-dice-overlay{position:absolute;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle at center,#12375750,#081b3955);overflow:hidden}
 .city-dice-overlay.hidden{display:none!important}
@@ -446,4 +446,62 @@ tournamentStart=function(){cityFocusMap(false);cityDiceOverlay.classList.add('hi
 document.getElementById('start').onclick=tournamentStart;
 document.getElementById('again').onclick=tournamentStart;
 document.getElementById('back').onclick=home;
-</script></body></html>
+</script><style id="city-dice-natural-v31">
+/* V3.1: one subtle 3D angle; dots must remain visible on the front face. */
+#game .city-dice-table{perspective:850px!important;transform-style:flat!important;gap:clamp(10px,2vh,20px)!important}
+#game #cityDiceBig{
+  position:relative!important;
+  isolation:isolate!important;
+  transform-style:flat!important;
+  -webkit-transform-style:flat!important;
+  backface-visibility:visible!important;
+  width:clamp(92px,17vw,174px)!important;
+  height:clamp(92px,17vw,174px)!important;
+  border-radius:22%!important;
+  border:3px solid #ffe3df!important;
+  background:linear-gradient(137deg,#ff8680 0%,#ed3947 39%,#c61d37 100%)!important;
+  box-shadow:inset 5px 6px 12px #ffc4bd77,inset -8px -9px 13px #7c142a66,0 4px 0 #96203a,0 13px 22px #061b3480!important;
+  filter:none!important;
+}
+#game #cityDiceBig::before{
+  content:""!important;position:absolute;inset:0!important;border-radius:20%!important;
+  background:linear-gradient(133deg,#ffffff30,transparent 44%,#4c0c2620 100%)!important;
+  z-index:0!important;pointer-events:none!important;
+}
+#game #cityDiceBig::after{content:none!important;display:none!important}
+#cityDicePips{position:relative!important;z-index:2!important;filter:drop-shadow(0 1px 1px #741a2f)!important}
+.city-dice-rolling #cityDiceBig{animation:cityNaturalToss31 1.12s cubic-bezier(.24,.62,.46,1) infinite!important}
+.city-dice-landed #cityDiceBig{animation:cityNaturalLand31 .52s cubic-bezier(.22,1.15,.36,1) both!important}
+.city-dice-return #cityDiceBig{animation:cityNaturalReturn31 .45s ease-in forwards!important}
+.city-dice-table:before{
+  border-radius:50%!important;
+  background:radial-gradient(ellipse,#051c3d65 0%,#102a4a23 51%,transparent 73%)!important;
+  height:18%!important;bottom:6%!important;
+  filter:blur(9px)!important;
+}
+@keyframes cityNaturalToss31{
+  0%{transform:translate(-70px,56px) rotate(-40deg) rotateX(10deg) rotateY(-8deg) scale(.52)}
+  29%{transform:translate(-27px,-25px) rotate(34deg) rotateX(13deg) rotateY(10deg) scale(.93)}
+  59%{transform:translate(28px,8px) rotate(137deg) rotateX(9deg) rotateY(-8deg) scale(1.06)}
+  83%{transform:translate(15px,-12px) rotate(295deg) rotateX(12deg) rotateY(8deg) scale(.99)}
+  100%{transform:translate(0,0) rotate(360deg) rotateX(8deg) rotateY(-5deg) scale(1)}
+}
+@keyframes cityNaturalLand31{
+  0%{transform:translateY(-23px) rotate(-12deg) rotateX(10deg) rotateY(-7deg) scale(1.08)}
+  45%{transform:translateY(5px) rotate(4deg) rotateX(8deg) rotateY(-5deg) scale(.97)}
+  75%{transform:translateY(-3px) rotate(-1deg) rotateX(8deg) rotateY(-5deg) scale(1.02)}
+  100%{transform:rotate(0deg) rotateX(8deg) rotateY(-5deg) scale(1)}
+}
+@keyframes cityNaturalReturn31{
+  0%{transform:rotateX(8deg) rotateY(-5deg) scale(1);opacity:1}
+  100%{transform:translateY(38px) rotate(21deg) rotateX(8deg) rotateY(-5deg) scale(.16);opacity:0}
+}
+.city-dice-landed .city-dice-message{font-weight:950!important;position:relative!important;z-index:12!important;line-height:1.18!important;margin-top:10px!important}
+@media(orientation:landscape) and (max-height:520px){
+  #game #cityDiceBig{width:clamp(65px,23vh,125px)!important;height:clamp(65px,23vh,125px)!important}
+  .city-dice-landed .city-dice-message{margin-top:1px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .city-dice-rolling #cityDiceBig,.city-dice-landed #cityDiceBig,.city-dice-return #cityDiceBig{animation:none!important;transform:none!important}
+}
+</style></body></html>
