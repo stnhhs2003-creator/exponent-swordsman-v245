@@ -14,3 +14,28 @@ description: Optional 2.5D pixel-art workflow for Math Game Studio & QA Master V
 搭配 math-game-codegraph；先保留原版，獨立測試教室16:9、iPhone Safari、旋轉視覺、記憶體與幀率、操作及數學題庫。未驗證不得宣稱改善。維持13款遊戲，不新增第14、15款。
 ## 安全
 不執行 npx、pip 或原始腳本；若需安裝原始技能，必先完成既定十項安全檢查、固定版本、隔離測試方案，取得使用者同意再安裝。保留來源授權與必要聲明。
+
+## 縱向飛行射擊美術提示詞庫（螺旋戰機／數學空戰）
+使用者提供的原始提示詞，保留英文原文。每項生圖前先貼上該專案 style.md 的「整體風格＋色調＋構圖」；若 style.md 不存在，先建立並確認統一風格，不假設已有內容。以下素材為俯視 2D sprite，不必強制使用 sprite stacking。
+### player_01
+```
+Sci-fi fighter jet, top-down view, nose pointing up, sleek blue and white hull,
+cyan glowing engines, symmetrical design, transparent background, no text.
+```
+### enemy_01
+```
+Sci-fi enemy drone fighter, top-down view, nose pointing down, angular red and
+dark gray hull, red glowing core, aggressive silhouette, transparent background, no text.
+```
+### boss_01
+```
+Massive sci-fi battleship boss, top-down view, dark purple armored hull,
+golden energy core in the center, multiple cannon turrets, imposing symmetrical
+design, transparent background, no text.
+```
+### 整合與驗收規格
+- 建議輸出 player_01.png、enemy_01.png、boss_01.png，透明背景、無文字、無浮水印；檢查 alpha 與實際可見範圍，避免假去背。
+- 玩家青藍、敵方紅黑、Boss 深紫金色；與背景及答案標誌保持高對比。統一俯視角度、機體中心與光源。
+- 可按玩法補齊尾焰、雷射、蓄力砲、護盾、命中閃光、爆炸、Boss 三階段素材；這些為擴充建議，非已生成資產。
+- 先匯入既有遊戲獨立測試，確認圖片實際載入、碰撞範圍與圖像吻合、教室16:9可辨識、手機橫放不裁切，再更新正式入口。不得把聊天參考圖片當成已匯入資產。
+- 本次只保存提示詞及工作規格，不生成圖片、不安裝外部工具、不更動既有遊戲。
