@@ -728,4 +728,41 @@ body{background:linear-gradient(160deg,#e2f1f6 0%,#f1f7f3 60%,#d8eff2 100%)!impo
 document.title='數學城市大富翁｜V3.4 珍珠藍骰子與介面配色測試版';
 const v34badge=document.querySelector('.intro .badge');
 if(v34badge)v34badge.textContent='MATH REALM · 第 10 款 · V3.4 珍珠藍質感版';
+</script>
+<style id="v34-polish-tested">
+/* Final contrast pass: crisp navy pips, pearl porcelain cube, calm focus state. */
+#game #cityDiceBig .dice-face{border-color:#cddbe1!important;background:linear-gradient(145deg,#fffefa 2%,#f5fbfd 54%,#dae9ef 100%)!important;box-shadow:inset 6px 6px 13px #fff,inset -8px -9px 13px #91acb733!important}
+#game #cityDiceBig .dice-face .dice-pip{width:76%!important;min-height:0!important;aspect-ratio:1!important;position:static!important;background:#203f57!important;box-shadow:inset 1px 2px 2px #0c1d2f99,0 1px 1px #fff!important;opacity:1!important}
+#game #cityDiceBig .dice-core{transform-style:preserve-3d!important;-webkit-transform-style:preserve-3d!important;backface-visibility:visible!important;-webkit-backface-visibility:visible!important}
+#game #cityDiceBig .dice-face{backface-visibility:hidden!important;-webkit-backface-visibility:hidden!important}
+#game .city-dice-rolling #cityDiceBig{filter:drop-shadow(0 9px 10px #214e5e60)!important}
+#game .city-dice-landed #cityDiceBig{filter:drop-shadow(0 5px 8px #214e5e55)!important}
+#game .city-dice-message{max-width:100%!important;overflow-wrap:break-word!important}
+#game .distance-tracker .distance-player .distance-remaining{font-variant-numeric:tabular-nums}
+@media (orientation:portrait) and (max-width:600px){
+#game .boardwrap{overflow:hidden!important}
+#game .distance-tracker .distance-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#game .distance-player .distance-name{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important}
+}
+</style>
+<script id="v34-dice-qa-patch">
+/* The single result from roll() is authoritative. Never show a second transient score. */
+(function(){
+const previousFrame=cityDiceFrame;
+cityDiceFrame=function(face){
+  previousFrame(face);
+  const label=document.getElementById('cityDiceMessage');
+  if(label && cityDiceOverlay.classList.contains('city-dice-rolling'))label.textContent='🎲 骰子旋轉中…';
+};
+const cube=document.getElementById('whiteCubeCore');
+const die=document.getElementById('cityDiceBig');
+if(cube&&die){
+  const nodes=Array.from(cube.querySelectorAll('.dice-face'));
+  const valid=nodes.length===6 && nodes.every(n=>n.querySelectorAll('.dice-pip').length===Number(n.dataset.n));
+  die.setAttribute('role','img');
+  die.setAttribute('aria-live','off');
+  if(!valid)console.error('V3.4 dice face QA failed');
+  else console.info('V3.4 dice six-face/pip QA passed');
+}
+})();
 </script></body></html>
