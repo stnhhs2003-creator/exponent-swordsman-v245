@@ -223,4 +223,35 @@ document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 ·
 .game:is(.big,.mobile) .questioncard .rollrow button{min-height:30px;font-size:11px;padding:2px 3px;border-radius:6px}
 .game:is(.big,.mobile) .questioncard .die{width:30px;height:30px;flex-basis:30px;font-size:22px;border-radius:6px}
 #hhReturnStart20261122{font-size:10px;min-height:26px;padding:3px 5px;top:4px;right:5px}
-}</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.4 橫屏版';</script></body></html>
+}</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.4 橫屏版';</script><style id="classroom-preview-v25">
+#hhPreview169Open{display:block;width:100%;margin-top:9px;background:#173f65;color:white;min-height:46px;padding:8px 12px;font-size:clamp(14px,1.3vw,20px)}
+#hhPreview169{position:fixed;inset:0;z-index:2147483646;display:flex;flex-direction:column;background:#101923;color:#fff;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);overscroll-behavior:contain}
+#hhPreview169[hidden]{display:none!important}
+#hhPreview169Header{flex:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 10px;font-size:clamp(11px,1.6vw,16px);min-height:36px}
+#hhPreview169Close{background:#e9f4ff;color:#173f65;min-height:28px;padding:3px 10px;border-radius:7px;font-size:13px;white-space:nowrap;box-shadow:none}
+#hhPreview169Stage{flex:1;position:relative;min-height:0;min-width:0;overflow:hidden;display:grid;place-items:center}
+#hhPreview169Frame{position:absolute;top:50%;left:50%;width:1920px;height:1080px;max-width:none;max-height:none;border:0;transform-origin:center;background:#e4f6ff;display:block}
+html.hh-preview-open,html.hh-preview-open body{overflow:hidden!important}
+</style><script>
+(()=>{const qs=new URLSearchParams(location.search);
+document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.5 大屏預覽版';
+if(qs.get('preview169')==='1'){
+ const select=document.getElementById('mode');select.value='big';select.disabled=true;
+ const view=document.getElementById('view');view.disabled=true;view.title='16:9 預覽固定教室大屏模式';
+ const full=document.getElementById('full');full.disabled=true;full.title='請使用外層裝置的全螢幕';
+ return;
+}
+const btn=document.createElement('button');btn.id='hhPreview169Open';btn.type='button';btn.textContent='▣ 16:9 教室大屏預覽';
+document.getElementById('start').before(btn);
+const overlay=document.createElement('section');overlay.id='hhPreview169';overlay.hidden=true;overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','16:9 教室大屏預覽');
+const header=document.createElement('div');header.id='hhPreview169Header';
+const label=document.createElement('span');label.textContent='16:9 教室大屏預覽｜1920 × 1080｜獨立試玩';
+const close=document.createElement('button');close.id='hhPreview169Close';close.type='button';close.textContent='✕ 結束預覽';
+header.append(label,close);const stage=document.createElement('div');stage.id='hhPreview169Stage';
+overlay.append(header,stage);document.body.append(overlay);let frame=null;
+function fit(){if(!frame||overlay.hidden)return;const w=stage.clientWidth,h=stage.clientHeight,k=Math.min(w/1920,h/1080);if(k>0)frame.style.transform='translate(-50%,-50%) scale('+k+')';}
+function open(){if(frame)return;overlay.hidden=false;document.documentElement.classList.add('hh-preview-open');frame=document.createElement('iframe');frame.id='hhPreview169Frame';frame.title='1920 × 1080 教室大屏獨立試玩';const u=new URL(location.href);u.searchParams.set('preview169','1');u.searchParams.set('mode','screen');u.hash='';frame.src=u.href;stage.append(frame);fit();close.focus();}
+function shut(){if(!frame)return;frame.remove();frame=null;overlay.hidden=true;document.documentElement.classList.remove('hh-preview-open');btn.focus();}
+btn.addEventListener('click',open);close.addEventListener('click',shut);window.addEventListener('resize',fit);window.visualViewport?.addEventListener('resize',fit);if(typeof ResizeObserver==='function')new ResizeObserver(fit).observe(stage);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)shut()});
+})();
+</script></body></html>
