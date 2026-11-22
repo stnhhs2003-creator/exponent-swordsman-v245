@@ -76,7 +76,7 @@ function snapshotScores(){return players.map(p=>({...p}))}
 function tournamentStart(){clearAuto();matchDeadline=Date.now()+600000;finishReason='';lastRoundScores=null;turnSerial++;matchClock.textContent='🏁 10:00';matchClock.style.background='#fff4ba';baseStart();players.forEach((p,i)=>{p.answerMs=0;p.lottery=Math.random()});showRanks();$('meta').textContent+='｜限時 10 分鐘'}
 function finishTimed(reason){if(phase==='home'||phase==='win')return;clearAuto();run++;moveAnim=null;finishReason=reason;let result=standings();current=result[0].id;phase='win';$('finish').querySelector('p').textContent=reason+'！依進度、正確題數、星星、平均答題時間排名。';$('boardstatus').textContent='競賽結束';baseVictory();matchClock.textContent='🏁 結算';if(result[0].pos===result[1]?.pos&&result[0].correct===result[1]?.correct&&result[0].stars===result[1]?.stars&&mean(result[0])===mean(result[1]))$('finish').querySelector('p').textContent=reason+'！同分同速，依開局公平隨機籤決定勝者。'}
 nextQuestion=function(){clearAuto();turnSerial++;duration=[25,20,15][level];askedAt=performance.now();baseNext()};
-answer=function(a,button){if(phase!=='question')return;if(Date.now()>=matchDeadline){finishTimed('10 分鐘時間到');return}if(a===question.answer){let p=players[current];p.answerMs=(p.answerMs||0)+Math.max(1,performance.now()-askedAt)}baseAnswer(a,button);if(phase==='roll')autoAction('roll',3500);else if(phase==='explain')autoAction('explain',5000)};
+answer=function(a,button){if(phase!=='question')return;if(Date.now()>=matchDeadline){finishTimed('10 分鐘時間到');return}if(a===question.answer){let p=players[current];p.answerMs=(p.answerMs||0)+Math.max(1,performance.now()-askedAt)}baseAnswer(a,button);if(phase==='roll'){cityFocusMap(true);autoAction('roll',800)}else if(phase==='explain')autoAction('explain',5000)};
 roll=async function(){if(phase!=='roll')return;clearAuto();if(Date.now()>=matchDeadline){finishTimed('10 分鐘時間到');return}let token=run;await baseRoll();if(token===run&&phase==='done')autoAction('done',900)};
 advance=function(){clearAuto();if(phase==='home'||phase==='win')return;if(Date.now()>=matchDeadline){finishTimed('10 分鐘時間到');return}if(current===players.length-1){lastRoundScores=snapshotScores();let remaining=matchDeadline-Date.now();let fairRoundBudget=players.length*([15,13,11][level]+6)*1000;if(remaining<fairRoundBudget){finishTimed('完整回合結束，剩餘時間不足再進行一輪');return}}baseAdvance()};
 victory=function(){clearAuto();finishReason='抵達終點';$('finish').querySelector('p').textContent='率先抵達第 31 格終點！城市冒險成功！';baseVictory();matchClock.textContent='🏁 完賽'};
@@ -442,4 +442,5 @@ const cityPreviousStartGame=tournamentStart;
 tournamentStart=function(){cityFocusMap(false);cityDiceOverlay.classList.add('hidden');return cityPreviousStartGame()};
 document.getElementById('start').onclick=tournamentStart;
 document.getElementById('again').onclick=tournamentStart;
+document.getElementById('back').onclick=home;
 </script></body></html>
