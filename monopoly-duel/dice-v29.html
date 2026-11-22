@@ -298,7 +298,7 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 .game.big .questioncard .feedback{flex:0 0 auto;min-height:1.2em;max-height:none;overflow:visible}
 .game.big .questioncard .rollrow{flex:none;margin-top:auto}
 }
-</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.9.1 點數修正版';</script><style id="city-tabletop-dice-v27">
+</style><script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.9.2 骰子正面清晰版';</script><style id="city-tabletop-dice-v27">
 .boardwrap{position:relative}
 .city-dice-overlay{position:absolute;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle at center,#12375750,#081b3955);overflow:hidden}
 .city-dice-overlay.hidden{display:none!important}
@@ -354,4 +354,20 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 </style><style id="city-pips-v291">/* explicit grid slots prevent Safari auto-packing dots into first cells */
 #cityDiceBig{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;align-items:center;justify-items:center;overflow:visible}
 #cityDiceBig i{position:static!important;align-self:center!important;justify-self:center!important;flex:none!important;border:0!important}
+</style><style id="city-dice-front-v292">
+/* Keep the face visible even while tossing: no edge-on Y rotation. */
+#cityDiceBig{backface-visibility:visible!important;-webkit-backface-visibility:visible!important;transform-style:flat!important;isolation:isolate!important;grid-auto-flow:row!important}
+#cityDiceBig i{background:#fff!important;opacity:1!important;visibility:visible!important;min-width:11px!important;min-height:11px!important;width:76%!important;height:76%!important;border:1px solid #fff!important;box-shadow:inset 1px 2px 2px #edd1d1,0 1px 3px #64101d!important;z-index:2}
+.city-dice-rolling #cityDiceBig{animation:cityThrowFront292 1.15s ease-in-out infinite!important}
+@keyframes cityThrowFront292{
+0%{transform:translate(-82px,58px) rotate(-65deg) scale(.5)}
+26%{transform:translate(-38px,-30px) rotate(24deg) scale(.95)}
+54%{transform:translate(28px,2px) rotate(155deg) scale(1.05)}
+78%{transform:translate(38px,-8px) rotate(282deg) scale(1)}
+100%{transform:translate(0,0) rotate(360deg) scale(1)}
+}
+.city-dice-landed #cityDiceBig{animation:cityLandFront292 .45s ease-out both!important}
+@keyframes cityLandFront292{0%{transform:translateY(-17px) rotate(-18deg) scale(1.1)}50%{transform:translateY(5px) rotate(4deg) scale(.95)}100%{transform:none}}
+.city-dice-landed .city-dice-message{color:#9f2436!important;font-weight:1000!important;font-size:clamp(23px,3vw,42px)!important}
+@media(prefers-reduced-motion:reduce){.city-dice-rolling #cityDiceBig,.city-dice-landed #cityDiceBig{animation:none!important}}
 </style></body></html>
