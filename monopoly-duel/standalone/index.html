@@ -1075,7 +1075,7 @@ audioStart=function(){
   if(beat%2===0)play(song.bass[Math.floor(beat/2)%song.bass.length],.33,.018,'sine');
   if(beat%4===0)play(song.lead[idx]-12,.19,.008,'sine');
   beat++;
- },mode==='roll'?165:235);
+ },235);
  }catch(e){console.warn('Sound unavailable:',e)}
 };
 const patterns={
