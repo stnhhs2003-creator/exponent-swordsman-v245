@@ -389,7 +389,7 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 </style>
 <script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.2 驗收修正版';</script>
 
-<style id="city-dice-deluxe-v33">
+<style id="city-dice-layered-v34">
 /* The chosen luxury flat-die concept: ivory face, generous burgundy pips,
    translucent midnight-blue and fine gold surround. Absolutely no 3D rotation. */
 .city-dice-overlay{background:linear-gradient(180deg,#092b4650,#06182e60)!important}
@@ -415,17 +415,17 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 .city-dice-label span{font-size:.8em!important;color:#f0c76d!important;transform:rotate(18deg)}
 .city-dice-label span:last-child{transform:scaleX(-1) rotate(18deg)}
 .city-dice-overlay .city-dice-big{
-  width:clamp(93px,12.5vw,149px)!important;height:clamp(93px,12.5vw,149px)!important;
+  width:clamp(102px,13.5vw,160px)!important;height:clamp(102px,13.5vw,160px)!important;
   border:2px solid #fffdf7!important;border-radius:clamp(20px,2.5vw,29px)!important;
-  padding:15%!important;gap:0!important;
+  padding:8%!important;gap:0!important;
   background:linear-gradient(145deg,#fffefd 0%,#fffaf0 69%,#f3e7d3 100%)!important;
-  box-shadow:0 5px 0 #e8dcc7,0 12px 19px #00162b88,inset 0 3px 9px #fff!important;
+  box-shadow:0 4px 0 #d8bc83,0 10px 19px #00162b77,inset 0 3px 9px #fff!important;
   filter:none!important;transform-style:flat!important;perspective:none!important
 }
 .city-dice-overlay .city-dice-big i{
-  width:77%!important;height:77%!important;min-width:0!important;min-height:0!important;
-  border-radius:50%!important;background:#bd1730!important;
-  box-shadow:inset 0 -1px 1px #780f20aa,0 1px 2px #50051540!important
+  width:88%!important;height:88%!important;min-width:0!important;min-height:0!important;
+  border-radius:50%!important;background:radial-gradient(circle at 34% 28%,#ed7284 0%,#bc1a36 38%,#9b0926 100%)!important;
+  box-shadow:inset 0 -2px 2px #5d0920a5,0 1px 2px #50051538!important
 }
 .city-dice-overlay .city-dice-message{
   padding:clamp(5px,.8vh,9px) clamp(12px,1.7vw,20px)!important;
@@ -448,6 +448,9 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
   65%{transform:translateY(2px) scale(.98)}
   100%{transform:translateY(0) scale(1)}
 }
+.city-dice-overlay .city-dice-big::after{content:"";position:absolute;inset:5px;border-radius:inherit;pointer-events:none;background:linear-gradient(133deg,#ffffff9c 0%,#ffffff00 32%);opacity:.45}
+.city-dice-landed .city-dice-table{animation:cityGoldPulseV34 .55s ease-out both}
+@keyframes cityGoldPulseV34{0%{box-shadow:0 14px 30px #03172b88,0 0 0 0 #f0c96b95}100%{box-shadow:0 15px 36px #03172b88,0 0 22px #f8ca6540}}
 @media(orientation:landscape) and (max-height:520px){
   .city-dice-overlay .city-dice-table{width:min(66%,245px)!important;padding:6px 10px!important;gap:5px!important}
   .city-dice-overlay .city-dice-big{width:clamp(67px,18vh,100px)!important;height:clamp(67px,18vh,100px)!important;border-radius:18px!important}
@@ -458,5 +461,5 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
   .city-dice-rolling .city-dice-big,.city-dice-landed .city-dice-big{animation:none!important}
 }
 </style>
-<script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.3 豪華平面骰子';</script>
+<script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.4 層次平面骰子';</script>
 </body></html>
