@@ -904,7 +904,7 @@ console.info('V3.5 distance panel mounted below toolbar');
  pauseButton.addEventListener('click',()=>paused?resume():pause());
  resumeBtn.addEventListener('click',resume);
  broadcastBtn.addEventListener('click',()=>{
-    const b=[...toolbar.querySelectorAll('button')].find(x=>x.textContent.includes('即時廣播'));
+    const b=[...toolbar.querySelectorAll('button')].find(x=>x.textContent.includes('戰況大字'));
     if(b){pauseScreen.hidden=true;b.click();}
  });
  const priorTournament=tournamentStart;
@@ -952,7 +952,7 @@ const tunes={
 };
 function mood(){
  if(typeof window.teacherPauseState==='function'&&window.teacherPauseState().paused)return 'pause';
- if(document.getElementById('teacherBroadcastBig')&&!document.getElementById('teacherBroadcastBig').hidden)return 'pause';
+ if(document.getElementById('matchCommentaryBig')&&!document.getElementById('matchCommentaryBig').hidden)return 'pause';
  if(phase==='home'||phase==='win')return 'pause';
  if(phase==='rolling')return 'roll';
  const nearest=(typeof players!=='undefined'&&players.length)?Math.max(...players.map(p=>p.pos)):0;
