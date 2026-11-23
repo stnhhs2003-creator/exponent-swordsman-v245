@@ -493,4 +493,62 @@ overflow:visible!important;filter:none!important;transform:none!important
 .city-dice-overlay .city-dice-big .city-pip-svg circle{display:block!important}
 </style>
 <script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.5 標準骰面';</script>
+
+<!-- V3.6 isolated classroom test: final, scoped layout rules; no scoring or dice RNG changed -->
+<style id="city-classroom-v36">
+@media (min-width:900px) and (min-aspect-ratio:4/3) {
+  #game.game.big:not(.hidden){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;overflow:hidden!important}
+  #game.game.big .top{flex:0 0 auto!important;min-width:0!important}
+  #game.game.big .layout{flex:1 1 0!important;min-height:0!important;min-width:0!important;display:grid!important;grid-template-columns:minmax(0,7fr) minmax(265px,3fr)!important;grid-template-rows:minmax(52px,auto) minmax(0,1fr)!important;gap:8px!important;padding:6px 9px!important;overflow:hidden!important}
+  #game.game.big .layout>.rankingcard{grid-column:1/-1!important;grid-row:1!important;max-height:min(11dvh,106px)!important;overflow:auto!important;min-width:0!important}
+  #game.game.big .boardwrap{grid-column:1!important;grid-row:2!important;display:flex!important;flex-direction:column!important;min-height:0!important;min-width:0!important;overflow:hidden!important}
+  #game.game.big .boardwrap canvas#board{display:block!important;flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;max-width:100%!important;max-height:none!important;object-fit:contain!important;aspect-ratio:auto!important}
+  #game.game.big .side{grid-column:2!important;grid-row:2!important;display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;overflow:auto!important}
+  #game.game.big .side .questioncard{flex:1 1 auto!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;min-width:0!important;min-height:0!important;max-width:100%!important;overflow:auto!important;padding:clamp(8px,.9vw,15px)!important;gap:clamp(5px,.65vh,10px)!important}
+  #game.game.big .questioncard .question{flex:0 0 auto!important;font-size:clamp(20px,2vw,34px)!important;line-height:1.2!important;overflow-wrap:anywhere!important}
+  #game.game.big .questioncard .answers{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(5px,.6vw,10px)!important;min-width:0!important}
+  #game.game.big .questioncard .ans{min-width:0!important;min-height:clamp(44px,6vh,68px)!important;font-size:clamp(17px,1.75vw,27px)!important}
+  #game.game.big .questioncard .feedback{max-height:25dvh!important;overflow:auto!important}
+  #game.game.big .questioncard .rollrow{flex:0 0 auto!important}
+}
+@media (orientation:landscape) and (max-width:899px) {
+  #game.game.big:not(.hidden){height:100dvh!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+  #game.game.big .layout{flex:1 1 0!important;min-height:0!important;display:grid!important;grid-template-columns:minmax(0,7fr) minmax(145px,3fr)!important;grid-template-rows:auto minmax(0,1fr)!important;gap:4px!important;padding:3px 5px!important;overflow:hidden!important}
+  #game.game.big .layout>.rankingcard{grid-column:1/-1!important;grid-row:1!important;max-height:52px!important;overflow:auto!important}
+  #game.game.big .boardwrap{grid-column:1!important;grid-row:2!important;min-height:0!important;min-width:0!important;overflow:hidden!important}
+  #game.game.big .boardwrap canvas#board{flex:1 1 0!important;width:100%!important;height:0!important;min-height:0!important;object-fit:contain!important}
+  #game.game.big .side{grid-column:2!important;grid-row:2!important;min-width:0!important;min-height:0!important;overflow:auto!important}
+  #game.game.big .side .questioncard{display:flex!important;flex-direction:column!important;min-width:0!important;max-width:100%!important;height:100%!important;overflow:auto!important;padding:4px!important;gap:3px!important}
+  #game.game.big .questioncard .question{font-size:clamp(13px,2.5vw,20px)!important;overflow-wrap:anywhere!important}
+  #game.game.big .questioncard .answers{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:3px!important}
+  #game.game.big .questioncard .ans{min-width:0!important;min-height:34px!important;font-size:clamp(12px,1.8vw,18px)!important}
+}
+#game.game.big .boardwrap .city-dice-overlay{inset:0!important;display:grid;place-items:center;overflow:hidden}
+#game.game.big .city-dice-overlay .city-dice-big{aspect-ratio:1!important;flex-shrink:0!important;max-width:min(160px,25vh)!important;max-height:min(160px,25vh)!important}
+#game.game.big .city-dice-overlay .city-pip-svg{width:100%!important;height:100%!important}
+body:not(.city-map-focus):not(.city-post-roll) #game.game.big .questioncard .question,
+body:not(.city-map-focus):not(.city-post-roll) #game.game.big .questioncard .answers{visibility:visible!important}
+body.city-map-focus #game.game.big .questioncard .question,
+body.city-map-focus #game.game.big .questioncard .answers,
+body.city-post-roll #game.game.big .questioncard .question,
+body.city-post-roll #game.game.big .questioncard .answers{display:none!important}
+</style>
+<script id="city-v36-phase-guard">
+(()=>{
+  // Keep question visible on a new question, without changing answer/roll/walk logic.
+  const game=document.getElementById('game');
+  const sync=()=>{
+    if(game.classList.contains('hidden'))return;
+    if(typeof phase!=='undefined' && phase==='question'){
+      document.body.classList.remove('city-map-focus','city-post-roll');
+      const card=game.querySelector('.questioncard');
+      if(card)card.removeAttribute('aria-hidden');
+    }
+  };
+  const observer=new MutationObserver(sync);
+  observer.observe(document.body,{attributes:true,attributeFilter:['class']});
+  sync();
+  document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.6 大屏測試版';
+})();
+</script>
 </body></html>
