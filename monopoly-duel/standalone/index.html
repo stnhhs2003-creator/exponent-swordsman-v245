@@ -948,4 +948,76 @@ console.info('V3.5 distance panel mounted below toolbar');
  if(btnReturn)btnReturn.addEventListener('click',()=>{restore();bar.hidden=true});
  document.title='數學城市大富翁｜獨立版 V3.7 教師即時廣播';
 })();
+</script>
+<style id="teacher-pause-v38">
+#game .teacher-pause-trigger{background:#fff0ce!important;color:#553d1a!important;border:1px solid #e9c882!important}
+#teacherPauseScreen{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:15px;padding:24px;text-align:center;background:linear-gradient(145deg,#15364fe8,#1f6270ef);color:#fff;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+#teacherPauseScreen[hidden]{display:none!important}
+#teacherPauseScreen strong{font-size:clamp(30px,6vw,68px);line-height:1.2}
+#teacherPauseScreen p{font-size:clamp(16px,2.5vw,25px);margin:0;line-height:1.5}
+#teacherPauseScreen .teacher-pause-controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+#teacherPauseScreen button{font-size:clamp(15px,2vw,21px);background:#fff3d8;color:#19445a;border:none;border-radius:12px;padding:12px 20px;min-height:46px}
+#teacherPauseScreen .teacher-pause-remaining{font-size:clamp(22px,3.5vw,39px);font-weight:950;color:#ffe4a2}
+</style>
+<script id="teacher-pause-controller-v38">
+(function(){
+ const game=document.getElementById('game'),toolbar=game?.querySelector('.toolbar');
+ if(!game||!toolbar)return;
+ const pauseButton=document.createElement('button');
+ pauseButton.type='button';pauseButton.className='teacher-pause-trigger';pauseButton.textContent='⏸ 教師暫停';
+ toolbar.append(pauseButton);
+ const pauseScreen=document.createElement('section');pauseScreen.id='teacherPauseScreen';pauseScreen.hidden=true;
+ pauseScreen.setAttribute('role','dialog');pauseScreen.setAttribute('aria-modal','true');pauseScreen.setAttribute('aria-label','教師暫停競賽');
+ const heading=document.createElement('strong');heading.textContent='⏸ 教師講解時間';
+ const note=document.createElement('p');note.textContent='競賽與題目倒數已暫停，講解完畢再繼續。';
+ const remain=document.createElement('div');remain.className='teacher-pause-remaining';
+ const control=document.createElement('div');control.className='teacher-pause-controls';
+ const resumeBtn=document.createElement('button');resumeBtn.type='button';resumeBtn.textContent='▶ 繼續比賽';
+ const broadcastBtn=document.createElement('button');broadcastBtn.type='button';broadcastBtn.textContent='📢 開啟教師廣播';
+ control.append(resumeBtn,broadcastBtn);pauseScreen.append(heading,note,remain,control);
+ document.body.append(pauseScreen);
+ let paused=false,pausedAt=0,phaseAtPause='',remainingAuto=null;
+ const previousUpdateClock=updateClock,previousMatchClock=updateMatchClock;
+ updateClock=function(){if(paused)return;return previousUpdateClock.apply(this,arguments)};
+ updateMatchClock=function(){if(paused)return;return previousMatchClock.apply(this,arguments)};
+ const fmt=ms=>{const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')};
+ function pause(){
+  if(paused||game.classList.contains('hidden')||phase==='home'||phase==='win')return;
+  // Avoid freezing async dice and movement mid-animation; finish the current action first.
+  if(phase==='rolling'||phase==='walking'){pauseButton.textContent='⌛ 請等移動完成';return}
+  paused=true;pausedAt=Date.now();phaseAtPause=phase;
+  remainingAuto=phase==='roll'?800:phase==='explain'?5000:phase==='done'?900:null;
+  clearAuto();
+  remain.textContent='🏁 剩餘時間 '+fmt(matchDeadline-Date.now());
+  matchClock.textContent='⏸ '+fmt(matchDeadline-Date.now());
+  pauseScreen.hidden=false;pauseButton.textContent='▶ 繼續比賽';
+ }
+ function resume(){
+  if(!paused)return;
+  const delta=Date.now()-pausedAt;
+  matchDeadline+=delta;
+  if(phase==='question'){deadline+=delta;askedAt+=delta;}
+  paused=false;pauseScreen.hidden=true;pauseButton.textContent='⏸ 教師暫停';
+  previousMatchClock();
+  if(phase==='question')previousUpdateClock();
+  if(remainingAuto!==null&&phase===phaseAtPause)autoAction(phase,remainingAuto);
+  remainingAuto=null;
+ }
+ pauseButton.addEventListener('click',()=>paused?resume():pause());
+ resumeBtn.addEventListener('click',resume);
+ broadcastBtn.addEventListener('click',()=>{
+    const b=[...toolbar.querySelectorAll('button')].find(x=>x.textContent.includes('即時廣播'));
+    if(b)b.click();
+ });
+ const priorTournament=tournamentStart;
+ tournamentStart=function(){paused=false;pauseScreen.hidden=true;pauseButton.textContent='⏸ 教師暫停';return priorTournament.apply(this,arguments)};
+ document.getElementById('start').onclick=tournamentStart;
+ document.getElementById('again').onclick=tournamentStart;
+ const previousHome=home;
+ home=function(){paused=false;pauseScreen.hidden=true;pauseButton.textContent='⏸ 教師暫停';return previousHome.apply(this,arguments)};
+ document.getElementById('back').onclick=home;
+ // If visible, overlay blocks answers/dice controls while paused.
+ window.teacherPauseState=()=>({paused,phase,remaining:Math.max(0,matchDeadline-Date.now())});
+ document.title='數學城市大富翁｜V3.8 教師廣播與暫停版';
+})();
 </script></body></html>
