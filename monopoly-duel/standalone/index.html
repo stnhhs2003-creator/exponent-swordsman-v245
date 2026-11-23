@@ -1150,4 +1150,70 @@ document.title='數學城市大富翁｜V4.1 城市配樂與戰況轉播版';
  window.addEventListener('resize',sync,{passive:true});
  window.addEventListener('orientationchange',sync,{passive:true});
 })();
+</script>
+<style id="v43-viewport-fit-classroom">
+/* 16:9 classroom layout: every region participates in the viewport height budget.
+   Map focus may not use calc(100dvh - 86px) because top UI now has multiple rows. */
+@media (orientation:landscape) and (min-aspect-ratio:1.35) {
+  html,body{max-width:100%!important;overflow-x:hidden!important}
+  #game.big:not(.hidden){position:relative!important;display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;box-sizing:border-box!important}
+  #game.big .top{position:relative!important;flex:0 0 43px!important;width:100%!important;max-height:43px!important;min-height:43px!important;height:43px!important;padding:2px 8px!important;overflow:visible!important;box-sizing:border-box!important;z-index:15!important}
+  #game.big .top .title{width:clamp(98px,13vw,155px)!important;flex:0 0 auto!important;font-size:clamp(10px,1.1vw,15px)!important}
+  #game.big .top .toolbar{display:flex!important;flex:1 1 0!important;flex-wrap:nowrap!important;min-width:0!important;min-height:37px!important;max-height:39px!important;height:39px!important;overflow-x:auto!important;overflow-y:hidden!important;gap:3px!important;scrollbar-width:none!important}
+  #game.big .top .toolbar button{position:static!important;flex:0 0 auto!important;min-height:29px!important;height:30px!important;max-height:30px!important;font-size:clamp(9px,0.94vw,13px)!important;padding:2px 6px!important}
+  #game.big .top .toolbar #match-clock{font-size:clamp(18px,2.2vw,28px)!important;line-height:30px!important;padding:1px 8px!important}
+  /* Redundant legacy floating return button must never overlay the clock or toolbar. */
+  #hhReturnStart20261122{display:none!important}
+  #game.big #distanceTracker{flex:0 0 29px!important;height:29px!important;min-height:29px!important;max-height:29px!important;overflow:hidden!important;margin:2px 6px 0!important;padding:2px 7px!important;box-sizing:border-box!important}
+  #game.big #distanceTracker .distance-title{font-size:clamp(9px,.95vw,13px)!important;line-height:20px!important;flex:none!important}
+  #game.big #distanceTracker .distance-list{gap:4px!important;max-height:24px!important;align-items:center!important}
+  #game.big #distanceTracker .distance-player{font-size:clamp(9px,.9vw,12px)!important;padding:1px 4px!important;min-height:21px!important}
+  #game.big .match-commentary{flex:0 0 29px!important;height:29px!important;min-height:29px!important;max-height:29px!important;overflow:hidden!important;margin:2px 6px 0!important;padding:2px 6px!important;box-sizing:border-box!important}
+  #game.big .match-commentary-message{line-height:22px!important;font-size:clamp(11px,1.35vw,17px)!important;min-width:0!important}
+  #game.big .match-commentary button{min-height:23px!important;max-height:23px!important;font-size:10px!important}
+  #game.big .layout{flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;display:grid!important;grid-template-columns:minmax(0,2.4fr) minmax(225px,1fr)!important;grid-template-rows:minmax(0,1fr)!important;padding:4px 6px 5px!important;gap:6px!important;box-sizing:border-box!important;overflow:hidden!important}
+  #game.big .layout>.boardwrap{position:relative!important;grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column!important;height:100%!important;max-height:100%!important;min-height:0!important;min-width:0!important;overflow:hidden!important}
+  #game.big .boardwrap #board{display:block!important;flex:1 1 0!important;height:0!important;min-height:0!important;max-height:none!important;width:100%!important;aspect-ratio:auto!important}
+  #game.big .boardwrap .legend{flex:0 0 22px!important;max-height:22px!important;min-height:22px!important;overflow:hidden!important;padding:1px 5px!important}
+  #game.big .layout>#right-station{grid-column:2!important;grid-row:1!important;display:flex!important;min-height:0!important;max-height:100%!important;overflow:hidden!important}
+  #game.big .layout>#right-station .station-questions{min-height:0!important;overflow:auto!important}
+  #game.big .layout>.side{grid-column:2!important;grid-row:1!important;min-height:0!important;max-height:100%!important;overflow:auto!important}
+  #game.big.city-map-focus .layout{flex:1 1 0!important;height:auto!important;min-height:0!important;max-height:none!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;overflow:hidden!important}
+  #game.big.city-map-focus .layout>.boardwrap{grid-area:1/1!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important}
+  #game.big.city-map-focus .boardwrap #board{height:0!important;flex:1 1 0!important;min-height:0!important;max-height:none!important;aspect-ratio:auto!important}
+  #game.big.city-map-focus #distanceTracker,
+  #game.big.city-map-focus .match-commentary{flex-shrink:0!important}
+  /* Ensure 3D dice stays inside the actual canvas viewport rather than page viewport. */
+  #game.big.city-map-focus .city-dice-overlay{position:absolute!important;inset:0!important;max-height:100%!important;overflow:hidden!important}
+  #game.big.city-map-focus .city-dice-table{width:min(58%,330px)!important;max-height:78%!important;min-height:0!important}
+  #game.big.city-map-focus #cityDiceBig.city-dice-big{width:clamp(64px,17dvh,116px)!important;height:clamp(64px,17dvh,116px)!important}
+  #game.big.city-map-focus .city-dice-message{font-size:clamp(12px,2.5vh,22px)!important}
+}
+@media(orientation:landscape) and (min-aspect-ratio:1.35) and (max-height:530px){
+ #game.big .top{flex-basis:38px!important;height:38px!important;min-height:38px!important;max-height:38px!important}
+ #game.big #distanceTracker{flex-basis:24px!important;min-height:24px!important;height:24px!important;max-height:24px!important}
+ #game.big .match-commentary{flex-basis:25px!important;min-height:25px!important;height:25px!important;max-height:25px!important}
+ #game.big .layout{padding:2px 4px 3px!important;gap:4px!important;grid-template-columns:minmax(0,2.25fr) minmax(190px,1fr)!important}
+ #game.big .boardwrap .legend{flex-basis:18px!important;min-height:18px!important;max-height:18px!important}
+ #game.big .top .toolbar #match-clock{font-size:19px!important}
+}
+</style>
+<script id="v43-fit-sync">
+(function(){
+ const game=document.getElementById('game');
+ if(!game)return;
+ let pending=false;
+ function fit(){
+   if(pending)return;pending=true;
+   requestAnimationFrame(()=>{
+      pending=false;
+      if(game.classList.contains('hidden'))return;
+      if(typeof draw==='function')draw();
+   });
+ }
+ window.addEventListener('resize',fit,{passive:true});
+ window.addEventListener('orientationchange',fit,{passive:true});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',fit,{passive:true});
+ document.title='數學城市大富翁｜V4.3 16:9 擲骰棋盤完整顯示版';
+})();
 </script></body></html>
