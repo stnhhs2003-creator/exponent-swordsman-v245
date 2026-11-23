@@ -1020,4 +1020,79 @@ console.info('V3.5 distance panel mounted below toolbar');
  window.teacherPauseState=()=>({paused,phase,remaining:Math.max(0,matchDeadline-Date.now())});
  document.title='數學城市大富翁｜V3.8 教師廣播與暫停版';
 })();
+</script>
+<style id="city-music-v39">
+#game .city-audio-volume{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:9px;color:#e7fdff;font-size:11px;font-weight:800;background:#18516a}
+#game .city-audio-volume input{width:72px;accent-color:#ffcf87;touch-action:manipulation}
+@media(orientation:landscape) and (max-height:520px){#game .city-audio-volume{padding:2px 4px;font-size:10px}#game .city-audio-volume input{width:48px}}
+</style>
+<script id="city-music-controller-v39">
+(function(){
+const toolbar=document.querySelector('#game .toolbar');
+if(!toolbar)return;
+const volumeWrap=document.createElement('label');volumeWrap.className='city-audio-volume';
+volumeWrap.textContent='🎵 音量';
+const slider=document.createElement('input');slider.type='range';slider.min='0';slider.max='100';slider.step='5';slider.value='38';slider.setAttribute('aria-label','背景音樂與音效音量');
+volumeWrap.appendChild(slider);toolbar.appendChild(volumeWrap);
+let volume=.38,beat=0,style='city',lastMode='';
+slider.addEventListener('input',()=>{volume=Number(slider.value)/100});
+const midi=(n)=>440*Math.pow(2,(n-69)/12);
+function play(n,d=.17,v=.06,type='sine',delay=0){
+  if(!soundOn||!ctx||volume<=0)return;
+  try{const t=ctx.currentTime+Math.max(0,delay),o=ctx.createOscillator(),gain=ctx.createGain();
+   o.type=type;o.frequency.setValueAtTime(midi(n),t);
+   const amp=Math.max(.0001,Math.min(.16,v*volume/.38));
+   gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(amp,t+.012);
+   gain.gain.exponentialRampToValueAtTime(.0001,t+d);
+   o.connect(gain);gain.connect(ctx.destination);o.start(t);o.stop(t+d+.03);
+  }catch(e){}
+}
+const tunes={
+ city:{lead:[64,67,71,72,76,74,71,67,69,72,76,79,76,72,71,67],bass:[48,48,55,55,50,50,55,55]},
+ goal:{lead:[67,71,74,79,78,74,71,76,79,83,86,83,79,76,74,71],bass:[43,43,50,50,45,45,50,50]},
+ roll:{lead:[60,64,67,72,64,67,72,76],bass:[48,55,48,55]}
+};
+function mood(){
+ if(typeof window.teacherPauseState==='function'&&window.teacherPauseState().paused)return 'pause';
+ if(document.getElementById('teacherBroadcastBig')&&!document.getElementById('teacherBroadcastBig').hidden)return 'pause';
+ if(phase==='home'||phase==='win')return 'pause';
+ if(phase==='rolling')return 'roll';
+ const nearest=(typeof players!=='undefined'&&players.length)?Math.max(...players.map(p=>p.pos)):0;
+ return nearest>=24?'goal':'city';
+}
+const previousStop=stopMusic;
+stopMusic=function(){previousStop();beat=0;lastMode=''};
+audioStart=function(){
+ if(!soundOn)return;
+ try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();ctx.resume();
+ if(musicTimer!==null)return;
+ musicTimer=setInterval(()=>{
+  if(!soundOn||!ctx)return;
+  const mode=mood();if(mode==='pause')return;
+  if(lastMode!==mode){beat=0;lastMode=mode}
+  const song=tunes[mode]||tunes.city,idx=beat%song.lead.length;
+  play(song.lead[idx],mode==='goal'?.22:.18,mode==='goal'?.027:.022,'triangle');
+  if(beat%2===0)play(song.bass[Math.floor(beat/2)%song.bass.length],.33,.018,'sine');
+  if(beat%4===0)play(song.lead[idx]-12,.19,.008,'sine');
+  beat++;
+ },mode==='roll'?165:235);
+ }catch(e){console.warn('Sound unavailable:',e)}
+};
+const patterns={
+ good:[72,76,79,84],
+ bad:[62,58,53],
+ tick:[81],
+ step:[52,57],
+ land:[67,72,79],
+ win:[60,64,67,72,76,79,84,88]
+};
+sfx=function(t){
+ if(t==='step')return play(52,.075,.015,'sine');
+ const notes=patterns[t]||[60],gap=t==='win'?.15:t==='good'?.11:.095;
+ notes.forEach((n,i)=>play(n,t==='win'?.5:.16,t==='win'?.07:t==='tick'?.025:.052,t==='bad'?'sine':'triangle',i*gap));
+};
+const originalMusicButton=document.getElementById('sound');
+if(originalMusicButton)originalMusicButton.addEventListener('click',()=>{if(!soundOn)lastMode=''});
+document.title='數學城市大富翁｜V3.9 教師暫停與城市配樂版';
+})();
 </script></body></html>
