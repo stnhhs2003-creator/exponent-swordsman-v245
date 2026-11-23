@@ -1,0 +1,23 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏配樂修正測試版</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
+(function(){
+const frame=document.getElementById('play');
+function patch(){
+try{
+const w=frame.contentWindow,d=w.document;if(!d||!d.body||d.getElementById('hsin-audio-unlock'))return;
+const css=d.createElement('style');css.textContent='#hsin-audio-unlock{position:fixed!important;z-index:2147483000!important;right:12px!important;bottom:12px!important;border:2px solid #ffe59a!important;background:#163d5c!important;color:#fff!important;border-radius:12px!important;padding:12px 16px!important;font:800 17px system-ui!important;box-shadow:0 4px 15px #0008!important;cursor:pointer!important;touch-action:manipulation!important}#hsin-audio-unlock.on{background:#216348!important}';d.head.append(css);
+const button=d.createElement('button');button.id='hsin-audio-unlock';button.textContent='🔊 啟用配樂';button.title='教室大屏若無配樂，點擊以啟動瀏覽器音效';
+function unlock(){
+try{
+const status=w.eval("(function(){try{ctx ||=new (window.AudioContext||window.webkitAudioContext)();sound=true;duelChoice='rock';if(duelMusicVol<=0)duelMusicVol=.65;duelNext=0;const tr=document.getElementById('duelTrack');if(tr)tr.value='rock';const vol=document.getElementById('duelMusicVol');if(vol)vol.value=Math.round(duelMusicVol*100);const s=document.getElementById('sound');if(s)s.value='1';return ctx.resume()}catch(e){return Promise.reject(e)}})()");
+Promise.resolve(status).then(()=>{button.textContent='✅ 配樂已啟用';button.classList.add('on');setTimeout(()=>{button.textContent='🔊 重新啟用配樂'},2600)}).catch(()=>button.textContent='🔇 請再點一次啟用配樂');
+}catch(e){button.textContent='🔇 請再點一次啟用配樂'}
+}
+button.addEventListener('click',unlock);d.body.append(button);
+const start=d.getElementById('start');if(start)start.addEventListener('click',unlock,{capture:true});
+const mute=d.getElementById('mute');if(mute)mute.addEventListener('click',()=>{try{w.eval("if(ctx&&ctx.state==='suspended')ctx.resume()")}catch(e){}});
+d.addEventListener('visibilitychange',()=>{if(!d.hidden){try{w.eval("if(ctx&&ctx.state==='suspended')ctx.resume()")}catch(e){}}});
+}catch(e){}
+}
+frame.addEventListener('load',()=>{patch();setTimeout(patch,700);setTimeout(patch,1800)});
+})();
+</script></body></html>
