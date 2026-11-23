@@ -327,4 +327,22 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 @keyframes cityPhysicalLand{0%{transform:rotate(-20deg) translateY(-25px) scale(1.1)}65%{transform:rotate(5deg) translateY(3px) scale(.97)}100%{transform:none}}
 @media(orientation:landscape) and (max-height:520px){.city-dice-big{width:clamp(72px,22vh,125px);height:clamp(72px,22vh,125px);border-radius:20%}}
 @media(prefers-reduced-motion:reduce){.city-dice-rolling .city-dice-big,.city-dice-landed .city-dice-big{animation:none!important}}
-</style></body></html>
+</style>
+<!-- V2.9: stable flat 2D dice, preserving original random result and game rules -->
+<style id="city-flat-dice-v29">
+.city-dice-overlay{background:rgba(8,29,52,.32)!important;backdrop-filter:blur(1px)}
+.city-dice-table{width:min(64%,280px)!important;min-height:0!important;max-height:90%!important;padding:clamp(10px,1.5vw,18px)!important;gap:8px!important;background:#143952ed!important;border:2px solid #e9cb85!important;border-radius:20px!important;box-shadow:0 12px 24px #06162699!important;perspective:none!important}
+.city-dice-label{font-size:clamp(14px,2vw,22px)!important}
+.city-dice-big{width:clamp(75px,12vw,130px)!important;height:clamp(75px,12vw,130px)!important;aspect-ratio:1!important;flex:none!important;padding:12%!important;display:grid!important;grid-template-columns:repeat(3,1fr)!important;grid-template-rows:repeat(3,1fr)!important;gap:2px!important;transform:none;transform-style:flat!important;perspective:none!important;background:#fffdf8!important;border:3px solid #e4dfe0!important;border-radius:19px!important;box-shadow:0 5px 0 #bfc7cf,0 9px 17px #0006!important;filter:none!important}
+.city-dice-big i{align-self:center!important;justify-self:center!important;width:62%!important;height:62%!important;background:#bd3142!important;border-radius:50%!important;box-shadow:none!important}
+.city-dice-message{font-size:clamp(14px,2vw,23px)!important}
+.city-dice-rolling .city-dice-big{animation:flatDiceRoll .18s ease-in-out infinite!important}
+.city-dice-landed .city-dice-big{animation:flatDiceLand .38s ease-out both!important}
+@keyframes flatDiceRoll{0%{transform:translateY(0) rotate(-9deg)}50%{transform:translateY(-6px) rotate(8deg)}100%{transform:translateY(0) rotate(-9deg)}}
+@keyframes flatDiceLand{0%{transform:translateY(-10px) scale(1.12)}70%{transform:translateY(2px) scale(.97)}100%{transform:translateY(0) scale(1)}}
+.layout:has(.city-dice-overlay:not(.hidden)) .side .die{visibility:hidden}
+@media(orientation:landscape) and (max-height:520px){.city-dice-table{width:min(52%,205px)!important;gap:4px!important;padding:7px!important}.city-dice-big{width:clamp(68px,18vh,100px)!important;height:clamp(68px,18vh,100px)!important}}
+@media(prefers-reduced-motion:reduce){.city-dice-rolling .city-dice-big,.city-dice-landed .city-dice-big{animation:none!important}}
+</style>
+<script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V2.9 平面骰子';</script>
+</body></html>
