@@ -55,7 +55,7 @@ function tree(x,y){let p=project(x,y,0);let s=scale*.13;g.strokeStyle='#8d654b';
 function ferris(){let [x,y]=project(5.0,5.15,1.75),r=scale*.75;g.strokeStyle='#d15b5d';g.lineWidth=scale*.07;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke();for(let i=0;i<8;i++){let t=i*Math.PI/4;let xx=x+Math.cos(t)*r,yy=y+Math.sin(t)*r;g.strokeStyle='#d4c5a3';g.lineWidth=2;g.beginPath();g.moveTo(x,y);g.lineTo(xx,yy);g.stroke();circle(xx,yy,scale*.12,colors[i%4])}circle(x,y,scale*.11,'#ffd15c');let a=project(4.7,5.5),b=project(5.4,5.5);g.strokeStyle='#444c5a';g.lineWidth=scale*.06;g.beginPath();g.moveTo(...a);g.lineTo(x,y);g.lineTo(...b);g.stroke()}
 function drawFlag(x,y){let [px,py]=project(x,y,.04),h=scale*1.15;g.strokeStyle='#344f62';g.lineWidth=3;g.beginPath();g.moveTo(px,py);g.lineTo(px,py-h);g.stroke();for(let i=0;i<4;i++)for(let j=0;j<3;j++){g.fillStyle=(i+j)%2?'#263b50':'#fff';g.fillRect(px+i*scale*.11,py-h+j*scale*.11,scale*.112,scale*.112)}textAt('終點',px,py-h-scale*.18,scale*.26,'#263b50')}
 function drawPlayer(p,time){let pos=route[p.pos],x=pos[0]+.5,y=pos[1]+.5,walking=moveAnim&&moveAnim.id===p.id;let same=players.filter(q=>q.pos===p.pos);let offset=(same.findIndex(q=>q.id===p.id)-(same.length-1)/2)*.19;if(walking){let t=Math.min(1,(time-moveAnim.start)/moveAnim.ms),a=route[moveAnim.from],b=route[moveAnim.to];x=a[0]+.5+(b[0]-a[0])*t;y=a[1]+.5+(b[1]-a[1])*t}let [px,py]=project(x+offset,y-offset,.09),s=scale*.32,swing=walking?Math.sin((time-moveAnim.start)*.026):0,bob=walking?Math.abs(swing)*s*.08:0;g.save();g.translate(px,py-bob);g.fillStyle='#13354945';g.beginPath();g.ellipse(0,1,s*.8,s*.25,0,0,7);g.fill();g.lineCap='round';g.lineWidth=s*.27;g.strokeStyle='#264e74';for(let j of [-1,1]){g.beginPath();g.moveTo(j*s*.20,-s*.7);g.lineTo(j*s*.22+swing*j*s*.36,-s*.32);g.lineTo(j*s*.28+swing*j*s*.52,-s*.04);g.stroke();g.strokeStyle='#34424d';g.lineWidth=s*.19;g.beginPath();g.moveTo(j*s*.28+swing*j*s*.52,-s*.04);g.lineTo(j*s*.28+swing*j*s*.52+s*.27,-s*.04);g.stroke();g.strokeStyle='#264e74';g.lineWidth=s*.27}g.strokeStyle='#fac69b';g.lineWidth=s*.20;for(let j of [-1,1]){g.beginPath();g.moveTo(j*s*.34,-s*1.42);g.lineTo(j*s*.55-swing*j*s*.23,-s*.82);g.stroke()}g.fillStyle=p.color;g.beginPath();g.roundRect(-s*.39,-s*1.54,s*.78,s*.91,s*.22);g.fill();circle(0,-s*1.88,s*.49,'#ffd3a4');g.fillStyle='#51392e';g.beginPath();g.arc(0,-s*1.96,s*.48,Math.PI,Math.PI*2);g.fill();g.fillStyle=p.color;g.beginPath();g.ellipse(0,-s*2.12,s*.53,s*.25,0,0,7);g.fill();circle(-s*.15,-s*1.87,s*.045,'#263b50');circle(s*.15,-s*1.87,s*.045,'#263b50');g.strokeStyle='#a95640';g.lineWidth=1.5;g.beginPath();g.arc(0,-s*1.79,s*.14,.1,Math.PI-.1);g.stroke();g.fillStyle=p.color;g.beginPath();g.roundRect(-s*.74,-s*2.65,s*1.48,s*.4,s*.14);g.fill();textAt(String(p.id+1),0,-s*2.45,s*.32,'#fff');g.restore()}
-function draw(time=performance.now()){if($('game').classList.contains('hidden'))return;let rect=cv.getBoundingClientRect();if(!rect.width||!rect.height)return;ratio=Math.min(devicePixelRatio||1,2);W=rect.width;H=rect.height;if(cv.width!==Math.round(W*ratio)||cv.height!==Math.round(H*ratio)){cv.width=Math.round(W*ratio);cv.height=Math.round(H*ratio)}g.setTransform(ratio,0,0,ratio,0,0);scale=Math.min(W/19.7,H/10.8);ox=W/2;oy=H*.46-8.6*scale*.49+scale*.8;let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#79cbed');sky.addColorStop(.6,'#e9fbff');sky.addColorStop(1,'#a7d7be');g.fillStyle=sky;g.fillRect(0,0,W,H);if(typeof cityBackground!=="undefined"&&cityBackground.complete&&cityBackground.naturalWidth){let sw=cityBackground.naturalWidth,sh=cityBackground.naturalHeight,sc=Math.max(W/sw,H/sh);g.drawImage(cityBackground,(W-sw*sc)/2,(H-sh*sc)/2,sw*sc,sh*sc)}else for(let i=0;i<7;i++){let px=(i*W/6+15)%W,py=H*.07+(i%3)*12;circle(px,py,10+scale*.2,'#ffffffbb');circle(px+15,py+5,11+scale*.2,'#ffffffbb');circle(px-12,py+5,8+scale*.2,'#ffffffbb')}boardPlatform();
+function draw(time=performance.now()){if($('game').classList.contains('hidden'))return;let rect=cv.getBoundingClientRect();if(!rect.width||!rect.height)return;ratio=Math.min(devicePixelRatio||1,2);W=rect.width;H=rect.height;if(cv.width!==Math.round(W*ratio)||cv.height!==Math.round(H*ratio)){cv.width=Math.round(W*ratio);cv.height=Math.round(H*ratio)}g.setTransform(ratio,0,0,ratio,0,0);scale=Math.min(W/($('game').classList.contains('big')?15.8:19.7),H/($('game').classList.contains('big')?8.3:10.8));ox=W/2;oy=H*.46-8.6*scale*.49+scale*.8;let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#79cbed');sky.addColorStop(.6,'#e9fbff');sky.addColorStop(1,'#a7d7be');g.fillStyle=sky;g.fillRect(0,0,W,H);if(typeof cityBackground!=="undefined"&&cityBackground.complete&&cityBackground.naturalWidth){let sw=cityBackground.naturalWidth,sh=cityBackground.naturalHeight,sc=Math.max(W/sw,H/sh);g.drawImage(cityBackground,(W-sw*sc)/2,(H-sh*sc)/2,sw*sc,sh*sc)}else for(let i=0;i<7;i++){let px=(i*W/6+15)%W,py=H*.07+(i%3)*12;circle(px,py,10+scale*.2,'#ffffffbb');circle(px+15,py+5,11+scale*.2,'#ffffffbb');circle(px-12,py+5,8+scale*.2,'#ffffffbb')}boardPlatform();
 for(let i=0;i<route.length;i++){let [x,y]=route[i];raisedTile(x,y,i);let [px,py]=project(x+.5,y+.54,.11);textAt(i===0?'GO':i===31?'🏁':specials[i]==='休息'?'休':specials[i]==='機會'?'?':specials[i]==='命運'?'✦':specials[i]==='寶箱'?'★':specials[i]==='快線'?'🚄':specials[i]==='護盾'?'🛡':String(i),px,py-scale*.04,Math.max(11,scale*.36),i===0?'#14653e':'#21485c');if(specials[i]&&i!==0&&i!==31)textAt(String(i),px,py+scale*.22,Math.max(7,scale*.19),'#315064')}
 let objects=buildings.map(b=>({depth:b.x+b.y+b.w/2+b.d/2,fn:()=>building(b)}));for(let [x,y] of [[1.3,1.5],[1.45,3.8],[1.5,6.7],[3.2,3.65],[7.1,5.8],[7.3,3.65],[5.7,7.1],[2.8,7.2]])objects.push({depth:x+y,fn:()=>tree(x,y)});objects.push({depth:10.6,fn:ferris});for(let p of players){let pos=route[p.pos];let depth=pos[0]+pos[1]+.8;if(moveAnim?.id===p.id){let a=route[moveAnim.from],b=route[moveAnim.to];depth=(a[0]+a[1]+b[0]+b[1])/2+.8}objects.push({depth,fn:()=>drawPlayer(p,time)})}objects.push({depth:7.6,fn:()=>drawFlag(.5,7.5)});objects.sort((a,b)=>a.depth-b.depth).forEach(o=>o.fn());let [sx,sy]=project(8.6,8.5,0);textAt('城市冒險',W/2,H-20,Math.max(12,scale*.33),'#285d6c');}
 function tick(t){updateClock();draw(t);requestAnimationFrame(tick)}requestAnimationFrame(tick);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ctx&&soundOn)ctx.resume().catch(()=>{})});
@@ -1069,5 +1069,85 @@ document.title='數學城市大富翁｜V4.1 城市配樂與戰況轉播版';
   }
  },250);
  document.title='數學城市大富翁｜V4.1 自動戰況轉播版';
+})();
+</script>
+<style id="v42-classroom-landscape-layout">
+/* Classroom-first 16:9: one compact toolbar row, compact live badges,
+   large map on the left, question on the right. */
+@media (orientation:landscape) and (min-aspect-ratio:1.35) {
+ html,body{overflow-x:hidden!important}
+ #game.big:not(.hidden){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important}
+ #game.big .top{display:flex!important;flex:none!important;align-items:center!important;flex-wrap:nowrap!important;gap:5px!important;min-height:41px!important;max-height:49px!important;height:clamp(41px,8.3dvh,49px)!important;padding:3px 7px!important;overflow:hidden!important}
+ #game.big .top .title{flex:0 0 auto!important;width:min(145px,15vw)!important;min-width:0!important;font-size:clamp(11px,1.24vw,17px)!important;line-height:1.2!important;white-space:normal!important}
+ #game.big .top .title small{display:block!important;font-size:clamp(8px,.8vw,11px)!important;line-height:1.1!important}
+ #game.big .top .toolbar{display:flex!important;flex:1 1 auto!important;min-width:0!important;max-width:none!important;align-items:center!important;flex-wrap:nowrap!important;gap:4px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;white-space:nowrap!important;min-height:38px!important}
+ #game.big .toolbar::-webkit-scrollbar{display:none!important}
+ #game.big .top .toolbar button{flex:0 0 auto!important;position:static!important;min-height:29px!important;max-height:33px!important;padding:3px 7px!important;border-radius:8px!important;font-size:clamp(10px,1.02vw,13px)!important;box-shadow:none!important;white-space:nowrap!important}
+ #game.big .top .toolbar #match-clock{flex:0 0 auto!important;font-size:clamp(17px,2vw,26px)!important;padding:3px 9px!important;line-height:30px!important;border-radius:8px!important}
+ #game.big .top .city-audio-volume{flex:0 0 auto!important;min-height:27px!important;padding:1px 5px!important}
+ #game.big #hhReturnStart20261122{display:none!important}
+ #game.big #distanceTracker{display:flex!important;align-items:center!important;gap:9px!important;flex:0 0 auto!important;min-height:30px!important;max-height:35px!important;margin:2px 6px!important;padding:3px 7px!important;width:calc(100% - 12px)!important;border-radius:8px!important}
+ #game.big #distanceTracker .distance-title{flex:0 0 auto!important;display:flex!important;gap:5px!important;font-size:clamp(10px,1.2vw,14px)!important;margin:0!important}
+ #game.big #distanceTracker .distance-title .distance-leader{display:none!important}
+ #game.big #distanceTracker .distance-list{display:flex!important;flex:1 1 auto!important;align-items:center!important;gap:5px!important;overflow-x:auto!important;flex-wrap:nowrap!important;min-width:0!important}
+ #game.big #distanceTracker .distance-player{flex:0 0 auto!important;min-width:115px!important;max-width:195px!important;border-width:1px!important;padding:2px 5px!important;font-size:clamp(10px,1vw,13px)!important;border-radius:7px!important}
+ #game.big .match-commentary{flex:0 0 auto!important;height:31px!important;min-height:31px!important;max-height:31px!important;margin:1px 6px 2px!important;padding:2px 7px!important;border-radius:8px!important;gap:6px!important}
+ #game.big .match-commentary-label{font-size:clamp(10px,1.1vw,14px)!important}
+ #game.big .match-commentary-message{font-size:clamp(11px,1.45vw,18px)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ #game.big .match-commentary button{font-size:10px!important;min-height:25px!important;padding:2px 6px!important}
+ #game.big .layout{flex:1 1 0!important;display:grid!important;grid-template-columns:minmax(0,2.45fr) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important;max-height:none!important;min-width:0!important;gap:5px!important;padding:3px 6px 6px!important;overflow:hidden!important;align-items:stretch!important}
+ #game.big .layout>.boardwrap{grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column!important;min-height:0!important;height:100%!important;max-height:100%!important;min-width:0!important;overflow:hidden!important;border-radius:12px!important;border-width:2px!important}
+ #game.big:not(.city-map-focus) .boardwrap #board{display:block!important;flex:1 1 0!important;min-height:0!important;max-height:none!important;height:0!important;width:100%!important;aspect-ratio:auto!important}
+ #game.big .boardwrap .legend{flex:0 0 auto!important;max-height:23px!important;overflow:hidden!important;gap:4px!important;font-size:clamp(9px,.9vw,12px)!important;padding:2px 6px!important;line-height:17px!important;white-space:nowrap!important}
+ #game.big .boardhead{top:4px!important;left:4px!important;right:4px!important}
+ #game.big .boardhead .tag{padding:3px 5px!important;font-size:clamp(9px,1vw,13px)!important;border-radius:6px!important}
+ #game.big .layout>.duelpanels,
+ #game.big .layout>.rankingcard,
+ #game.big .layout>.side .rankingcard,
+ #game.big .layout>#left-station{display:none!important}
+ #game.big .questioncard{height:100%!important;min-height:0!important;min-width:0!important;padding:5px!important;gap:4px!important;justify-content:flex-start!important;overflow-y:auto!important;overflow-x:hidden!important}
+ #game.big .questioncard .turnlabel{flex:none!important;font-size:clamp(11px,1.2vw,17px)!important}
+ #game.big .questioncard .bar{flex:none!important;margin:3px 0!important}
+ #game.big .questioncard .question{flex:none!important;min-height:0!important;font-size:clamp(15px,2.1vw,30px)!important;padding:3px 0!important}
+ #game.big .questioncard .answers{flex:none!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;margin:3px 0!important}
+ #game.big .questioncard .ans{min-height:clamp(33px,7dvh,60px)!important;font-size:clamp(14px,1.65vw,24px)!important}
+ #game.big .questioncard .feedback{flex:none!important;min-height:0!important;max-height:42px!important;overflow-y:auto!important;font-size:clamp(10px,1vw,14px)!important;line-height:1.2!important}
+ #game.big .questioncard .rollrow{flex:none!important;margin-top:auto!important}
+ #game.big .questioncard .rollrow button{min-height:32px!important;font-size:clamp(11px,1.15vw,17px)!important}
+ #game.big .questioncard .die{width:36px!important;height:36px!important;flex-basis:36px!important;font-size:24px!important}
+ #game.big.city-map-focus .layout{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important}
+ #game.big.city-map-focus .boardwrap{grid-column:1!important;grid-row:1!important;height:100%!important;max-height:100%!important}
+ #game.big.city-map-focus .boardwrap #board{flex:1 1 0!important;height:0!important;max-height:none!important}
+}
+@media(orientation:landscape) and (min-aspect-ratio:1.35) and (max-width:1050px){
+ #game.big .layout>.side{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;min-height:0!important}
+ #game.big .layout>#right-station{display:none!important}
+ #game.big .top .title{width:110px!important;font-size:11px!important}
+ #game.big .top .toolbar button{font-size:10px!important;padding:2px 5px!important}
+ #game.big .top .toolbar #match-clock{font-size:17px!important;padding:2px 7px!important}
+ #game.big #distanceTracker .distance-title{font-size:10px!important}
+}
+@media(orientation:landscape) and (min-aspect-ratio:1.35) and (min-width:1051px){
+ #game.big .layout>#right-station{grid-column:2!important;grid-row:1!important;display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
+ #game.big #right-station>.station-title,
+ #game.big #right-station>.station-players,
+ #game.big #right-station>.station-wait{display:none!important}
+ #game.big #right-station .station-questions{flex:1 1 0!important;display:flex!important;flex-direction:column!important;min-height:0!important}
+ #game.big .layout>.side{display:none!important}
+}
+</style>
+<script id="v42-classroom-responsive-refresh">
+(function(){
+ document.title='數學城市大富翁｜V4.2 教室大屏版面修正版';
+ let last='';
+ const sync=()=>{
+   const game=document.getElementById('game');
+   if(!game||game.classList.contains('hidden')||!game.classList.contains('big'))return;
+   const key=window.innerWidth+'x'+window.innerHeight;
+   if(key===last)return;last=key;
+   if(typeof draw==='function')requestAnimationFrame(()=>draw());
+ };
+ window.addEventListener('resize',sync,{passive:true});
+ window.addEventListener('orientationchange',sync,{passive:true});
 })();
 </script></body></html>
