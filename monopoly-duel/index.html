@@ -28,9 +28,24 @@ const cityDiceOverlay=document.createElement('div');
 cityDiceOverlay.id='cityDiceOverlay';
 cityDiceOverlay.className='city-dice-overlay hidden';
 cityDiceOverlay.setAttribute('aria-live','polite');
-cityDiceOverlay.innerHTML='<div class="city-dice-table"><div class="city-dice-label"><span aria-hidden="true">❧</span> 命運骰子 <span aria-hidden="true">❧</span></div><div id="cityDiceBig" class="city-dice-big" aria-label="骰子5點"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div id="cityDiceMessage" class="city-dice-message">骰子滾動中…</div></div>';
+cityDiceOverlay.innerHTML='<div class="city-dice-table"><div class="city-dice-label"><span aria-hidden="true">❧</span> 命運骰子 <span aria-hidden="true">❧</span></div><div id="cityDiceBig" class="city-dice-big" role="img" aria-label="骰子 1 點"></div><div id="cityDiceMessage" class="city-dice-message">骰子滾動中…</div></div>';
 document.querySelector('.boardwrap').append(cityDiceOverlay);
-function cityDiceShow(n){const face=Math.max(1,Math.min(6,Number(n)||1));const el=$('cityDiceBig');el.dataset.face=String(face);el.setAttribute('aria-label','骰子 '+face+' 點');}
+const cityPipLocations={
+1:[[50,50]],
+2:[[29,29],[71,71]],
+3:[[29,29],[50,50],[71,71]],
+4:[[29,29],[71,29],[29,71],[71,71]],
+5:[[29,29],[71,29],[50,50],[29,71],[71,71]],
+6:[[29,24],[71,24],[29,50],[71,50],[29,76],[71,76]]
+};
+function cityDiceShow(n){
+  const face=Math.max(1,Math.min(6,Number(n)||1));
+  const el=$('cityDiceBig');el.dataset.face=String(face);
+  el.setAttribute('aria-label','骰子 '+face+' 點');
+  el.innerHTML='<svg class="city-pip-svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">'
+    +cityPipLocations[face].map(([x,y])=>'<circle cx="'+x+'" cy="'+y+'" r="10.8" fill="#ae1734"/><circle cx="'+(x-2.3)+'" cy="'+(y-2.4)+'" r="3.4" fill="#ea6e82" opacity=".42"/>').join('')
+    +'</svg>';
+}
 function cityDiceBegin(){cityDiceOverlay.classList.remove('hidden','city-dice-landed');cityDiceOverlay.classList.add('city-dice-rolling');cityDiceShow(1);$('cityDiceMessage').textContent='骰子滾動中…';$('boardstatus').textContent='擲骰中'}
 function cityDiceFrame(face){if(!cityDiceOverlay.classList.contains('hidden'))cityDiceShow(Math.max(1,diceFaces.indexOf(face)+1))}
 async function cityDiceFinish(n,token){if(token!==run){cityDiceOverlay.classList.add('hidden');return}cityDiceOverlay.classList.remove('city-dice-rolling');cityDiceOverlay.classList.add('city-dice-landed');cityDiceShow(n);$('cityDiceMessage').textContent='擲出 '+n+' 點！';sfx('land');await sleep(680);cityDiceOverlay.classList.add('hidden');cityDiceOverlay.classList.remove('city-dice-landed');cityDiceOverlay.classList.remove('city-dice-rolling')}
@@ -462,4 +477,20 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 }
 </style>
 <script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.4 層次平面骰子';</script>
+<style id="city-pips-svg-v35">
+/* One authoritative SVG die face, not a CSS 3x3 grid; positions are standard. */
+.city-dice-overlay .city-dice-big{
+display:block!important;position:relative!important;
+padding:0!important;overflow:hidden!important;isolation:isolate!important;
+aspect-ratio:1!important;box-sizing:border-box!important
+}
+.city-dice-overlay .city-dice-big::after{pointer-events:none!important}
+.city-dice-overlay .city-dice-big .city-pip-svg{
+position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+display:block!important;max-width:none!important;max-height:none!important;
+overflow:visible!important;filter:none!important;transform:none!important
+}
+.city-dice-overlay .city-dice-big .city-pip-svg circle{display:block!important}
+</style>
+<script>document.querySelector('.intro .badge').textContent='MATH REALM · 第 10 款 · V3.5 標準骰面';</script>
 </body></html>
