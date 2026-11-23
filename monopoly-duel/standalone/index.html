@@ -847,108 +847,6 @@ console.info('V3.5 distance panel mounted below toolbar');
  document.title='數學城市大富翁｜V3.6 組別與主角進度測試版';
 })();
 </script>
-<style id="teacher-broadcast-v37">
-#game .teacher-broadcast-bar{position:relative;flex:none;z-index:3;margin:4px 10px 0;padding:6px 9px;border:1px solid #80b8c0;border-radius:11px;background:linear-gradient(90deg,#e7f7f8,#fffdf3);color:#1f495e;display:flex;align-items:center;justify-content:space-between;gap:9px;box-shadow:0 2px 7px #123f551b}
-#game .teacher-broadcast-bar[hidden]{display:none!important}
-#game .teacher-broadcast-label{font-size:12px;font-weight:950;color:#167888;flex:none}
-#game .teacher-broadcast-body{font-size:clamp(15px,2.15vw,26px);font-weight:900;text-align:center;line-height:1.3;flex:1;min-width:0;overflow-wrap:anywhere}
-#game .teacher-broadcast-actions{display:flex;gap:4px;flex:none}
-#game .teacher-broadcast-actions button{min-height:30px;padding:4px 9px;border-radius:8px;font-size:12px;background:#dceef3;color:#234758;box-shadow:none}
-#teacherBroadcastEditor{position:fixed;z-index:170;inset:0;background:#0b2944bb;display:grid;place-items:center;padding:14px;overflow:auto}
-#teacherBroadcastEditor[hidden],#teacherBroadcastBig[hidden]{display:none!important}
-#teacherBroadcastEditor .broadcast-editor-panel{width:min(620px,96vw);max-height:96dvh;overflow:auto;border-radius:20px;background:#fffefa;color:#203e52;padding:18px;border:2px solid #d5e9e9;box-shadow:0 12px 45px #001e315c}
-.broadcast-editor-panel h2{margin:0 0 8px;font-size:22px}
-.broadcast-editor-panel p{margin:6px 0 10px;font-size:13px;line-height:1.4;color:#4e7180}
-#teacherBroadcastInput{display:block;box-sizing:border-box;width:100%;min-height:95px;resize:vertical;padding:12px;border-radius:12px;border:2px solid #b6d4da;background:#f8fcfd;color:#203e52;font:700 20px/1.5 system-ui,sans-serif}
-#teacherBroadcastPresets{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-#teacherBroadcastPresets button{min-height:37px;padding:6px 10px;background:#e7f4f5;color:#225065;box-shadow:none;font-size:13px}
-#teacherBroadcastEditor .broadcast-editor-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-#teacherBroadcastEditor .broadcast-editor-buttons button{flex:1 1 130px;min-height:43px;padding:8px 12px;box-shadow:none;background:#206b83;color:#fff}
-#teacherBroadcastEditor .broadcast-editor-buttons button.secondary{background:#e5f0f2;color:#24495b}
-#teacherBroadcastBig{position:fixed;inset:0;z-index:180;background:linear-gradient(145deg,#13384e,#155769 70%,#236e73);color:#fffdf1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:clamp(18px,5vw,62px);text-align:center}
-#teacherBroadcastBig .broadcast-live{font-size:clamp(16px,2.2vw,27px);font-weight:900;color:#ffdf91;letter-spacing:.16em}
-#teacherBroadcastBig .broadcast-big-text{width:min(1200px,95%);max-height:70dvh;overflow:auto;font-size:clamp(29px,6vw,88px);font-weight:950;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;text-shadow:0 3px 16px #0005}
-#teacherBroadcastBig .broadcast-big-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-#teacherBroadcastBig button{border-radius:12px;padding:10px 22px;min-height:44px;background:#fff5df;color:#193e53;box-shadow:none;font-size:16px}
-@media(orientation:landscape) and (max-height:520px){
- #game .teacher-broadcast-bar{margin:2px 7px 0;padding:3px 6px;min-height:35px;gap:4px}
- #game .teacher-broadcast-label{font-size:10px}
- #game .teacher-broadcast-body{font-size:clamp(12px,3vh,19px);max-height:2.5em;overflow:hidden}
- #game .teacher-broadcast-actions button{padding:2px 5px;min-height:27px;font-size:10px}
- #teacherBroadcastBig{gap:8px;padding:12px}
- #teacherBroadcastBig .broadcast-big-text{font-size:clamp(29px,7.5vh,54px);max-height:60dvh}
- #teacherBroadcastEditor .broadcast-editor-panel{padding:10px}
- #teacherBroadcastEditor h2{font-size:18px}
- #teacherBroadcastInput{min-height:60px;font-size:16px}
-}
-@media(max-width:600px) and (orientation:portrait){
- #game .teacher-broadcast-bar{margin:3px 7px 0;padding:5px}
- #game .teacher-broadcast-label{font-size:10px}
- #game .teacher-broadcast-body{font-size:clamp(13px,3.6vw,19px)}
- #game .teacher-broadcast-actions button{padding:4px 6px}
-}
-</style>
-<script id="teacher-broadcast-controller-v37">
-(function(){
- const game=document.getElementById('game'),toolbar=game?.querySelector('.toolbar');
- if(!game||!toolbar)return;
- const launch=document.createElement('button');launch.type='button';launch.textContent='📢 即時廣播';launch.title='教師輸入公告，顯示在棋盤上方或放大給全班看';
- toolbar.append(launch);
- const bar=document.createElement('section');bar.className='teacher-broadcast-bar';bar.hidden=true;
- bar.setAttribute('aria-label','教師即時公告');
- const barLabel=document.createElement('strong');barLabel.className='teacher-broadcast-label';barLabel.textContent='📢 教師廣播';
- const barText=document.createElement('div');barText.className='teacher-broadcast-body';
- const barActions=document.createElement('div');barActions.className='teacher-broadcast-actions';
- const enlarge=document.createElement('button');enlarge.type='button';enlarge.textContent='放大';
- const hide=document.createElement('button');hide.type='button';hide.textContent='收起';
- barActions.append(enlarge,hide);bar.append(barLabel,barText,barActions);
- // Place below distance tracker so neither panel overlays the map.
- const distance=document.getElementById('distanceTracker');
- (distance||game.querySelector('.top')).insertAdjacentElement('afterend',bar);
- const editor=document.createElement('section');editor.id='teacherBroadcastEditor';editor.hidden=true;editor.setAttribute('role','dialog');editor.setAttribute('aria-modal','true');editor.setAttribute('aria-label','教師即時廣播設定');
- const panel=document.createElement('div');panel.className='broadcast-editor-panel';
- const h=document.createElement('h2');h.textContent='📢 教師即時廣播';
- const hint=document.createElement('p');hint.textContent='公告橫幅不會遮住地圖；需要全班注意時再切換大字模式。競賽計時仍會繼續。';
- const input=document.createElement('textarea');input.id='teacherBroadcastInput';input.maxLength=180;input.placeholder='例如：第 3 組準備計算，其他組請觀察棋盤！';
- const presets=document.createElement('div');presets.id='teacherBroadcastPresets';
- ['請各組準備下一題！','答錯先看詳解，再換下一組。','請注意終點倒數排行榜！','倒數一分鐘，全班加油！','暫停討論，請看老師說明。'].forEach(value=>{
-   const b=document.createElement('button');b.type='button';b.textContent=value;b.onclick=()=>{input.value=value;input.focus()};presets.append(b);
- });
- const controls=document.createElement('div');controls.className='broadcast-editor-buttons';
- const send=document.createElement('button');send.type='button';send.textContent='📢 發送橫幅';
- const large=document.createElement('button');large.type='button';large.textContent='⛶ 全螢幕大字';
- const clear=document.createElement('button');clear.type='button';clear.className='secondary';clear.textContent='清除公告';
- const close=document.createElement('button');close.type='button';close.className='secondary';close.textContent='關閉';
- controls.append(send,large,clear,close);panel.append(h,hint,input,presets,controls);editor.append(panel);document.body.append(editor);
- const big=document.createElement('section');big.id='teacherBroadcastBig';big.hidden=true;big.setAttribute('role','dialog');big.setAttribute('aria-modal','true');big.setAttribute('aria-label','教師大字廣播');
- const live=document.createElement('strong');live.className='broadcast-live';live.textContent='📢 TEACHER LIVE｜教師廣播';
- const message=document.createElement('div');message.className='broadcast-big-text';
- const bigActions=document.createElement('div');bigActions.className='broadcast-big-buttons';
- const back=document.createElement('button');back.type='button';back.textContent='返回遊戲';
- const edit=document.createElement('button');edit.type='button';edit.textContent='編輯公告';
- bigActions.append(back,edit);big.append(live,message,bigActions);document.body.append(big);
- let latest='';
- function restore(){big.hidden=true;editor.hidden=true}
- function publish(fullscreen){
-   const t=input.value.trim();if(!t){input.focus();return}
-   latest=t;barText.textContent=t;message.textContent=t;bar.hidden=false;
-   editor.hidden=true;big.hidden=!fullscreen;
- }
- launch.onclick=()=>{input.value=latest;big.hidden=true;editor.hidden=false;input.focus()};
- send.onclick=()=>publish(false);large.onclick=()=>publish(true);
- enlarge.onclick=()=>{message.textContent=latest;big.hidden=false};
- hide.onclick=()=>{bar.hidden=true};
- clear.onclick=()=>{latest='';input.value='';barText.textContent='';message.textContent='';bar.hidden=true;restore()};
- close.onclick=()=>editor.hidden=true;
- back.onclick=()=>big.hidden=true;
- edit.onclick=()=>{big.hidden=true;editor.hidden=false;input.focus()};
- editor.onclick=e=>{if(e.target===editor)editor.hidden=true};
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){restore()}});
- const btnReturn=document.getElementById('restart');
- if(btnReturn)btnReturn.addEventListener('click',()=>{restore();bar.hidden=true});
- document.title='數學城市大富翁｜獨立版 V3.7 教師即時廣播';
-})();
-</script>
 <style id="teacher-pause-v38">
 #game .teacher-pause-trigger{background:#fff0ce!important;color:#553d1a!important;border:1px solid #e9c882!important}
 #teacherPauseScreen{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:15px;padding:24px;text-align:center;background:linear-gradient(145deg,#15364fe8,#1f6270ef);color:#fff;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
@@ -973,7 +871,7 @@ console.info('V3.5 distance panel mounted below toolbar');
  const remain=document.createElement('div');remain.className='teacher-pause-remaining';
  const control=document.createElement('div');control.className='teacher-pause-controls';
  const resumeBtn=document.createElement('button');resumeBtn.type='button';resumeBtn.textContent='▶ 繼續比賽';
- const broadcastBtn=document.createElement('button');broadcastBtn.type='button';broadcastBtn.textContent='📢 開啟教師廣播';
+ const broadcastBtn=document.createElement('button');broadcastBtn.type='button';broadcastBtn.textContent='📡 查看比賽戰況';
  control.append(resumeBtn,broadcastBtn);pauseScreen.append(heading,note,remain,control);
  document.body.append(pauseScreen);
  let paused=false,pausedAt=0,phaseAtPause='',remainingAuto=null;
@@ -1007,7 +905,7 @@ console.info('V3.5 distance panel mounted below toolbar');
  resumeBtn.addEventListener('click',resume);
  broadcastBtn.addEventListener('click',()=>{
     const b=[...toolbar.querySelectorAll('button')].find(x=>x.textContent.includes('即時廣播'));
-    if(b)b.click();
+    if(b){pauseScreen.hidden=true;b.click();}
  });
  const priorTournament=tournamentStart;
  tournamentStart=function(){paused=false;pauseScreen.hidden=true;pauseButton.textContent='⏸ 教師暫停';return priorTournament.apply(this,arguments)};
@@ -1094,5 +992,155 @@ sfx=function(t){
 const originalMusicButton=document.getElementById('sound');
 if(originalMusicButton)originalMusicButton.addEventListener('click',()=>{if(!soundOn)lastMode=''});
 document.title='數學城市大富翁｜V3.9 教師暫停與城市配樂版';
+})();
+</script>
+<style id="match-commentary-v40">
+#game .match-commentary{display:flex;align-items:center;gap:8px;position:relative;z-index:4;background:linear-gradient(92deg,#102f47,#1b6674);color:#f9fcff;border-radius:12px;border:1px solid #76bec5;margin:4px 10px 0;padding:7px 10px;box-shadow:0 3px 9px #173b4e20;min-width:0}
+#game .match-commentary-label{flex:none;color:#ffe0a3;font-size:clamp(11px,1.3vw,16px);font-weight:950}
+#game .match-commentary-message{flex:1;min-width:0;font-size:clamp(14px,2vw,24px);line-height:1.35;font-weight:900;white-space:normal;overflow-wrap:anywhere}
+#game .match-commentary button{flex:none;border-radius:8px;background:#f2f8f7;color:#1d4358;min-height:31px;padding:4px 7px;box-shadow:none;font-size:12px}
+#game .match-commentary-voice{background:#e1f3f0!important}
+#matchCommentaryBig{position:fixed;inset:0;z-index:185;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#102e45,#1e6572);color:#fff9e7;padding:clamp(14px,5vw,60px);text-align:center}
+#matchCommentaryBig[hidden]{display:none!important}
+#matchCommentaryBig .commentary-big-heading{font-size:clamp(16px,2.6vw,32px);font-weight:900;color:#ffdc95}
+#matchCommentaryBig .commentary-big-text{font-size:clamp(25px,5.8vw,78px);line-height:1.4;max-height:68dvh;overflow:auto;font-weight:950;overflow-wrap:anywhere;white-space:pre-wrap;text-shadow:0 3px 13px #031b2780}
+#matchCommentaryBig button{padding:12px 23px;min-height:45px;background:#fff4dd;color:#183c53;font-weight:900;border-radius:12px}
+@media(orientation:landscape) and (max-height:520px){
+#game .match-commentary{margin:2px 7px 0;padding:3px 6px;gap:5px;max-height:44px}
+#game .match-commentary-label{font-size:10px}
+#game .match-commentary-message{font-size:clamp(11px,2.6vh,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#game .match-commentary button{font-size:10px;min-height:26px;padding:2px 5px}
+#matchCommentaryBig .commentary-big-text{font-size:clamp(28px,8vh,56px)}
+}
+@media(max-width:480px) and (orientation:portrait){
+#game .match-commentary{margin:3px 7px 0;padding:5px 6px;gap:5px}
+#game .match-commentary-label{font-size:10px}
+#game .match-commentary-message{font-size:13px}
+#game .match-commentary button{font-size:10px;padding:3px 5px}
+}
+</style>
+<script id="match-commentary-controller-v40">
+(function(){
+ const game=document.getElementById('game'),toolbar=game?.querySelector('.toolbar');
+ if(!game||!toolbar)return;
+ const strip=document.createElement('section');strip.className='match-commentary';
+ strip.setAttribute('aria-label','自動比賽戰況轉播');
+ const label=document.createElement('strong');label.className='match-commentary-label';label.textContent='📡 即時戰況';
+ const message=document.createElement('div');message.className='match-commentary-message';message.textContent='🏁 比賽開始後，自動更新各組戰況！';
+ const voice=document.createElement('button');voice.type='button';voice.className='match-commentary-voice';voice.textContent='🔇 語音關';voice.title='點擊開啟或關閉電子語音轉播';
+ const expand=document.createElement('button');expand.type='button';expand.textContent='⛶ 放大';
+ strip.append(label,message,voice,expand);
+ const track=document.getElementById('distanceTracker');
+ (track||game.querySelector('.top')).insertAdjacentElement('afterend',strip);
+ const big=document.createElement('section');big.id='matchCommentaryBig';big.hidden=true;
+ big.setAttribute('role','dialog');big.setAttribute('aria-modal','true');big.setAttribute('aria-label','大字戰況轉播');
+ const bigLabel=document.createElement('strong');bigLabel.className='commentary-big-heading';bigLabel.textContent='📡 城市大富翁｜LIVE 戰況轉播';
+ const bigMessage=document.createElement('div');bigMessage.className='commentary-big-text';
+ const close=document.createElement('button');close.type='button';close.textContent='返回比賽';
+ big.append(bigLabel,bigMessage,close);document.body.append(big);
+ const toolbarExpand=document.createElement('button');toolbarExpand.type='button';toolbarExpand.textContent='📡 戰況大字';toolbarExpand.title='將目前戰況放大顯示給全班';
+ toolbar.append(toolbarExpand);
+ let lastText='',speechOn=false,lastSpeechTime=0,lastLeader='',lastLeadPos=-1,lastSeconds=-1;
+ const paused=()=>typeof window.teacherPauseState==='function'&&window.teacherPauseState().paused;
+ const group=p=>'第 '+(p.id+1)+' 組'+(typeof heroNames!=='undefined'&&heroNames[p.hero??p.id]?'（'+heroNames[p.hero??p.id]+'）':'');
+ function announce(text,important=false){
+  if(!text||text===lastText&&!important)return;
+  lastText=text;message.textContent=text;bigMessage.textContent=text;
+  if(!speechOn||paused()||!('speechSynthesis' in window))return;
+  const now=Date.now();
+  if(!important&&now-lastSpeechTime<2400)return;
+  lastSpeechTime=now;
+  try{
+   const synth=window.speechSynthesis;synth.cancel();
+   const utter=new SpeechSynthesisUtterance(text.replace(/[🏁🥇🎲✅❌📡⏰⭐！]/g,''));
+   utter.lang='zh-TW';utter.rate=1.04;utter.pitch=1.02;utter.volume=.75;
+   const taiwan=synth.getVoices().find(v=>/zh[-_]TW/i.test(v.lang));
+   if(taiwan)utter.voice=taiwan;
+   synth.speak(utter);
+  }catch(e){}
+ }
+ function summary(){
+  if(!players.length)return '尚未開始比賽';
+  const ranked=[...players].sort((a,b)=>b.pos-a.pos||b.correct-a.correct||b.stars-a.stars);
+  const best=ranked[0],left=Math.max(0,31-best.pos),tie=ranked.filter(p=>p.pos===best.pos).length;
+  return (tie>1?'目前有 '+tie+' 組並列領先！':group(best)+' 暫時領先！')+' 距離終點還有 '+left+' 格。';
+ }
+ function showBig(){bigMessage.textContent=lastText||summary();big.hidden=false}
+ function hideBig(){big.hidden=true}
+ expand.onclick=showBig;toolbarExpand.onclick=showBig;close.onclick=hideBig;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')hideBig()});
+ voice.onclick=()=>{
+  speechOn=!speechOn;
+  voice.textContent=speechOn?'🔊 語音開':'🔇 語音關';
+  if(!speechOn&&'speechSynthesis' in window)window.speechSynthesis.cancel();
+  else if(speechOn)announce('戰況語音轉播已開啟！'+summary(),true);
+ };
+ const previousLog=log;
+ log=function(t){
+  const v=previousLog.apply(this,arguments);
+  if(phase==='home'||phase==='win'||paused())return v;
+  const line=String(t||'');
+  const nameOwner=players.find(p=>line.startsWith(p.name+' '));
+  if(line.includes(' 答對，'))announce('✅ '+(nameOwner?group(nameOwner):'本組')+' 答對！準備擲骰子。');
+  else if(line.includes(' 答錯')||line.includes(' 超時'))announce('❌ '+(nameOwner?group(nameOwner):'本組')+' 未答對，本回合不前進，下一組準備！');
+  else if(line.includes(' 擲出 '))announce('🎲 '+(nameOwner?group(nameOwner):'本組')+' '+line.slice(line.indexOf(' 擲出 ')+1)+'！');
+  else if(line.includes('抽中機會卡'))announce('🎁 '+line);
+  return v;
+ };
+ const previousNext=nextQuestion;
+ nextQuestion=function(){
+  const v=previousNext.apply(this,arguments);
+  if(phase==='question'&&players[current]&&!paused())announce('第 '+round+' 輪，輪到 '+group(players[current])+' 答題！');
+  return v;
+ };
+ const previousShowRanks=showRanks;
+ showRanks=function(){
+  const v=previousShowRanks.apply(this,arguments);
+  if(!players.length||phase==='home'||phase==='win')return v;
+  const ranked=[...players].sort((a,b)=>b.pos-a.pos||b.correct-a.correct||b.stars-a.stars),p=ranked[0];
+  if(!p)return v;
+  const id=p.id,leadPos=p.pos;
+  if(leadPos>0&&(leadPos!==lastLeadPos||id!==lastLeader)){
+    const changed=id!==lastLeader;
+    lastLeader=id;lastLeadPos=leadPos;
+    if(changed||leadPos>=24||leadPos%5===0)announce('🥇 '+summary(),leadPos>=30);
+  }
+  return v;
+ };
+ const earlierTournament=tournamentStart;
+ tournamentStart=function(){
+  lastLeader='';lastLeadPos=-1;lastSeconds=-1;hideBig();
+  const v=earlierTournament.apply(this,arguments);
+  announce('🏁 城市大富翁開賽！'+summary(),true);
+  return v;
+ };
+ document.getElementById('start').onclick=tournamentStart;
+ document.getElementById('again').onclick=tournamentStart;
+ const previousVictory=victory;
+ victory=function(){
+  const winner=players[current],line=winner?'🏆 '+group(winner)+' 率先抵達終點，獲得勝利！':'🏆 比賽結束！';
+  const v=previousVictory.apply(this,arguments);announce(line,true);return v;
+ };
+ const priorFinish=finishTimed;
+ finishTimed=function(reason){
+  const v=priorFinish.apply(this,arguments);
+  if(players.length)announce('⏰ 比賽結束！'+summary(),true);
+  return v;
+ };
+ const previousHome=home;
+ home=function(){
+  hideBig();if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  lastText='';message.textContent='🏁 比賽開始後，自動更新各組戰況！';
+  return previousHome.apply(this,arguments);
+ };
+ const restart=document.getElementById('restart');if(restart)restart.addEventListener('click',hideBig);
+ const advanceCheck=setInterval(()=>{
+  if(phase==='home'||phase==='win'||!players.length||paused())return;
+  const secs=Math.max(0,Math.ceil((matchDeadline-Date.now())/1000));
+  if(secs!==lastSeconds&&[60,30,10].includes(secs)){
+   lastSeconds=secs;announce('⏰ 距離比賽結束只剩 '+secs+' 秒！'+summary(),true);
+  }
+ },250);
+ document.title='數學城市大富翁｜V4.0 自動戰況轉播版';
 })();
 </script></body></html>
