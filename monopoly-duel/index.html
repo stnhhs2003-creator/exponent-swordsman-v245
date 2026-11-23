@@ -346,6 +346,9 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 .game.big .questioncard .ans{min-height:clamp(40px,6vh,65px)!important;font-size:clamp(17px,1.8vw,26px)!important}
 .game.big .questioncard .rollrow{display:flex!important;flex:0 0 auto!important}
 .city-map-focus .game.big .questioncard,.city-post-roll .game.big .questioncard{flex:0 0 auto!important;height:auto!important}
+.city-map-focus .game.big .questioncard .rollrow,.city-map-focus .game.big .questioncard .feedback,.city-map-focus .game.big .questioncard .bar,.city-map-focus .game.big .questioncard .timer{display:none!important}
+.city-post-roll .game.big .questioncard .bar,.city-post-roll .game.big .questioncard .timer{display:none!important}
+.city-post-roll .game.big .questioncard .rollrow{display:flex!important}
 .city-map-focus .game.big .questioncard .question,.city-map-focus .game.big .questioncard .answers,.city-map-focus .game.big .questioncard .rollrow,.city-post-roll .game.big .questioncard .question,.city-post-roll .game.big .questioncard .answers{display:none!important}
 }
 @media(orientation:landscape) and (min-aspect-ratio:4/3) and (max-width:899px){
@@ -359,6 +362,8 @@ btn.addEventListener('click',open);close.addEventListener('click',shut);window.a
 .game.big .side .ans{font-size:clamp(12px,1.8vw,18px)!important;min-height:34px!important}
 .game.big .boardwrap .canvas{flex:1 1 0!important;width:100%!important;height:0!important;max-height:none!important;min-height:0!important;aspect-ratio:auto!important}
 .city-map-focus .game.big .questioncard .question,.city-map-focus .game.big .questioncard .answers,.city-post-roll .game.big .questioncard .question,.city-post-roll .game.big .questioncard .answers{display:none!important}
+.city-map-focus .game.big .questioncard .rollrow,.city-map-focus .game.big .questioncard .timer,.city-map-focus .game.big .questioncard .feedback{display:none!important}
+.city-post-roll .game.big .questioncard .timer{display:none!important}
 }
 @media(orientation:landscape) and (max-height:520px){
 .city-dice-overlay .city-dice-table{width:min(54%,205px)!important;gap:4px!important;padding:7px!important}
