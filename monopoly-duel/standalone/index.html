@@ -846,4 +846,106 @@ console.info('V3.5 distance panel mounted below toolbar');
  const badge=document.querySelector('.intro .badge');if(badge)badge.textContent='MATH REALM · 第 10 款 · V3.6 組別主角進度版';
  document.title='數學城市大富翁｜V3.6 組別與主角進度測試版';
 })();
+</script>
+<style id="teacher-broadcast-v37">
+#game .teacher-broadcast-bar{position:relative;flex:none;z-index:3;margin:4px 10px 0;padding:6px 9px;border:1px solid #80b8c0;border-radius:11px;background:linear-gradient(90deg,#e7f7f8,#fffdf3);color:#1f495e;display:flex;align-items:center;justify-content:space-between;gap:9px;box-shadow:0 2px 7px #123f551b}
+#game .teacher-broadcast-bar[hidden]{display:none!important}
+#game .teacher-broadcast-label{font-size:12px;font-weight:950;color:#167888;flex:none}
+#game .teacher-broadcast-body{font-size:clamp(15px,2.15vw,26px);font-weight:900;text-align:center;line-height:1.3;flex:1;min-width:0;overflow-wrap:anywhere}
+#game .teacher-broadcast-actions{display:flex;gap:4px;flex:none}
+#game .teacher-broadcast-actions button{min-height:30px;padding:4px 9px;border-radius:8px;font-size:12px;background:#dceef3;color:#234758;box-shadow:none}
+#teacherBroadcastEditor{position:fixed;z-index:170;inset:0;background:#0b2944bb;display:grid;place-items:center;padding:14px;overflow:auto}
+#teacherBroadcastEditor[hidden],#teacherBroadcastBig[hidden]{display:none!important}
+#teacherBroadcastEditor .broadcast-editor-panel{width:min(620px,96vw);max-height:96dvh;overflow:auto;border-radius:20px;background:#fffefa;color:#203e52;padding:18px;border:2px solid #d5e9e9;box-shadow:0 12px 45px #001e315c}
+.broadcast-editor-panel h2{margin:0 0 8px;font-size:22px}
+.broadcast-editor-panel p{margin:6px 0 10px;font-size:13px;line-height:1.4;color:#4e7180}
+#teacherBroadcastInput{display:block;box-sizing:border-box;width:100%;min-height:95px;resize:vertical;padding:12px;border-radius:12px;border:2px solid #b6d4da;background:#f8fcfd;color:#203e52;font:700 20px/1.5 system-ui,sans-serif}
+#teacherBroadcastPresets{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+#teacherBroadcastPresets button{min-height:37px;padding:6px 10px;background:#e7f4f5;color:#225065;box-shadow:none;font-size:13px}
+#teacherBroadcastEditor .broadcast-editor-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+#teacherBroadcastEditor .broadcast-editor-buttons button{flex:1 1 130px;min-height:43px;padding:8px 12px;box-shadow:none;background:#206b83;color:#fff}
+#teacherBroadcastEditor .broadcast-editor-buttons button.secondary{background:#e5f0f2;color:#24495b}
+#teacherBroadcastBig{position:fixed;inset:0;z-index:180;background:linear-gradient(145deg,#13384e,#155769 70%,#236e73);color:#fffdf1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:clamp(18px,5vw,62px);text-align:center}
+#teacherBroadcastBig .broadcast-live{font-size:clamp(16px,2.2vw,27px);font-weight:900;color:#ffdf91;letter-spacing:.16em}
+#teacherBroadcastBig .broadcast-big-text{width:min(1200px,95%);max-height:70dvh;overflow:auto;font-size:clamp(29px,6vw,88px);font-weight:950;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere;text-shadow:0 3px 16px #0005}
+#teacherBroadcastBig .broadcast-big-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#teacherBroadcastBig button{border-radius:12px;padding:10px 22px;min-height:44px;background:#fff5df;color:#193e53;box-shadow:none;font-size:16px}
+@media(orientation:landscape) and (max-height:520px){
+ #game .teacher-broadcast-bar{margin:2px 7px 0;padding:3px 6px;min-height:35px;gap:4px}
+ #game .teacher-broadcast-label{font-size:10px}
+ #game .teacher-broadcast-body{font-size:clamp(12px,3vh,19px);max-height:2.5em;overflow:hidden}
+ #game .teacher-broadcast-actions button{padding:2px 5px;min-height:27px;font-size:10px}
+ #teacherBroadcastBig{gap:8px;padding:12px}
+ #teacherBroadcastBig .broadcast-big-text{font-size:clamp(29px,7.5vh,54px);max-height:60dvh}
+ #teacherBroadcastEditor .broadcast-editor-panel{padding:10px}
+ #teacherBroadcastEditor h2{font-size:18px}
+ #teacherBroadcastInput{min-height:60px;font-size:16px}
+}
+@media(max-width:600px) and (orientation:portrait){
+ #game .teacher-broadcast-bar{margin:3px 7px 0;padding:5px}
+ #game .teacher-broadcast-label{font-size:10px}
+ #game .teacher-broadcast-body{font-size:clamp(13px,3.6vw,19px)}
+ #game .teacher-broadcast-actions button{padding:4px 6px}
+}
+</style>
+<script id="teacher-broadcast-controller-v37">
+(function(){
+ const game=document.getElementById('game'),toolbar=game?.querySelector('.toolbar');
+ if(!game||!toolbar)return;
+ const launch=document.createElement('button');launch.type='button';launch.textContent='📢 即時廣播';launch.title='教師輸入公告，顯示在棋盤上方或放大給全班看';
+ toolbar.append(launch);
+ const bar=document.createElement('section');bar.className='teacher-broadcast-bar';bar.hidden=true;
+ bar.setAttribute('aria-label','教師即時公告');
+ const barLabel=document.createElement('strong');barLabel.className='teacher-broadcast-label';barLabel.textContent='📢 教師廣播';
+ const barText=document.createElement('div');barText.className='teacher-broadcast-body';
+ const barActions=document.createElement('div');barActions.className='teacher-broadcast-actions';
+ const enlarge=document.createElement('button');enlarge.type='button';enlarge.textContent='放大';
+ const hide=document.createElement('button');hide.type='button';hide.textContent='收起';
+ barActions.append(enlarge,hide);bar.append(barLabel,barText,barActions);
+ // Place below distance tracker so neither panel overlays the map.
+ const distance=document.getElementById('distanceTracker');
+ (distance||game.querySelector('.top')).insertAdjacentElement('afterend',bar);
+ const editor=document.createElement('section');editor.id='teacherBroadcastEditor';editor.hidden=true;editor.setAttribute('role','dialog');editor.setAttribute('aria-modal','true');editor.setAttribute('aria-label','教師即時廣播設定');
+ const panel=document.createElement('div');panel.className='broadcast-editor-panel';
+ const h=document.createElement('h2');h.textContent='📢 教師即時廣播';
+ const hint=document.createElement('p');hint.textContent='公告橫幅不會遮住地圖；需要全班注意時再切換大字模式。競賽計時仍會繼續。';
+ const input=document.createElement('textarea');input.id='teacherBroadcastInput';input.maxLength=180;input.placeholder='例如：第 3 組準備計算，其他組請觀察棋盤！';
+ const presets=document.createElement('div');presets.id='teacherBroadcastPresets';
+ ['請各組準備下一題！','答錯先看詳解，再換下一組。','請注意終點倒數排行榜！','倒數一分鐘，全班加油！','暫停討論，請看老師說明。'].forEach(value=>{
+   const b=document.createElement('button');b.type='button';b.textContent=value;b.onclick=()=>{input.value=value;input.focus()};presets.append(b);
+ });
+ const controls=document.createElement('div');controls.className='broadcast-editor-buttons';
+ const send=document.createElement('button');send.type='button';send.textContent='📢 發送橫幅';
+ const large=document.createElement('button');large.type='button';large.textContent='⛶ 全螢幕大字';
+ const clear=document.createElement('button');clear.type='button';clear.className='secondary';clear.textContent='清除公告';
+ const close=document.createElement('button');close.type='button';close.className='secondary';close.textContent='關閉';
+ controls.append(send,large,clear,close);panel.append(h,hint,input,presets,controls);editor.append(panel);document.body.append(editor);
+ const big=document.createElement('section');big.id='teacherBroadcastBig';big.hidden=true;big.setAttribute('role','dialog');big.setAttribute('aria-modal','true');big.setAttribute('aria-label','教師大字廣播');
+ const live=document.createElement('strong');live.className='broadcast-live';live.textContent='📢 TEACHER LIVE｜教師廣播';
+ const message=document.createElement('div');message.className='broadcast-big-text';
+ const bigActions=document.createElement('div');bigActions.className='broadcast-big-buttons';
+ const back=document.createElement('button');back.type='button';back.textContent='返回遊戲';
+ const edit=document.createElement('button');edit.type='button';edit.textContent='編輯公告';
+ bigActions.append(back,edit);big.append(live,message,bigActions);document.body.append(big);
+ let latest='';
+ function restore(){big.hidden=true;editor.hidden=true}
+ function publish(fullscreen){
+   const t=input.value.trim();if(!t){input.focus();return}
+   latest=t;barText.textContent=t;message.textContent=t;bar.hidden=false;
+   editor.hidden=true;big.hidden=!fullscreen;
+ }
+ launch.onclick=()=>{input.value=latest;big.hidden=true;editor.hidden=false;input.focus()};
+ send.onclick=()=>publish(false);large.onclick=()=>publish(true);
+ enlarge.onclick=()=>{message.textContent=latest;big.hidden=false};
+ hide.onclick=()=>{bar.hidden=true};
+ clear.onclick=()=>{latest='';input.value='';barText.textContent='';message.textContent='';bar.hidden=true;restore()};
+ close.onclick=()=>editor.hidden=true;
+ back.onclick=()=>big.hidden=true;
+ edit.onclick=()=>{big.hidden=true;editor.hidden=false;input.focus()};
+ editor.onclick=e=>{if(e.target===editor)editor.hidden=true};
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){restore()}});
+ const btnReturn=document.getElementById('restart');
+ if(btnReturn)btnReturn.addEventListener('click',()=>{restore();bar.hidden=true});
+ document.title='數學城市大富翁｜獨立版 V3.7 教師即時廣播';
+})();
 </script></body></html>
