@@ -55,7 +55,7 @@ function tree(x,y){let p=project(x,y,0);let s=scale*.13;g.strokeStyle='#8d654b';
 function ferris(){let [x,y]=project(5.0,5.15,1.75),r=scale*.75;g.strokeStyle='#d15b5d';g.lineWidth=scale*.07;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke();for(let i=0;i<8;i++){let t=i*Math.PI/4;let xx=x+Math.cos(t)*r,yy=y+Math.sin(t)*r;g.strokeStyle='#d4c5a3';g.lineWidth=2;g.beginPath();g.moveTo(x,y);g.lineTo(xx,yy);g.stroke();circle(xx,yy,scale*.12,colors[i%4])}circle(x,y,scale*.11,'#ffd15c');let a=project(4.7,5.5),b=project(5.4,5.5);g.strokeStyle='#444c5a';g.lineWidth=scale*.06;g.beginPath();g.moveTo(...a);g.lineTo(x,y);g.lineTo(...b);g.stroke()}
 function drawFlag(x,y){let [px,py]=project(x,y,.04),h=scale*1.15;g.strokeStyle='#344f62';g.lineWidth=3;g.beginPath();g.moveTo(px,py);g.lineTo(px,py-h);g.stroke();for(let i=0;i<4;i++)for(let j=0;j<3;j++){g.fillStyle=(i+j)%2?'#263b50':'#fff';g.fillRect(px+i*scale*.11,py-h+j*scale*.11,scale*.112,scale*.112)}textAt('終點',px,py-h-scale*.18,scale*.26,'#263b50')}
 function drawPlayer(p,time){let pos=route[p.pos],x=pos[0]+.5,y=pos[1]+.5,walking=moveAnim&&moveAnim.id===p.id;let same=players.filter(q=>q.pos===p.pos);let offset=(same.findIndex(q=>q.id===p.id)-(same.length-1)/2)*.19;if(walking){let t=Math.min(1,(time-moveAnim.start)/moveAnim.ms),a=route[moveAnim.from],b=route[moveAnim.to];x=a[0]+.5+(b[0]-a[0])*t;y=a[1]+.5+(b[1]-a[1])*t}let [px,py]=project(x+offset,y-offset,.09),s=scale*.32,swing=walking?Math.sin((time-moveAnim.start)*.026):0,bob=walking?Math.abs(swing)*s*.08:0;g.save();g.translate(px,py-bob);g.fillStyle='#13354945';g.beginPath();g.ellipse(0,1,s*.8,s*.25,0,0,7);g.fill();g.lineCap='round';g.lineWidth=s*.27;g.strokeStyle='#264e74';for(let j of [-1,1]){g.beginPath();g.moveTo(j*s*.20,-s*.7);g.lineTo(j*s*.22+swing*j*s*.36,-s*.32);g.lineTo(j*s*.28+swing*j*s*.52,-s*.04);g.stroke();g.strokeStyle='#34424d';g.lineWidth=s*.19;g.beginPath();g.moveTo(j*s*.28+swing*j*s*.52,-s*.04);g.lineTo(j*s*.28+swing*j*s*.52+s*.27,-s*.04);g.stroke();g.strokeStyle='#264e74';g.lineWidth=s*.27}g.strokeStyle='#fac69b';g.lineWidth=s*.20;for(let j of [-1,1]){g.beginPath();g.moveTo(j*s*.34,-s*1.42);g.lineTo(j*s*.55-swing*j*s*.23,-s*.82);g.stroke()}g.fillStyle=p.color;g.beginPath();g.roundRect(-s*.39,-s*1.54,s*.78,s*.91,s*.22);g.fill();circle(0,-s*1.88,s*.49,'#ffd3a4');g.fillStyle='#51392e';g.beginPath();g.arc(0,-s*1.96,s*.48,Math.PI,Math.PI*2);g.fill();g.fillStyle=p.color;g.beginPath();g.ellipse(0,-s*2.12,s*.53,s*.25,0,0,7);g.fill();circle(-s*.15,-s*1.87,s*.045,'#263b50');circle(s*.15,-s*1.87,s*.045,'#263b50');g.strokeStyle='#a95640';g.lineWidth=1.5;g.beginPath();g.arc(0,-s*1.79,s*.14,.1,Math.PI-.1);g.stroke();g.fillStyle=p.color;g.beginPath();g.roundRect(-s*.74,-s*2.65,s*1.48,s*.4,s*.14);g.fill();textAt(String(p.id+1),0,-s*2.45,s*.32,'#fff');g.restore()}
-function draw(time=performance.now()){if($('game').classList.contains('hidden'))return;let rect=cv.getBoundingClientRect();if(!rect.width||!rect.height)return;ratio=Math.min(devicePixelRatio||1,2);W=rect.width;H=rect.height;if(cv.width!==Math.round(W*ratio)||cv.height!==Math.round(H*ratio)){cv.width=Math.round(W*ratio);cv.height=Math.round(H*ratio)}g.setTransform(ratio,0,0,ratio,0,0);scale=Math.min(W/($('game').classList.contains('big')?15.8:19.7),H/($('game').classList.contains('big')?8.3:10.8));ox=W/2;oy=H*.46-8.6*scale*.49+scale*.8;let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#79cbed');sky.addColorStop(.6,'#e9fbff');sky.addColorStop(1,'#a7d7be');g.fillStyle=sky;g.fillRect(0,0,W,H);if(typeof cityBackground!=="undefined"&&cityBackground.complete&&cityBackground.naturalWidth){let sw=cityBackground.naturalWidth,sh=cityBackground.naturalHeight,sc=Math.max(W/sw,H/sh);g.drawImage(cityBackground,(W-sw*sc)/2,(H-sh*sc)/2,sw*sc,sh*sc)}else for(let i=0;i<7;i++){let px=(i*W/6+15)%W,py=H*.07+(i%3)*12;circle(px,py,10+scale*.2,'#ffffffbb');circle(px+15,py+5,11+scale*.2,'#ffffffbb');circle(px-12,py+5,8+scale*.2,'#ffffffbb')}boardPlatform();
+function draw(time=performance.now()){if($('game').classList.contains('hidden'))return;let rect=cv.getBoundingClientRect();if(!rect.width||!rect.height)return;ratio=Math.min(devicePixelRatio||1,2);W=rect.width;H=rect.height;if(cv.width!==Math.round(W*ratio)||cv.height!==Math.round(H*ratio)){cv.width=Math.round(W*ratio);cv.height=Math.round(H*ratio)}g.setTransform(ratio,0,0,ratio,0,0);scale=Math.min(W/($('game').classList.contains('big')?19.5:19.7),H/($('game').classList.contains('big')?11.6:10.8));ox=W/2;oy=H*.46-8.6*scale*.49+scale*.8;let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#79cbed');sky.addColorStop(.6,'#e9fbff');sky.addColorStop(1,'#a7d7be');g.fillStyle=sky;g.fillRect(0,0,W,H);if(typeof cityBackground!=="undefined"&&cityBackground.complete&&cityBackground.naturalWidth){let sw=cityBackground.naturalWidth,sh=cityBackground.naturalHeight,sc=Math.max(W/sw,H/sh);g.drawImage(cityBackground,(W-sw*sc)/2,(H-sh*sc)/2,sw*sc,sh*sc)}else for(let i=0;i<7;i++){let px=(i*W/6+15)%W,py=H*.07+(i%3)*12;circle(px,py,10+scale*.2,'#ffffffbb');circle(px+15,py+5,11+scale*.2,'#ffffffbb');circle(px-12,py+5,8+scale*.2,'#ffffffbb')}boardPlatform();
 for(let i=0;i<route.length;i++){let [x,y]=route[i];raisedTile(x,y,i);let [px,py]=project(x+.5,y+.54,.11);textAt(i===0?'GO':i===31?'🏁':specials[i]==='休息'?'休':specials[i]==='機會'?'?':specials[i]==='命運'?'✦':specials[i]==='寶箱'?'★':specials[i]==='快線'?'🚄':specials[i]==='護盾'?'🛡':String(i),px,py-scale*.04,Math.max(11,scale*.36),i===0?'#14653e':'#21485c');if(specials[i]&&i!==0&&i!==31)textAt(String(i),px,py+scale*.22,Math.max(7,scale*.19),'#315064')}
 let objects=buildings.map(b=>({depth:b.x+b.y+b.w/2+b.d/2,fn:()=>building(b)}));for(let [x,y] of [[1.3,1.5],[1.45,3.8],[1.5,6.7],[3.2,3.65],[7.1,5.8],[7.3,3.65],[5.7,7.1],[2.8,7.2]])objects.push({depth:x+y,fn:()=>tree(x,y)});objects.push({depth:10.6,fn:ferris});for(let p of players){let pos=route[p.pos];let depth=pos[0]+pos[1]+.8;if(moveAnim?.id===p.id){let a=route[moveAnim.from],b=route[moveAnim.to];depth=(a[0]+a[1]+b[0]+b[1])/2+.8}objects.push({depth,fn:()=>drawPlayer(p,time)})}objects.push({depth:7.6,fn:()=>drawFlag(.5,7.5)});objects.sort((a,b)=>a.depth-b.depth).forEach(o=>o.fn());let [sx,sy]=project(8.6,8.5,0);textAt('城市冒險',W/2,H-20,Math.max(12,scale*.33),'#285d6c');}
 function tick(t){updateClock();draw(t);requestAnimationFrame(tick)}requestAnimationFrame(tick);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ctx&&soundOn)ctx.resume().catch(()=>{})});
@@ -1215,5 +1215,56 @@ document.title='數學城市大富翁｜V4.1 城市配樂與戰況轉播版';
  window.addEventListener('orientationchange',fit,{passive:true});
  if(window.visualViewport)window.visualViewport.addEventListener('resize',fit,{passive:true});
  document.title='數學城市大富翁｜V4.3 16:9 擲骰棋盤完整顯示版';
+})();
+</script>
+<style id="v44-safe-map-and-dice">
+/* The full city board is rendered within its canvas (the draw() scale is
+   corrected above).  CSS alone cannot fix a canvas whose world scale clips. */
+@media (orientation:landscape) and (min-aspect-ratio:1.35){
+ #game.big .layout>.boardwrap{overflow:hidden!important;isolation:isolate!important}
+ #game.big .boardwrap #board{min-height:0!important;height:0!important;flex:1 1 0!important;max-height:100%!important}
+ #game.big .boardhead{z-index:7!important}
+ #game.big .boardhead .tag{font-size:clamp(9px,1.05vw,13px)!important;padding:3px 5px!important}
+ #game.big.city-map-focus .boardwrap{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important}
+ #game.big.city-map-focus .boardwrap #board{min-height:0!important;max-height:none!important;flex:1 1 0!important;height:0!important}
+ #game.big.city-map-focus .city-dice-overlay{position:absolute!important;inset:0!important;overflow:hidden!important;display:grid!important;place-items:center!important;max-height:100%!important;background:radial-gradient(circle at 50% 42%,#e2f6f733,#143c5d78)!important}
+ #game.big.city-map-focus .city-dice-table{width:min(44%,300px)!important;max-width:300px!important;min-height:0!important;max-height:90%!important;box-sizing:border-box!important;overflow:visible!important;padding:10px 12px!important;gap:clamp(6px,1.1vh,12px)!important;background:#eaf8f0ec!important;border:1px solid #d5e8e4!important;border-radius:17px!important;box-shadow:0 12px 26px #0c344362!important}
+ #game.big.city-map-focus #cityDiceBig.city-dice-big{width:clamp(68px,16vh,114px)!important;height:clamp(68px,16vh,114px)!important;flex:0 0 auto!important;overflow:visible!important}
+ #game.big.city-map-focus .city-dice-label{font-size:clamp(13px,2.3vh,22px)!important}
+ #game.big.city-map-focus .city-dice-message{font-size:clamp(13px,2.5vh,23px)!important;line-height:1.25!important}
+}
+@media(orientation:landscape) and (min-aspect-ratio:1.35) and (max-height:530px){
+ #game.big.city-map-focus .city-dice-table{width:min(40%,240px)!important;max-height:90%!important;padding:5px 8px!important;gap:5px!important}
+ #game.big.city-map-focus #cityDiceBig.city-dice-big{width:clamp(59px,17vh,82px)!important;height:clamp(59px,17vh,82px)!important}
+ #game.big.city-map-focus .city-dice-label{font-size:12px!important}
+ #game.big.city-map-focus .city-dice-message{font-size:13px!important}
+}
+#game #cityDiceBig.city-dice-big{isolation:auto!important;transform-style:preserve-3d!important;-webkit-transform-style:preserve-3d!important;overflow:visible!important}
+#game #cityDiceBig .dice-core{transform-style:preserve-3d!important;-webkit-transform-style:preserve-3d!important}
+#game #cityDiceBig .dice-face{backface-visibility:hidden!important;-webkit-backface-visibility:hidden!important}
+#game .city-dice-rolling #cityDiceBig.city-dice-big{animation:v44DiceGentleThrow .7s ease-in-out infinite alternate!important}
+#game .city-dice-landed #cityDiceBig.city-dice-big{animation:v44DiceLand .35s ease-out both!important}
+#game .city-dice-return #cityDiceBig.city-dice-big{animation:v44DiceOut .3s ease-in both!important}
+@keyframes v44DiceGentleThrow{0%{transform:translateY(7px) rotateZ(-5deg)}100%{transform:translateY(-9px) rotateZ(5deg)}}
+@keyframes v44DiceLand{from{transform:translateY(-9px) scale(1.07)}to{transform:translateY(0) scale(1)}}
+@keyframes v44DiceOut{from{transform:scale(1);opacity:1}to{transform:scale(.8);opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ #game .city-dice-rolling #cityDiceBig.city-dice-big,
+ #game .city-dice-landed #cityDiceBig.city-dice-big,
+ #game .city-dice-return #cityDiceBig.city-dice-big{animation:none!important}
+}
+</style>
+<script id="v44-render-check">
+(function(){
+ const cv=document.getElementById('board'),game=document.getElementById('game');
+ function inspect(){
+  if(!cv||!game||game.classList.contains('hidden'))return;
+  const r=cv.getBoundingClientRect();
+  if(r.width<=0||r.height<=0)return;
+  if(typeof draw==='function')requestAnimationFrame(()=>draw());
+ }
+ window.addEventListener('orientationchange',inspect,{passive:true});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',inspect,{passive:true});
+ document.title='數學城市大富翁｜V4.4 棋盤與立體骰子完整顯示版';
 })();
 </script></body></html>
