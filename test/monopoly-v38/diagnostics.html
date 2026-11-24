@@ -1,0 +1,53 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>城市大富翁 V3.8 換組診斷</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eef7fc;font:16px system-ui,-apple-system,sans-serif;color:#183b56;padding:16px}main{max-width:800px;margin:auto}h1{font-size:clamp(24px,5vw,36px)}button,a{font:inherit}button{background:#154e7a;border:0;color:#fff;font-weight:700;padding:12px 18px;border-radius:12px;cursor:pointer}button:disabled{opacity:.5}.result{background:white;padding:13px;border:1px solid #c5d8e8;border-radius:12px;margin:10px 0;white-space:pre-wrap;overflow-wrap:anywhere}.ok{border-left:5px solid #238854}.bad{border-left:5px solid #ba3244}iframe{position:absolute;top:-10000px;left:-10000px;width:1280px;height:720px;border:0}pre{max-height:260px;overflow:auto;background:#15293d;color:#fff;border-radius:12px;padding:12px;font-size:12px;white-space:pre-wrap}</style></head><body><main><h1>🔍 V3.8 換組三項自動測試</h1><p>獨立測試版，不影響正式遊戲、題庫與排名。先執行第一組真實答題及擲骰，再以模擬完成回合檢查多人連續換組。</p><button id="start">開始診斷</button><a style="margin-left:12px" href="./">返回 V3.8 遊戲</a><div id="results"></div><h2>診斷紀錄</h2><pre id="log">尚未開始</pre><iframe id="frame" title="測試遊戲" sandbox="allow-same-origin allow-scripts allow-forms"></iframe></main><script>
+const results=document.getElementById('results'),log=document.getElementById('log'),btn=document.getElementById('start'),frame=document.getElementById('frame');
+let entries=[],errors=[],finished=false;
+function note(s){entries.push(new Date().toLocaleTimeString()+' '+s);log.textContent=entries.join('\n');}
+function item(label,success,detail){let d=document.createElement('div');d.className='result '+(success?'ok':'bad');d.textContent=(success?'✅ ':'❌ ')+label+'\n'+detail;results.append(d);}
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+async function until(fn,ms=20000){let start=Date.now();while(Date.now()-start<ms){try{if(fn())return true}catch(e){note('讀取狀態出錯：'+e)}await delay(150)}return false}
+function snapshot(w){return w.eval('({phase,current,round,players:players.length,turn:document.getElementById("turn").textContent,action:document.getElementById("action").textContent,disabled:document.getElementById("action").disabled,question:document.getElementById("question").textContent})')}
+btn.onclick=async()=>{
+if(btn.disabled)return;btn.disabled=true;results.innerHTML='';entries=[];errors=[];finished=false;note('初始化獨立 V3.8');let w;
+try{
+const ready=new Promise((resolve,reject)=>{frame.onload=resolve;frame.onerror=()=>reject(new Error('遊戲頁載入失敗'));});
+frame.src='./?diagnostic='+Date.now();await Promise.race([ready,delay(15000).then(()=>{throw Error('遊戲載入逾時')})]);w=frame.contentWindow;
+w.addEventListener('error',e=>{errors.push((e.message||'未知錯誤')+' @ '+(e.filename||'')+':'+e.lineno);note('JavaScript 錯誤：'+errors.at(-1))});
+w.addEventListener('unhandledrejection',e=>{errors.push('Promise: '+String(e.reason));note(errors.at(-1))});
+w.eval("document.getElementById('count').value='2';makeNames();document.getElementById('mode').value='big';tournamentStart()");
+note('開局狀態：'+JSON.stringify(snapshot(w)));
+const first=snapshot(w);if(first.phase!=='question'||first.current!==0)throw Error('第一組無法開始');
+w.eval('answer(question.answer,null)');note('第一組已送出正確答案');
+const rollReady=await until(()=>w.eval("phase==='roll'"),5000);
+if(!rollReady)throw Error('答對後沒有進入擲骰階段');
+w.eval('roll()');note('已觸發真實擲骰與移動');
+const done=await until(()=>w.eval("phase==='done'||phase==='win'"),28000);
+if(!done)throw Error('擲骰移動未完成，當前狀態 '+JSON.stringify(snapshot(w)));
+if(w.eval("phase==='win'"))throw Error('第一組直接勝利，無法驗證下一組');
+note('完成第一組：'+JSON.stringify(snapshot(w)));
+w.document.getElementById('action').click();
+const transitioned=await until(()=>w.eval("current===1 && phase==='question'"),4000);
+item('1. 「下一組」按鈕',transitioned,JSON.stringify(snapshot(w)));
+if(!transitioned)throw Error('手動按下一組未成功，當前狀態 '+JSON.stringify(snapshot(w)));
+const second=snapshot(w);
+const visible=second.turn.includes('第 2 組') && Boolean(second.question)&&w.document.getElementById('answers').children.length>=4;
+item('2. 第二組新題目',visible,JSON.stringify(second));
+if(!visible)throw Error('第二組題目不存在或未正確顯示');
+let path=[];
+for(let k=0;k<5;k++){
+  const before=snapshot(w);
+  w.eval("phase='done'");
+  const a=w.document.getElementById('action');a.disabled=false;a.textContent='下一組 →';a.click();
+  const expected=(before.current+1)%before.players,expectedRound=before.round+(expected===0?1:0);
+  const ok=await until(()=>{const st=snapshot(w);return st.current===expected&&st.round===expectedRound&&st.phase==='question'},2000);
+  path.push({from:before.current,to:expected,round:expectedRound,ok});
+  if(!ok)break;
+}
+const last=snapshot(w),multiround=path.every(x=>x.ok)&&last.round>=3;
+item('3. 連續多輪換組',multiround,'換組軌跡 '+JSON.stringify(path)+'\n最後狀態 '+JSON.stringify(last));
+if(errors.length)item('執行期 JavaScript 錯誤',false,errors.join('\n'));
+if(transitioned&&visible&&multiround&&!errors.length){note('三項測試通過（含一組完整真實擲骰及其後模擬換組（若抽到數學事件，需手動作答））；尚須實機手動驗收。')}
+}catch(e){note('檢測中斷：'+String(e?.stack||e));item('測試中斷',false,String(e?.stack||e));}
+finally{btn.disabled=false;finished=true}
+};
+</script></body></html>
