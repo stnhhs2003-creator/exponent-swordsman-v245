@@ -353,7 +353,7 @@ body.in-game #controls .control-hint,body.in-game #keyboardHelp{display:none!imp
 #dockSettings{grid-area:1 / 1 / 2 / -1;display:flex;justify-content:space-between;gap:6px}
 body.in-game #dockSettings #mute,body.in-game #dockSettings #controlMode{
  position:static!important;inset:auto!important;margin:0!important;height:28px!important;
- min-height:0!important;max-width:100%;touch-action:manipulation;
+ min-height:0!important;max-width:100%;pointer-events:auto;touch-action:manipulation;
 }
 body.in-game.audio-open #audioPanel,body.big-screen.in-game.audio-open #audioPanel{bottom:calc(var(--dock-height) + 4px)!important}
 body.in-game #controls #move{
