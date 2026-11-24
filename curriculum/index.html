@@ -738,6 +738,7 @@ let passage=null;
 function beginPassage(next){
  phase='transition';stopPlayerInput();bullets=[];
  passage={next,elapsed:0,duration:reducedPassageMotion.matches?1.2:2.8};
+ delete $('q').dataset.math;
  $('q').textContent=next===1?'初階通關 · 前往進階':'進階通關 · 前往魔王殿';
 }
 function update(dt,now){tick+=dt;music(dt);
