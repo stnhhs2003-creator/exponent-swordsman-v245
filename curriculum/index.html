@@ -1375,7 +1375,14 @@ const attackHold=$('attackHold');attackHold.addEventListener('pointerdown',charg
 $('swordMusicChoice').value=swordMusicChoice;$('musicVolume').value=musicVolume*100;$('sfxVolume').value=sfxVolume*100;$('musicValue').textContent=Math.round(musicVolume*100)+'%';$('sfxValue').textContent=Math.round(sfxVolume*100)+'%';$('swordMusicChoice').onchange=e=>{swordMusicChoice=e.target.value;musicStep=0;nextMusicAt=0;saveSwordAudio();unlockAudio()};$('musicVolume').addEventListener('input',e=>{musicVolume=Number(e.target.value)/100;$('musicValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix();saveSwordAudio()});$('sfxVolume').addEventListener('input',e=>{sfxVolume=Number(e.target.value)/100;$('sfxValue').textContent=e.target.value+'%';unlockAudio();applyAudioMix();saveSwordAudio()});$('mute').onclick=()=>{unlockAudio();const open=document.body.classList.toggle('audio-open');$('mute').setAttribute('aria-expanded',String(open));$('mute').setAttribute('aria-label',open?'關閉音量設定':'開啟音量設定')};document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('touchmove',e=>{if(e.target.closest('#controls'))e.preventDefault()},{passive:false});document.addEventListener('pointerdown',()=>{if(phase==='play'&&(!aCtx||aCtx.state!=='running'))unlockAudio()},{passive:true});setInterval(()=>{pumpMusic();updateMusicMeter(performance.now()/1000)},75);preload();
 // Teacher-friendly boss preview: the URL opens the actual boss arena immediately.
 const previewParams=new URLSearchParams(window.location.search);
-if(previewParams.get('boss')==='1'){
+const passagePreview=previewParams.get('transition');
+if(passagePreview==='advanced'||passagePreview==='boss'){
+ bigScreen=true;
+ const next=passagePreview==='advanced'?1:2;
+ newStage(next-1);
+ runOpen=false;
+ beginPassage(next);
+}else if(previewParams.get('boss')==='1'){
  bigScreen=true;
  newStage(2,true);
  const previewForm=Math.max(0,Math.min(2,Number(previewParams.get('form')||0)||0));
@@ -1387,6 +1394,11 @@ requestAnimationFrame(frame2);
 })();
 </script><script>
 document.getElementById('hhReturnStart20261122').addEventListener('click',()=>{
- if(window.confirm('確定返回起始畫面？本局進度將不保留。')) location.reload();
+ if(!window.confirm('確定返回起始畫面？本局進度將不保留。')) return;
+ const url=new URL(location.href);
+ if(url.searchParams.get('transition')==='advanced'||url.searchParams.get('transition')==='boss'){
+  url.searchParams.delete('transition');
+  location.replace(url.href);
+ }else location.reload();
 });
 </script></body></html>
