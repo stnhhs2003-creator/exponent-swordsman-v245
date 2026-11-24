@@ -30,11 +30,11 @@ const transitioned=await until(()=>w.eval("current===1 && phase==='question'"),4
 item('1. 「下一組」按鈕',transitioned,JSON.stringify(snapshot(w)));
 if(!transitioned)throw Error('手動按下一組未成功，當前狀態 '+JSON.stringify(snapshot(w)));
 const second=snapshot(w);
-const visible=second.turn.includes('第 2 組') && Boolean(second.question)&&w.document.getElementById('answers').children.length>=4;
+const visible=second.turn.includes('第 2 組') && Boolean(second.question)&&second.question!==first.question&&w.document.getElementById('answers').children.length>=4;
 item('2. 第二組新題目',visible,JSON.stringify(second));
 if(!visible)throw Error('第二組題目不存在或未正確顯示');
 let path=[];
-for(let k=0;k<5;k++){
+for(let k=0;k<9;k++){
   const before=snapshot(w);
   w.eval("phase='done'");
   const a=w.document.getElementById('action');a.disabled=false;a.textContent='下一組 →';a.click();
@@ -43,10 +43,10 @@ for(let k=0;k<5;k++){
   path.push({from:before.current,to:expected,round:expectedRound,ok});
   if(!ok)break;
 }
-const last=snapshot(w),multiround=path.every(x=>x.ok)&&last.round>=3;
+const last=snapshot(w),multiround=path.every(x=>x.ok)&&last.round>=6;
 item('3. 連續多輪換組',multiround,'換組軌跡 '+JSON.stringify(path)+'\n最後狀態 '+JSON.stringify(last));
 if(errors.length)item('執行期 JavaScript 錯誤',false,errors.join('\n'));
-if(transitioned&&visible&&multiround&&!errors.length){note('三項測試通過（含一組完整真實擲骰及其後模擬換組（若抽到數學事件，需手動作答））；尚須實機手動驗收。')}
+if(transitioned&&visible&&multiround&&!errors.length){note('三項測試通過（真實擲骰＋模擬換組至第六輪；仍須實機驗收）；尚須實機手動驗收。')}
 }catch(e){note('檢測中斷：'+String(e?.stack||e));item('測試中斷',false,String(e?.stack||e));}
 finally{btn.disabled=false;finished=true}
 };
