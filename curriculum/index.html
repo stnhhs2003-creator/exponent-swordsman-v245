@@ -338,7 +338,45 @@ body.in-game #hud .top{
   max-height:calc(var(--dock-height) - 10px)!important;min-height:0!important;
  }
 }
-</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><button id="hhReturnStart20261122" type="button" aria-label="返回起始畫面">返回起始</button><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><label>配樂<select id="swordMusicChoice" style="width:100%;max-width:100%;font:inherit"><option value="new">竹影清風・深谷魔王</option><option value="classic">原版配樂</option><option value="off">關閉配樂</option></select></label><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">18%</output></label><input type="range" id="musicVolume" min="0" max="100" value="18" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">65%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="65" aria-label="戰鬥音效音量"></div><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="arenaBuild">V25.4 · 戰鬥區放大</div><div id="controls"><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>空白鍵</b> 跳躍　<b>J／F</b> 短按飛劍・長按必殺　<b>↓</b> 蹲下／跳下　<b>X</b> 閃避</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" id="crouchBtn" data-action="crouch" aria-label="按住蹲下躲避高空飛劍">⬇ 蹲下</button><button type="button" id="dodgeButton" data-action="dodge" aria-label="閃避">閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
+/* Dedicated settings row and a width-bounded gamepad. */
+body.in-game,body.big-screen.in-game{--dock-height:calc(100px + env(safe-area-inset-bottom,0px))!important}
+body.in-game #controls,body.big-screen.in-game #controls{
+ position:fixed!important;inset:auto 0 0!important;transform:none!important;
+ width:100%!important;max-width:none!important;display:grid!important;
+ grid-template-columns:minmax(0,190px) repeat(4,minmax(0,95px));
+ grid-template-rows:28px minmax(0,1fr);
+ gap:4px!important;align-items:stretch!important;justify-content:center!important;
+ padding:3px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))!important;
+}
+body.in-game #controls::before,body.in-game #controls::after,
+body.in-game #controls .control-hint,body.in-game #keyboardHelp{display:none!important}
+#dockSettings{grid-area:1 / 1 / 2 / -1;display:flex;justify-content:space-between;gap:6px}
+body.in-game #dockSettings #mute,body.in-game #dockSettings #controlMode{
+ position:static!important;inset:auto!important;margin:0!important;height:28px!important;
+ min-height:0!important;max-width:100%;touch-action:manipulation;
+}
+body.in-game.audio-open #audioPanel{bottom:calc(var(--dock-height) + 4px)!important}
+body.in-game #controls #move{
+ grid-area:2 / 1;width:100%!important;min-width:0!important;height:100%!important;
+ min-height:0!important;gap:4px!important;
+}
+body.in-game #controls #move .direction{max-height:100%!important;min-width:0!important}
+body.in-game #controls #soloStick{width:min(100%,58px)!important;height:min(100%,58px)!important}
+body.in-game #controls #soloThumb{left:50%;top:50%;margin:-17px 0 0 -17px}
+body.in-game #controls #actions,body.in-game #controls #actions .aux{display:contents!important}
+body.in-game #controls #actions button[data-action]{
+ grid-row:2!important;width:100%!important;min-width:0!important;height:100%!important;
+ min-height:0!important;max-height:100%!important;margin:0!important;padding:2px!important;
+ font-size:clamp(11px,2.9vw,16px)!important;
+}
+body.in-game #controls #actions [data-action="jump"]{grid-column:2!important}
+body.in-game #controls #actions [data-action="crouch"]{grid-column:3!important}
+body.in-game #controls #actions [data-action="dodge"]{grid-column:4!important}
+body.in-game #controls #actions #attackHold{grid-column:5!important}
+@media(orientation:landscape) and (max-height:520px){
+ body.in-game,body.big-screen.in-game{--dock-height:calc(88px + env(safe-area-inset-bottom,0px))!important}
+}
+</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><button id="hhReturnStart20261122" type="button" aria-label="返回起始畫面">返回起始</button><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><label>配樂<select id="swordMusicChoice" style="width:100%;max-width:100%;font:inherit"><option value="new">竹影清風・深谷魔王</option><option value="classic">原版配樂</option><option value="off">關閉配樂</option></select></label><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">18%</output></label><input type="range" id="musicVolume" min="0" max="100" value="18" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">65%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="65" aria-label="戰鬥音效音量"></div><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="arenaBuild">V25.5 · 操作區調整</div><div id="controls"><div id="dockSettings"><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button></div><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>空白鍵</b> 跳躍　<b>J／F</b> 短按飛劍・長按必殺　<b>↓</b> 蹲下／跳下　<b>X</b> 閃避</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" id="crouchBtn" data-action="crouch" aria-label="按住蹲下躲避高空飛劍">⬇ 蹲下</button><button type="button" id="dodgeButton" data-action="dodge" aria-label="閃避">閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
 const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:300,w:179,y:411},{x:591,w:179,y:411}];
 let musicVolume=0.18,sfxVolume=0.65,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,scaleY=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,answerStreak=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,dodgeMoveUntil=0,dodgeReadyAt=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,nextGroundShotAt=0,nextPlatformSpawnAt=0,bossActor=null;
