@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏音量面板收合及倒數偵測 V4</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏配樂與倒數提示測試 V5</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
 (function(){
 const frame=document.getElementById('play');
 function patch(){
@@ -16,6 +16,9 @@ button.addEventListener('click',unlock);d.body.append(button);
 const row=d.createElement('div');row.id='hsin-volume-control';row.innerHTML='<div class="hsin-bgm-head"><label for="hsin-bgm-slider">🎵 背景音樂 <strong id="hsin-bgm-percent">90%</strong></label><button id="hsin-bgm-close" type="button" aria-label="收起音量控制">× 收起</button></div><input id="hsin-bgm-slider" aria-label="背景音樂音量" type="range" min="0" max="100" value="90" step="5">';
 const style=d.createElement('style');style.textContent='#hsin-volume-control{position:fixed!important;z-index:2147483000!important;right:12px!important;bottom:72px!important;display:flex!important;flex-direction:column!important;gap:5px!important;min-width:180px!important;border:1px solid #6ed2ed!important;background:#08273ce8!important;color:#fff!important;padding:9px 12px!important;border-radius:12px!important;font:700 14px system-ui!important;box-shadow:0 4px 14px #0008!important}#hsin-volume-control input{width:100%!important;accent-color:#5de9cf!important}';d.head.append(style);d.body.append(row);
 const foldStyle=d.createElement('style');foldStyle.textContent='#hsin-volume-control .hsin-bgm-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}#hsin-volume-control #hsin-bgm-close{background:#20475d!important;border:1px solid #a9cede!important;border-radius:7px!important;color:#fff!important;font:700 12px system-ui!important;cursor:pointer!important;padding:5px 8px!important;white-space:nowrap!important}#hsin-volume-control.hsin-folded{min-width:0!important;width:auto!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}#hsin-volume-control.hsin-folded .hsin-bgm-head,#hsin-volume-control.hsin-folded input{display:none!important}#hsin-volume-control #hsin-bgm-open{display:none!important}#hsin-volume-control.hsin-folded #hsin-bgm-open{display:block!important;background:#07304cd9!important;color:#fff!important;border:1px solid #6ed2ed!important;border-radius:12px!important;padding:8px 11px!important;font:700 13px system-ui!important;cursor:pointer!important}#hsin-audio-unlock{bottom:12px!important;right:12px!important}#hsin-volume-control{bottom:72px!important;right:12px!important}@media(max-height:490px){#hsin-audio-unlock{bottom:5px!important;padding:5px 9px!important;font-size:12px!important;right:5px!important}#hsin-volume-control{bottom:47px!important;right:5px!important;padding:6px 9px!important}}';d.head.append(foldStyle);
+const compactStyle=d.createElement('style');
+compactStyle.textContent='#hsin-audio-unlock{position:fixed!important;z-index:2147483000!important;top:8px!important;bottom:auto!important;right:8px!important;width:40px!important;height:40px!important;min-width:0!important;padding:0!important;border-radius:12px!important;font-size:0!important;white-space:nowrap!important}#hsin-audio-unlock::before{content:"🔊";font-size:22px!important}#hsin-volume-control{top:55px!important;bottom:auto!important;right:8px!important;min-width:0!important}#hsin-volume-control.hsin-folded #hsin-bgm-open{width:40px!important;height:38px!important;padding:0!important;font-size:0!important}#hsin-volume-control.hsin-folded #hsin-bgm-open::before{content:"🎵";font-size:21px!important}#hsin-volume-control:not(.hsin-folded){max-width:min(220px,55vw)!important;box-sizing:border-box!important;top:55px!important}#hsin-volume-control #hsin-test-tone{border:1px solid #ffc66c;background:#274a65;color:#fff;border-radius:8px;font:700 13px system-ui;padding:8px}#hsin-volume-control #hsin-countdown-status{font:600 11px system-ui;color:#ffe69e;max-width:200px}@media(max-height:360px){#hsin-volume-control:not(.hsin-folded){top:50px!important;padding:5px!important}}';
+d.head.append(compactStyle);
 const openBtn=d.createElement('button');openBtn.id='hsin-bgm-open';openBtn.type='button';openBtn.textContent='🎵 音量';openBtn.setAttribute('aria-label','展開音量控制');row.append(openBtn);
 const fold=()=>{row.classList.add('hsin-folded');openBtn.focus({preventScroll:true})};
 const unfold=()=>{row.classList.remove('hsin-folded');row.querySelector('#hsin-bgm-slider').focus({preventScroll:true})};
@@ -46,9 +49,8 @@ nativeMusicWatcher.observe(d.body,{childList:true,subtree:true});
 row.querySelector('input').addEventListener('input',function(){const num=Number(this.value);row.querySelector('strong').textContent=num+'%';try{w.eval('duelMusicVol='+JSON.stringify(num/100)+';sound=true;duelNext=0;');const v=d.getElementById('duelMusicVol');if(v)v.value=String(num);const snd=d.getElementById('sound');if(snd)snd.value='1'}catch(e){}});
 function installCountdownAudio(){
   if(d.getElementById('hsin-countdown-status'))return;
-  const info=d.createElement('div');info.id='hsin-countdown-status';info.textContent='⏱️ 最後30秒音效：偵測計時中';
-  info.style.cssText='position:fixed;z-index:2147482999;left:8px;bottom:8px;padding:7px 10px;border-radius:10px;background:#0a2948de;border:1px solid #d4b867;color:#fff;font:700 12px system-ui;pointer-events:none';
-  d.body.append(info);
+  const info=d.createElement('div');info.id='hsin-countdown-status';info.textContent='⏱️ 最後30秒提示音：等待計時';
+  row.append(info);
   const selectors=['#timer','#clock','#time','#timeLeft','#time-left','#countdown','#remaining-time','.timer','.countdown','.time-left','[data-testid="timer"]'];
   function parse(raw){
     const t=String(raw||'').trim();
@@ -75,14 +77,18 @@ function installCountdownAudio(){
   }
   let last=null,lastNote=-1,playedEnd=false,ctxLocal=null;
   function unlockCueContext(){
-    try{ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();if(ctxLocal.state==='suspended')ctxLocal.resume().catch(()=>{});}catch(e){}
+    try{
+      if(!ctxLocal){try{ctxLocal=w.eval('typeof ctx!=="undefined" && ctx ? ctx : null')}catch(e){}}
+      ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();
+      if(ctxLocal.state==='suspended')return ctxLocal.resume();
+      return Promise.resolve();
+    }catch(e){return Promise.reject(e)}
   }
   d.addEventListener('pointerdown',unlockCueContext,{capture:true});
   d.addEventListener('keydown',unlockCueContext,{capture:true});
   function tone(hz,duration=.11,type='sine',amplitude=.1){
     try{
-      ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();
-      if(ctxLocal.state==='suspended')return;
+      if(!ctxLocal||ctxLocal.state!=='running')return;
       const osc=ctxLocal.createOscillator(),gain=ctxLocal.createGain();
       osc.type=type;osc.frequency.setValueAtTime(hz,ctxLocal.currentTime);
       gain.gain.setValueAtTime(.0001,ctxLocal.currentTime);
@@ -97,6 +103,8 @@ function installCountdownAudio(){
     if(sec<=10){tone(790,.12,'triangle',.12);return;}
     if(sec===30||sec===20){tone(530,.11,'sine',.09);setTimeout(()=>tone(670,.1,'sine',.09),125);}
   }
+  const testButton=d.createElement('button');testButton.type='button';testButton.id='hsin-test-tone';testButton.textContent='🔔 試聽倒數音';row.append(testButton);
+  testButton.addEventListener('click',()=>{unlockCueContext().then(()=>{cue(10);info.textContent='✅ 已播放試聽提示音'}).catch(()=>{info.textContent='🔇 瀏覽器尚未允許聲音，請再點一次'})});
   let prevActive=false;
   setInterval(()=>{
     if(d.hidden)return;
@@ -108,7 +116,9 @@ function installCountdownAudio(){
     if(n===last)return;
     if(n<last){
       if(n===0&&!playedEnd){cue(0);playedEnd=true;}
-      else if(n>0&&n<=30&&n!==lastNote&&(n===30||n===20||n<=10)){cue(n);lastNote=n;}
+      else if(n>0&&n<=30&&n!==lastNote){
+        if((last>30&&n<=30)||(last>20&&n<=20)||(n<=10&&Math.floor(last)>Math.floor(n))){cue(n<=10?n:n<=20?20:30);lastNote=n;}
+      }
     }
     last=n;
   },250);
