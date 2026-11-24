@@ -45,6 +45,11 @@ function installCountdownAudio(){
     return null;
   }
   let last=null,lastNote=-1,playedEnd=false,ctxLocal=null;
+  function unlockCueContext(){
+    try{ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();if(ctxLocal.state==='suspended')ctxLocal.resume().catch(()=>{});}catch(e){}
+  }
+  d.addEventListener('pointerdown',unlockCueContext,{capture:true});
+  d.addEventListener('keydown',unlockCueContext,{capture:true});
   function tone(hz,duration=.11,type='sine',amplitude=.1){
     try{
       ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();
