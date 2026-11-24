@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏配樂與倒數提示測試 V5</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜比例與邊距修正版 V6</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
 (function(){
 const frame=document.getElementById('play');
 function patch(){
@@ -19,6 +19,46 @@ const foldStyle=d.createElement('style');foldStyle.textContent='#hsin-volume-con
 const compactStyle=d.createElement('style');
 compactStyle.textContent='#hsin-audio-unlock{position:fixed!important;z-index:2147483000!important;top:8px!important;bottom:auto!important;right:8px!important;width:40px!important;height:40px!important;min-width:0!important;padding:0!important;border-radius:12px!important;font-size:0!important;white-space:nowrap!important}#hsin-audio-unlock::before{content:"🔊";font-size:22px!important}#hsin-volume-control{top:55px!important;bottom:auto!important;right:8px!important;min-width:0!important}#hsin-volume-control.hsin-folded #hsin-bgm-open{width:40px!important;height:38px!important;padding:0!important;font-size:0!important}#hsin-volume-control.hsin-folded #hsin-bgm-open::before{content:"🎵";font-size:21px!important}#hsin-volume-control:not(.hsin-folded){max-width:min(220px,55vw)!important;box-sizing:border-box!important;top:55px!important}#hsin-volume-control #hsin-test-tone{border:1px solid #ffc66c;background:#274a65;color:#fff;border-radius:8px;font:700 13px system-ui;padding:8px}#hsin-volume-control #hsin-countdown-status{font:600 11px system-ui;color:#ffe69e;max-width:200px}@media(max-height:360px){#hsin-volume-control:not(.hsin-folded){top:50px!important;padding:5px!important}}';
 d.head.append(compactStyle);
+
+/* V6 clean display: keep the real game's mute toggle, hide test controls
+   during play and ensure no stage / answer clipping in portrait and 16:9. */
+const cleanStyle=d.createElement('style');
+cleanStyle.id='hsin-duel-v6-layout';
+cleanStyle.textContent=`
+#hsin-audio-unlock,#hsin-volume-control,#hsin-countdown-status,#hsin-test-tone{display:none!important;visibility:hidden!important;pointer-events:none!important}
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+#arena{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+#arena .red,#arena .blue{min-width:0!important;box-sizing:border-box!important;overflow:hidden!important}
+#arena .side .choices{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+#arena .side .choices button{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+#arena .rope{min-width:0!important;box-sizing:border-box!important}
+#arena.combat .fight-stage{min-width:0!important;max-width:96%!important;box-sizing:border-box!important;overflow:hidden!important}
+#arena.combat .fight-stage .combatant{max-width:48%!important;box-sizing:border-box!important}
+#arena.combat .fight-stage img,#arena.combat .fight-stage canvas{max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+@media(orientation:portrait){
+ #arena:not(.wide){height:100dvh!important;min-height:0!important;grid-template-rows:minmax(0,1fr) clamp(105px,20dvh,160px) minmax(0,1fr)!important}
+ #arena:not(.wide) .red,#arena:not(.wide) .blue{padding:8px max(12px,env(safe-area-inset-right))!important}
+ #arena:not(.wide).combat .fight-stage{width:96%!important;max-width:96%!important}
+ #arena:not(.wide) .side .q{font-size:clamp(16px,4.3vw,26px)!important}
+ #arena:not(.wide) .side .choices button{min-height:clamp(35px,5.4dvh,64px)!important;padding:5px 8px!important}
+}
+@media(orientation:landscape),(min-width:900px){
+ #arena.wide{height:100dvh!important;max-width:100vw!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+ #arena.wide.combat{grid-template-rows:clamp(155px,35dvh,345px) minmax(0,1fr)!important}
+ #arena.wide .rope{padding:5px max(14px,2.5vw)!important}
+ #arena.wide .side{padding:clamp(7px,1.1vw,16px) clamp(13px,2.2vw,34px)!important;gap:clamp(4px,.9dvh,10px)!important;overflow-y:auto!important}
+ #arena.wide .q{font-size:clamp(18px,2.2vw,32px)!important;min-height:0!important}
+ #arena.wide .choices button{min-height:clamp(38px,6dvh,74px)!important;padding:6px!important}
+ #arena.wide .fight-stage{width:min(90%,970px)!important;max-width:90%!important}
+}
+@media(orientation:landscape) and (max-height:600px){
+ #arena.wide.combat{grid-template-rows:minmax(130px,37dvh) minmax(0,1fr)!important}
+ #arena.wide .side{padding:5px clamp(10px,1.8vw,24px)!important;gap:3px!important}
+ #arena.wide .choices button{min-height:32px!important}
+}
+`;
+d.head.append(cleanStyle);
+
 const openBtn=d.createElement('button');openBtn.id='hsin-bgm-open';openBtn.type='button';openBtn.textContent='🎵 音量';openBtn.setAttribute('aria-label','展開音量控制');row.append(openBtn);
 const fold=()=>{row.classList.add('hsin-folded');openBtn.focus({preventScroll:true})};
 const unfold=()=>{row.classList.remove('hsin-folded');row.querySelector('#hsin-bgm-slider').focus({preventScroll:true})};
