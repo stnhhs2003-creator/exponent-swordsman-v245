@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏配樂增強測試版 V2</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>數學對決｜大屏音量與倒數音效測試版 V3</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#071624}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe id="play" title="數學對決大屏音效測試" src="../screen-test/"></iframe><script>
 (function(){
 const frame=document.getElementById('play');
 function patch(){
@@ -16,6 +16,71 @@ button.addEventListener('click',unlock);d.body.append(button);
 const row=d.createElement('div');row.id='hsin-volume-control';row.innerHTML='<label for="hsin-bgm-slider">🎵 背景音樂 <strong id="hsin-bgm-percent">90%</strong></label><input id="hsin-bgm-slider" aria-label="背景音樂音量" type="range" min="0" max="100" value="90" step="5">';
 const style=d.createElement('style');style.textContent='#hsin-volume-control{position:fixed!important;z-index:2147483000!important;right:12px!important;bottom:72px!important;display:flex!important;flex-direction:column!important;gap:5px!important;min-width:180px!important;border:1px solid #6ed2ed!important;background:#08273ce8!important;color:#fff!important;padding:9px 12px!important;border-radius:12px!important;font:700 14px system-ui!important;box-shadow:0 4px 14px #0008!important}#hsin-volume-control input{width:100%!important;accent-color:#5de9cf!important}';d.head.append(style);d.body.append(row);
 row.querySelector('input').addEventListener('input',function(){const num=Number(this.value);row.querySelector('strong').textContent=num+'%';try{w.eval('duelMusicVol='+JSON.stringify(num/100)+';sound=true;duelNext=0;');const v=d.getElementById('duelMusicVol');if(v)v.value=String(num);const snd=d.getElementById('sound');if(snd)snd.value='1'}catch(e){}});
+function installCountdownAudio(){
+  if(d.getElementById('hsin-countdown-status'))return;
+  const info=d.createElement('div');info.id='hsin-countdown-status';info.textContent='⏱️ 最後30秒音效：偵測計時中';
+  info.style.cssText='position:fixed;z-index:2147482999;left:8px;bottom:8px;padding:7px 10px;border-radius:10px;background:#0a2948de;border:1px solid #d4b867;color:#fff;font:700 12px system-ui;pointer-events:none';
+  d.body.append(info);
+  const selectors=['#timer','#clock','#time','#timeLeft','#time-left','#countdown','#remaining-time','.timer','.countdown','.time-left','[data-testid="timer"]'];
+  function parse(raw){
+    const t=String(raw||'').trim();
+    let m=t.match(/^(?:\\D{0,7})?(\\d{1,2}):(\\d{2})(?:\\D{0,5})?$/);
+    if(m&&Number(m[2])<60)return Number(m[1])*60+Number(m[2]);
+    m=t.match(/^(?:剩餘|剩下|時間|倒數|⏱️|\\s)*\\s*(\\d{1,3})\\s*秒(?:鐘)?$/);
+    if(m)return Number(m[1]);return null;
+  }
+  function remaining(){
+    for(const sel of selectors){
+      const el=d.querySelector(sel);
+      if(el&&el.getClientRects().length&&el.children.length<3){
+        const n=parse(el.textContent);if(n!==null)return n;
+      }
+    }
+    const candidates=[...d.querySelectorAll('[id*="time" i],[id*="clock" i],[class*="timer" i],[class*="countdown" i]')].slice(0,45);
+    for(const el of candidates){
+      if(el.getClientRects().length&&el.children.length===0){
+        const n=parse(el.textContent);if(n!==null)return n;
+      }
+    }
+    return null;
+  }
+  let last=null,lastNote=-1,playedEnd=false,ctxLocal=null;
+  function tone(hz,duration=.11,type='sine',amplitude=.1){
+    try{
+      ctxLocal||=new (w.AudioContext||w.webkitAudioContext)();
+      if(ctxLocal.state==='suspended')return;
+      const osc=ctxLocal.createOscillator(),gain=ctxLocal.createGain();
+      osc.type=type;osc.frequency.setValueAtTime(hz,ctxLocal.currentTime);
+      gain.gain.setValueAtTime(.0001,ctxLocal.currentTime);
+      gain.gain.exponentialRampToValueAtTime(amplitude,ctxLocal.currentTime+.015);
+      gain.gain.exponentialRampToValueAtTime(.0001,ctxLocal.currentTime+duration);
+      osc.connect(gain).connect(ctxLocal.destination);osc.start();osc.stop(ctxLocal.currentTime+duration+.01);
+    }catch(e){}
+  }
+  function cue(sec){
+    if(sec===0){tone(660,.17,'triangle',.12);setTimeout(()=>tone(440,.19,'triangle',.12),180);setTimeout(()=>tone(330,.48,'sawtooth',.10),380);return;}
+    if(sec<=5){tone(980,.17,'square',.08);return;}
+    if(sec<=10){tone(790,.12,'triangle',.12);return;}
+    if(sec===30||sec===20){tone(530,.11,'sine',.09);setTimeout(()=>tone(670,.1,'sine',.09),125);}
+  }
+  let prevActive=false;
+  setInterval(()=>{
+    if(d.hidden)return;
+    const n=remaining();
+    if(n===null){info.textContent='⏱️ 倒數音效：等待遊戲計時';last=null;prevActive=false;return;}
+    info.textContent=n<=30?'🔔 最後 '+n+' 秒音效已待命':'⏱️ 最後30秒開始音效';
+    if(last===null){last=n;prevActive=true;playedEnd=false;return;}
+    if(n>last+1){last=n;lastNote=-1;playedEnd=false;return;}
+    if(n===last)return;
+    if(n<last){
+      if(n===0&&!playedEnd){cue(0);playedEnd=true;}
+      else if(n>0&&n<=30&&n!==lastNote&&(n===30||n===20||n<=10)){cue(n);lastNote=n;}
+    }
+    last=n;
+  },250);
+}
+installCountdownAudio();
+
 
 const start=d.getElementById('start');if(start)start.addEventListener('click',unlock,{capture:true});
 const mute=d.getElementById('mute');if(mute)mute.addEventListener('click',()=>{try{w.eval("if(ctx&&ctx.state==='suspended')ctx.resume()")}catch(e){}});
