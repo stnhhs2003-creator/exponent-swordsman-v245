@@ -343,10 +343,10 @@ body.in-game,body.big-screen.in-game{--dock-height:calc(100px + env(safe-area-in
 body.in-game #controls,body.big-screen.in-game #controls{
  position:fixed!important;inset:auto 0 0!important;transform:none!important;
  width:100%!important;max-width:none!important;display:grid!important;
- grid-template-columns:minmax(0,190px) repeat(4,minmax(0,95px));
+ grid-template-columns:minmax(0,2fr) repeat(4,minmax(0,1fr));
  grid-template-rows:28px minmax(0,1fr);
  gap:4px!important;align-items:stretch!important;justify-content:center!important;
- padding:3px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))!important;
+ padding:3px max(6px,env(safe-area-inset-right,0px),calc((100vw - 570px) / 2)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px),calc((100vw - 570px) / 2))!important;
 }
 body.in-game #controls::before,body.in-game #controls::after,
 body.in-game #controls .control-hint,body.in-game #keyboardHelp{display:none!important}
@@ -372,7 +372,7 @@ body.in-game #controls #actions button[data-action]{
 body.in-game #controls #actions [data-action="jump"]{grid-column:2!important}
 body.in-game #controls #actions [data-action="crouch"]{grid-column:3!important}
 body.in-game #controls #actions [data-action="dodge"]{grid-column:4!important}
-body.in-game #controls #actions #attackHold{grid-column:5!important}
+body.in-game #controls #actions #attackHold{grid-column:5!important;width:100%!important;min-width:0!important;height:100%!important}
 @media(orientation:landscape) and (max-height:520px){
  body.in-game,body.big-screen.in-game{--dock-height:calc(88px + env(safe-area-inset-bottom,0px))!important}
 }
