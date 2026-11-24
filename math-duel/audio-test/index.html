@@ -22,6 +22,27 @@ const unfold=()=>{row.classList.remove('hsin-folded');row.querySelector('#hsin-b
 row.querySelector('#hsin-bgm-close').addEventListener('click',fold);
 openBtn.addEventListener('click',unfold);
 row.classList.add('hsin-folded');
+/* Retire the original floating volume panel on large-screen gameplay:
+   this test version has a compact collapsible replacement. */
+function foldLegacyMusicPanel(){
+  try{
+    for(const slider of d.querySelectorAll('input[type="range"]')){
+      if(row.contains(slider))continue;
+      let panel=slider.parentElement;
+      for(let i=0;i<5&&panel&&panel!==d.body;i++,panel=panel.parentElement){
+        const txt=(panel.innerText||'').trim();
+        if(txt.length>110)break;
+        if(/背景音樂|配樂音量/.test(txt)){
+          panel.style.setProperty('display','none','important');
+          panel.dataset.hsinOldAudioHidden='1';break;
+        }
+      }
+    }
+  }catch(e){}
+}
+foldLegacyMusicPanel();
+const nativeMusicWatcher=new MutationObserver(()=>foldLegacyMusicPanel());
+nativeMusicWatcher.observe(d.body,{childList:true,subtree:true});
 row.querySelector('input').addEventListener('input',function(){const num=Number(this.value);row.querySelector('strong').textContent=num+'%';try{w.eval('duelMusicVol='+JSON.stringify(num/100)+';sound=true;duelNext=0;');const v=d.getElementById('duelMusicVol');if(v)v.value=String(num);const snd=d.getElementById('sound');if(snd)snd.value='1'}catch(e){}});
 function installCountdownAudio(){
   if(d.getElementById('hsin-countdown-status'))return;
@@ -31,9 +52,9 @@ function installCountdownAudio(){
   const selectors=['#timer','#clock','#time','#timeLeft','#time-left','#countdown','#remaining-time','.timer','.countdown','.time-left','[data-testid="timer"]'];
   function parse(raw){
     const t=String(raw||'').trim();
-    const time=t.match(/(\\d{1,2}):(\\d{2})(?!\\d)/);
+    const time=t.match(/(\d{1,2}):(\d{2})(?!\d)/);
     if(time&&Number(time[2])<60)return Number(time[1])*60+Number(time[2]);
-    const seconds=t.match(/(?:剩餘|剩下|時間|倒數|⏱️)?\\s*(\\d{1,3})\\s*秒/);
+    const seconds=t.match(/(?:剩餘|剩下|時間|倒數|⏱️)?\s*(\d{1,3})\s*秒/);
     if(seconds)return Number(seconds[1]);
     return null;
   }
