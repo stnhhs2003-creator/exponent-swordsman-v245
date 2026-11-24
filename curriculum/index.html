@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant-TW"><head><base href="../"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V25.10｜寫實武俠戰鬥強化版</title><style>
+<!doctype html><html lang="zh-Hant-TW"><head><base href="../"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#081525"><title>指數劍客 V25.12｜手機比例與飛劍限制</title><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071521;color:#fff;font-family:system-ui,-apple-system,'PingFang TC','Noto Sans TC',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}#game{display:block;width:100vw;height:100dvh;touch-action:none}#hud{position:fixed;top:env(safe-area-inset-top);left:0;right:0;padding:4px 10px;display:none;pointer-events:none;text-shadow:0 2px 4px #000}#hud .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:900;font-size:clamp(12px,2.2vw,20px)}#q{font-size:clamp(18px,3.2vw,30px);background:#0b203be3;border:1px solid #78dad488;border-radius:9px;text-align:center;min-width:32%;padding:2px 10px}#health{display:flex;align-items:center;gap:5px}#bar{height:11px;width:100px;border-radius:6px;background:#331929;overflow:hidden;border:1px solid #fff6}#bar i{display:block;height:100%;background:#5ce0ae}#health.danger #bar{animation:blink .4s infinite alternate}#health.danger #bar i{background:#ff4141}@keyframes blink{to{filter:brightness(2.3)}}#sub{display:flex;align-items:center;justify-content:space-between;font-size:clamp(11px,1.6vw,14px);gap:10px}#energyTrack{height:9px;background:#223d4a;width:130px;border-radius:6px;overflow:hidden;display:inline-block;vertical-align:middle}#energyFill{height:100%;width:0%;background:linear-gradient(90deg,#45e2d0,#ffcc69);display:block}#controls{position:fixed;bottom:calc(8px + env(safe-area-inset-bottom));left:0;right:0;display:none;justify-content:space-between;align-items:flex-end;padding:0 clamp(10px,2.4vw,30px);pointer-events:none;gap:12px;z-index:3}#move{width:clamp(164px,25vw,235px);height:92px;display:flex;align-items:center;gap:8px;pointer-events:auto;touch-action:none}#move .direction{flex:1;height:90px;border:2px solid #78d8d9bb;background:#123d58dc;border-radius:22px;color:#dcffff;font-size:35px;font-weight:900;box-shadow:0 5px 0 #092637,0 0 18px #45ddbe33;touch-action:none;-webkit-tap-highlight-color:transparent}#move .direction.pressed{background:#2f9e9b;border-color:#ddffed;transform:translateY(3px);box-shadow:0 2px 0 #092637}#actions{display:flex;flex-direction:row;align-items:flex-end;gap:10px;pointer-events:auto}#actions button{border:2px solid #bce9eb91;border-radius:20px;background:#184665ed;color:#fff;font-weight:900;padding:4px;min-height:74px;min-width:76px;font-size:14px;text-shadow:0 2px #000;touch-action:none;-webkit-tap-highlight-color:transparent;box-shadow:0 5px 0 #0b243a;white-space:nowrap}#actions button:active,#actions button.pressed{transform:translateY(3px);box-shadow:0 2px 0 #0b243a;background:#2e8b9d}#actions #attackHold{width:118px;height:118px;min-width:118px;border-radius:50%;font-size:15px;line-height:1.5;border:3px solid #f8c87f;background:radial-gradient(circle at 35% 25%,#ce8447,#8c4118 78%);position:relative;isolation:isolate;overflow:hidden;box-shadow:0 0 20px #ffb23d66,0 5px 0 #52290f}#actions #attackHold::before{content:'';position:absolute;inset:0;background:conic-gradient(#ffe281 calc(var(--charge,0) * 1%),transparent 0);opacity:.52;z-index:-1}#actions #attackHold.ready{border-color:#fff1a7;box-shadow:0 0 22px 5px #ffe07b,0 5px 0 #52290f}#actions #attackHold.charging{border-color:#fff2a0;filter:brightness(1.15);transform:scale(1.025)}#actions #attackHold .attack-state{display:block;font-size:11px;color:#fff7c9;line-height:1.25;margin-top:3px}#actions .aux{display:flex;flex-direction:column;gap:10px}#actions .aux button{width:81px;height:65px;min-height:65px}#controls .control-hint{position:absolute;bottom:100%;font-size:12px;color:#e0f8fa;font-weight:800;text-shadow:0 2px 4px #000;padding-bottom:5px;pointer-events:none}#controls .hint-left{left:clamp(10px,2.4vw,30px)}#controls .hint-right{right:clamp(10px,2.4vw,30px)}@media(max-height:460px){#controls{bottom:calc(4px + env(safe-area-inset-bottom));padding:0 clamp(8px,1.8vw,22px)}#move{height:74px;width:clamp(152px,23vw,195px);gap:7px}#move .direction{height:73px;font-size:29px;border-radius:19px}#actions{gap:7px}#actions #attackHold{width:94px;height:94px;min-width:94px;font-size:13px}#actions #attackHold .attack-state{font-size:10px}#actions .aux{gap:7px}#actions .aux button{width:69px;height:52px;min-width:69px;min-height:52px;font-size:12px;border-radius:15px}#controls .control-hint{font-size:10px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}@media(orientation:portrait){#controls{gap:6px;padding:0 7px}#move{width:145px;height:72px;gap:6px}#move .direction{height:68px;font-size:28px;border-radius:14px}#actions{gap:5px}#actions #attackHold{width:81px;height:81px;min-width:81px;font-size:11px;line-height:1.2}#actions #attackHold .attack-state{font-size:9px}#actions .aux{gap:5px}#actions .aux button{width:54px;height:46px;min-width:54px;min-height:46px;font-size:11px;border-radius:12px}#controls .control-hint{display:none}}#panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#071322ef,#13314fe8);padding:14px;z-index:4}#panel.hide{display:none}#card{max-width:640px;width:100%;max-height:96dvh;overflow:auto;text-align:center;padding:clamp(14px,3vw,26px);border:2px solid #75c7d780;background:#0b1b2df5;border-radius:22px;box-shadow:0 0 75px #32d7cd26}#card h1{font-size:clamp(24px,5vw,41px);margin:3px 0 10px;color:#f6d38f}#card h2{font-size:clamp(20px,3vw,28px)}#card p{line-height:1.55;margin:8px 0}#card button,#card select,#card input{background:#18354a;border:1px solid #80dbd0;color:#fff;border-radius:10px;padding:9px 16px;font-size:16px;margin:5px}#card button.primary{background:linear-gradient(120deg,#b76d29,#6b4226);border:2px solid #f5ce79;font-weight:900}#card .desc{color:#bcdbe2;font-size:14px}#card .choice{display:inline-block;margin:4px 8px}#card .version{color:#83e7dc;font-weight:900;letter-spacing:2px}#card .expl{background:#142f42;border-radius:12px;padding:12px;margin:12px 0;text-align:left}#card .key{color:#ffda78}#mute{position:fixed;top:92px;right:8px;z-index:2;display:none;border:1px solid #8dc;pointer-events:auto;background:#102e3ddc;border-radius:12px;color:white;padding:4px 8px}#banner{position:fixed;top:23%;width:100%;text-align:center;pointer-events:none;font-weight:900;font-size:clamp(19px,3.5vw,34px);color:#ffe9a4;text-shadow:0 0 15px #ff843e,0 3px 3px #000;opacity:0;transition:opacity .16s}#banner.show{opacity:1}@media(max-height:460px){#controls{padding:0 18px}#move{width:100px;height:100px}#stick{left:27px;top:27px}#actions{grid-template-columns:80px 66px}#actions #attackHold{min-height:90px;font-size:12px}#actions button{min-height:42px;padding:5px;font-size:12px}#hud .top{font-size:12px}#q{font-size:18px}#mute{top:55px}}
 
 /* V22.3 restored start screen with large touch targets and preview cards */
@@ -408,10 +408,61 @@ body.in-game #controls #actions #attackHold{grid-column:5!important;width:100%!i
   font-size:var(--screen-math-size,clamp(21px,3.35vw,38px))!important;
  }
 }
-</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><button id="hhReturnStart20261122" type="button" aria-label="返回起始畫面">返回起始</button><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><label>配樂<select id="swordMusicChoice" style="width:100%;max-width:100%;font:inherit"><option value="new">竹影清風・深谷魔王</option><option value="classic">原版配樂</option><option value="off">關閉配樂</option></select></label><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">18%</output></label><input type="range" id="musicVolume" min="0" max="100" value="18" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">65%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="65" aria-label="戰鬥音效音量"></div><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="arenaBuild">V25.10 · 大屏閱讀與操作</div><div id="controls"><div id="dockSettings"><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button></div><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>空白鍵</b> 跳躍　<b>J／F</b> 短按飛劍・長按必殺　<b>↓</b> 蹲下／跳下　<b>X</b> 閃避</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" id="crouchBtn" data-action="crouch" aria-label="按住蹲下躲避高空飛劍">⬇ 蹲下</button><button type="button" id="dodgeButton" data-action="dodge" aria-label="閃避">閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
+
+/* V25.11: short mobile landscape gets a dedicated, one-row gamepad and compact HUD.
+   Desktop/classroom layout stays unchanged. */
+@media (orientation:landscape) and (max-height:520px){
+ body.in-game,body.big-screen.in-game{--dock-height:calc(56px + env(safe-area-inset-bottom,0px))!important}
+ body.in-game #game,body.big-screen.in-game #game{
+  height:calc(100dvh - var(--dock-height) - var(--math-hud-height,0px))!important;
+ }
+ body.in-game #controls,body.big-screen.in-game #controls{
+  top:calc(100dvh - var(--dock-height))!important;bottom:auto!important;
+  grid-template-columns:minmax(50px,78px) minmax(76px,2fr) repeat(3,minmax(40px,1fr)) minmax(54px,1.2fr);
+  grid-template-rows:minmax(0,1fr);gap:4px!important;
+  padding:3px max(5px,env(safe-area-inset-right,0px),calc((100vw - 650px)/2)) calc(4px + env(safe-area-inset-bottom,0px)) max(5px,env(safe-area-inset-left,0px),calc((100vw - 650px)/2))!important;
+ }
+ body.in-game #dockSettings{grid-area:1 / 1;flex-direction:column;gap:2px;min-width:0}
+ body.in-game #dockSettings #mute,body.in-game #dockSettings #controlMode{
+  width:100%!important;height:50%!important;min-height:0!important;font-size:10px!important;padding:1px 2px!important;line-height:1!important;white-space:normal!important;
+ }
+ body.in-game #controls #move{grid-area:1 / 2;align-items:stretch}
+ body.in-game #controls #move .direction{height:100%!important;border-radius:12px!important;font-size:22px!important}
+ body.in-game #controls #actions button[data-action]{grid-row:1!important;font-size:clamp(11px,2.1vw,15px)!important;border-radius:12px!important}
+ body.in-game #controls #actions [data-action="jump"]{grid-column:3!important}
+ body.in-game #controls #actions [data-action="crouch"]{grid-column:4!important}
+ body.in-game #controls #actions [data-action="dodge"]{grid-column:5!important}
+ body.in-game #controls #actions #attackHold{grid-column:6!important;line-height:1.05!important;border-radius:15px!important}
+ body.in-game #controls #attackHold .attack-state{font-size:9px!important;line-height:1!important;margin-top:2px!important}
+ body.in-game #controls #attackHold .attack-state br{display:block}
+ body.in-game #hud{padding:2px max(7px,env(safe-area-inset-right,0px)) 2px max(7px,env(safe-area-inset-left,0px))!important}
+ body.in-game #hud .top,body.big-screen.in-game #hud .top{
+  grid-template-columns:minmax(0,1fr) auto auto;gap:1px 5px;font-size:11px!important;
+ }
+ body.in-game #hud .top #q,body.big-screen.in-game #hud .top #q{
+  height:auto!important;min-height:26px!important;max-height:44px!important;
+  font-size:var(--screen-math-size,clamp(17px,2.5vw,25px))!important;
+  line-height:1.08!important;padding:2px 5px!important;border-width:1px!important;
+ }
+ body.in-game #hud #sub,body.big-screen.in-game #hud #sub{
+  font-size:11px!important;padding:1px 5px!important;line-height:1.1!important;gap:2px 6px!important;
+ }
+ body.in-game #hud #bar{width:52px!important;height:7px!important}
+ body.in-game #hud #energyTrack{width:64px!important;height:6px!important}
+ body.in-game #hhReturnStart20261122{min-height:18px!important;font-size:10px!important;padding:1px 4px!important}
+ body.in-game #arenaBuild{font-size:8px;bottom:calc(var(--dock-height) + 2px);padding:1px 3px}
+ body.in-game.audio-open #audioPanel,body.big-screen.in-game.audio-open #audioPanel{
+  top:calc(100dvh - var(--dock-height) - 3px)!important;bottom:auto!important;
+  transform:translateY(-100%);max-height:max(48px,calc(100dvh - var(--dock-height) - var(--math-hud-height,0px) - 6px));
+  overflow-y:auto;touch-action:pan-y;
+ }
+}
+#ammoStatus{color:#f4d88e;white-space:nowrap;font-weight:800}#ammoStatus.empty{color:#ff9992}#attackHold.ammo-empty{border-color:#ffab7b}
+</style></head><body><canvas id="game"></canvas><div id="hud"><div class="top"><span id="stage">第一關</span><span id="q">2³ × 2² = ?</span><button id="hhReturnStart20261122" type="button" aria-label="返回起始畫面">返回起始</button><span id="lifelabel">♥♥♥♥♥</span></div><div id="sub"><span id="health">HP <span id="hpnum">100</span><span id="bar"><i id="hpfill"></i></span></span><span>氣力 <span id="energyTrack"><i id="energyFill"></i></span> <b id="energyNum">0%</b></span><span id="ammoStatus" aria-label="小飛劍剩餘次數">飛劍 <b id="ammoNum">6/6</b></span><span id="progress">1 / 10</span></div></div><div id="audioPanel" aria-label="遊戲音量調整"><label>配樂<select id="swordMusicChoice" style="width:100%;max-width:100%;font:inherit"><option value="new">竹影清風・深谷魔王</option><option value="classic">原版配樂</option><option value="off">關閉配樂</option></select></label><div id="musicStatus">♫ 按開始播放配樂</div><meter id="musicLevel" min="0" max="100" value="0" aria-label="配樂輸出音量"></meter><label for="musicVolume">♫ 配樂 <output id="musicValue">16%</output></label><input type="range" id="musicVolume" min="0" max="100" value="16" aria-label="配樂音量"><label for="sfxVolume">⚔ 音效 <output id="sfxValue">65%</output></label><input type="range" id="sfxVolume" min="0" max="100" value="65" aria-label="戰鬥音效音量"></div><div id="banner"></div><div id="damageEdge" aria-hidden="true"></div><div id="arenaBuild">V25.12 · 比例・魔王・飛劍</div><div id="controls"><div id="dockSettings"><button id="mute" aria-label="開啟音量設定" aria-expanded="false">♫ 音量</button><button id="controlMode" type="button" aria-label="切換方向鍵或搖桿">操作：方向鍵 ⇄ 搖桿</button></div><div id="keyboardHelp">教室鍵盤：<b>← →</b> 移動　<b>↑</b> 跳躍　<b>↓</b> 蹲下／跳下　<b>Enter</b> 短按飛劍・長按必殺　<b>右 Shift</b> 閃避</div><span class="control-hint hint-left">移動</span><div id="move" aria-label="左右移動"><div id="soloStick" role="group" aria-label="左右搖桿，放手停止"><span id="soloThumb"></span></div><button type="button" class="direction" data-dir="-1" aria-label="向左移動">◀</button><button type="button" class="direction" data-dir="1" aria-label="向右移動">▶</button></div><span class="control-hint hint-right">戰鬥</span><div id="actions"><button type="button" id="attackHold" data-action="attackHold" aria-label="短按揮劍、長按集氣、放開發射絕技">⚔ 攻擊<span class="attack-state" id="attackState">短按揮劍<br>長按集氣</span></button><div class="aux"><button type="button" data-action="jump" aria-label="向上跳躍">⬆ 跳躍</button><button type="button" id="crouchBtn" data-action="crouch" aria-label="按住蹲下躲避高空飛劍">⬇ 蹲下</button><button type="button" id="dodgeButton" data-action="dodge" aria-label="閃避">閃避</button></div></div></div><div id="panel"><div id="card"></div></div><script src="assets/monster-art-v2.js"></script><script>
 (()=>{'use strict';
 const C=document.getElementById('game'),ctx=C.getContext('2d'),$=id=>document.getElementById(id),W=1100,H=620,G=510,UP=390,PLATFORMS=[{x:300,w:179,y:411},{x:591,w:179,y:411}];
-let musicVolume=0.18,sfxVolume=0.65,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,scaleY=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,answerStreak=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,dodgeMoveUntil=0,dodgeReadyAt=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,nextGroundShotAt=0,nextPlatformSpawnAt=0,bossActor=null;
+const MAX_AMMO=6;let ammo=MAX_AMMO,keyboardAttackKey=null;
+let musicVolume=0.16,sfxVolume=0.65,musicStep=0,musicAnalyser=null,musicSamples=null,musicBus=null,sfxBus=null,audioMaster=null,audioMeterAt=0,nextMusicAt=0;let vw=0,vh=0,s=1,scaleY=1,offX=0,offY=0,imgs={},aCtx=null,muted=false,musicTimer=0,phase='menu',stage=0,qIndex=0,bossCount=0,bossCombo=0,answerStreak=0,lives=5,HP=100,energy=0,player=null,targets=[],bullets=[],fx=[],enemy=null,question=null,keys={},axis=0,joyID=null,last=0,tick=0,fireAt=0,hurtUntil=0,attackUntil=0,attackCD=0,dodgeUntil=0,dodgeMoveUntil=0,dodgeReadyAt=0,usedLastBoost=false,msgUntil=0,descEnd=0,actionSeq=0,hero='yuanheng',theme='gear',bigScreen=true,playerShots=[],ultShot=null,dropUntil=0,lowerMode=false,patrolEnemy=null,chasers=[],chaserLastHit=0,nextTreeSpawn=0,fallingFoe=null,nextFallingSpawn=0,damagePopups=[],jumpBufferUntil=0,lastGroundedAt=-10,nextGroundShotAt=0,nextPlatformSpawnAt=0,bossActor=null;
 const HERO={yuanheng:'new_poses-yuanheng',zhiyan:'new_poses-zhiyan',moze:'new_poses-yuanheng'},scenes=['scenery-bamboo','scenery-temple'];
 const WORLDS=[
  {id:'gear',icon:'🏯',name:'煙雨古寺',short:'霧山晨光・石階古寺',sky:['#1a2931','#8b8980'],accent:'#e1c590',mob:['art-armor-idle','art-ghost-idle','art-mage-idle','art-lava-idle']},
@@ -436,7 +487,8 @@ function preload(){const ks=['monster-atlas-v2',...scenes,'art-tree-idle','art-m
 function arenaLayout(width,height,playing,landscape){
  const fit=Math.min(width/W,height/H);
  if(playing&&landscape){
-  const upper=66,lower=565;
+  const compact=innerHeight<=520;
+  const upper=66,lower=compact?535:565;
   const zoom=Math.min(width/W,height/(lower-upper));
   const top=(height-(upper+lower)*zoom)/2;
   return {x:zoom,y:zoom,left:(width-W*zoom)/2,top};
@@ -456,7 +508,7 @@ function resize(){
 function fitScreenQuestion(){
  const q=$('q');
  q.style.removeProperty('--screen-math-size');
- if(!document.body.classList.contains('big-screen')||!matchMedia('(orientation:landscape)').matches) return;
+ if(!matchMedia('(orientation:landscape)').matches||(!document.body.classList.contains('big-screen')&&innerHeight>520)) return;
  let size=Math.floor(parseFloat(getComputedStyle(q).fontSize));
  while(size>14&&(q.scrollHeight>q.clientHeight+1||q.scrollWidth>q.clientWidth+1)){
   size-=1;
@@ -469,14 +521,14 @@ function ensureAudioMix(){
  audioMaster=aCtx.createDynamicsCompressor();
  audioMaster.threshold.value=-10;audioMaster.knee.value=10;audioMaster.ratio.value=8;audioMaster.attack.value=.005;audioMaster.release.value=.18;
  audioMaster.connect(aCtx.destination);
- musicBus=aCtx.createGain();musicBus.gain.value=musicVolume*1.45;
+ musicBus=aCtx.createGain();musicBus.gain.value=musicVolume*.72;
  sfxBus=aCtx.createGain();sfxBus.gain.value=sfxVolume*.85;
  musicAnalyser=aCtx.createAnalyser();musicAnalyser.fftSize=1024;musicSamples=new Float32Array(musicAnalyser.fftSize);
  musicBus.connect(musicAnalyser);musicAnalyser.connect(audioMaster);sfxBus.connect(audioMaster);
 }
 function applyAudioMix(){
  if(!aCtx)return;ensureAudioMix();
- musicBus.gain.setTargetAtTime(musicVolume*1.45,aCtx.currentTime,.06);
+ musicBus.gain.setTargetAtTime(musicVolume*.72,aCtx.currentTime,.06);
  sfxBus.gain.setTargetAtTime(sfxVolume*.85,aCtx.currentTime,.06);
 }
 function sound(kind){if(muted)return;try{aCtx=aCtx||new(window.AudioContext||window.webkitAudioContext);if(aCtx.state==='suspended')aCtx.resume();ensureAudioMix();const now=aCtx.currentTime;let f=180,d=.1,wave='triangle',gain=.09;if(kind==='slash'){f=310;d=.11;wave='sawtooth'}if(kind==='hit'){f=110;d=.18;gain=.18;wave='sawtooth'}if(kind==='ok'){f=660;d=.22;gain=.15}if(kind==='bad'){f=90;d=.4;gain=.19;wave='sawtooth'}if(kind==='ult'){f=140;d=.48;gain=.2;wave='sawtooth'}if(kind==='jump'){f=300;d=.11}if(kind==='hurt'){f=80;d=.3;gain=.17}if(kind==='beam'){f=470;d=.16}if(kind==='boss'){f=70;d=.55;gain=.15}if(kind==='death'){f=210;d=.65;gain=.18;wave='sawtooth'}if(kind==='revive'){f=480;d=.27;gain=.12}let o=aCtx.createOscillator(),g=aCtx.createGain();o.type=wave;o.frequency.setValueAtTime(f,now);o.frequency.exponentialRampToValueAtTime(Math.max(35,f*(kind==='ok'?1.65:.43)),now+d);g.gain.setValueAtTime(gain,now);g.gain.exponentialRampToValueAtTime(.001,now+d);o.connect(g);g.connect(sfxBus);o.start(now);o.stop(now+d+.02)}catch(e){}}
@@ -566,7 +618,7 @@ function menu(){
   {name:'炎刃魔將',stage:'第二階段・烈焰突進',src:'assets/art-lava-idle.webp'},
   {name:'虛空劍尊',stage:'第三階段・浮空劍陣',src:'assets/art-boss-idle.webp'}
  ];
- const markup=`<div class="start-title">數學劍客 <em>V25.1｜雙石台・高手魔王</em></div><div class="pick-label">⓪ 選擇課程單元</div><div class="unit-grid">${UNITS.map((u,i)=>`<button type="button" class="unit-btn" data-unit="${u[0]}" aria-pressed="${unit===u[0]}">${i+1}. ${u[1]}</button>`).join("")}</div>
+ const markup=`<div class="start-title">數學劍客 <em>V25.12｜比例・魔王・飛劍</em></div><div class="pick-label">⓪ 選擇課程單元</div><div class="unit-grid">${UNITS.map((u,i)=>`<button type="button" class="unit-btn" data-unit="${u[0]}" aria-pressed="${unit===u[0]}">${i+1}. ${u[1]}</button>`).join("")}</div>
  <div class="start-hint">先看圖選主角、場景，再開始戰鬥｜初階 10 題・進階 10 題・魔王連對 5 題</div>
  <div class="pick-label">① 選主角｜點擊人物圖片</div>
  <div class="visual-pick-grid hero-visual-grid">${heroes.map(h=>`<button type="button" class="visual-choice visual-hero hero-${h.id}" data-hero="${h.id}" aria-label="選擇${h.name}">
@@ -583,7 +635,7 @@ function menu(){
  ${runStatsMarkup()}<label id="screenModeWrap"><input type="checkbox" id="bigScreenToggle"> 教室大屏模式（一人鍵盤操作，小組協助解題）</label>
  <button type="button" class="start-now" id="startGameNow">▶ 開始挑戰</button>
  <button type="button" id="ultimateDemoBtn" style="font-weight:800;color:#ffefbc;border:1px solid #ffcf70;background:#423047;padding:7px 12px">✨ 預覽必殺技</button>
- <p class="desc">短按 J／F 射擊，長按蓄力，空白鍵跳躍。答案是數字方塊，魔王分三階段依序登場。</p>`;
+ <p class="desc">方向鍵 ← → 移動、↑ 跳躍、↓ 蹲下／跳下；Enter 短按消耗飛劍、長按集氣放必殺；右 Shift 閃避（J／F、空白鍵、X 亦可）。初始 6 支，命中扣 1 支，答對補 2 支。</p>`;
  $('panel').classList.remove('hide');$('card').classList.add('start-card');$('card').innerHTML=markup;
  $('hud').style.display='none';$('controls').style.display='none';$('mute').style.display='none';$('audioPanel').style.display='none';
  function updatePicks(){for(const el of $('card').querySelectorAll('[data-unit]'))el.setAttribute('aria-pressed',String(el.dataset.unit===unit));
@@ -617,7 +669,7 @@ function showUltimateDemo(){
  requestAnimationFrame(render)}requestAnimationFrame(render)
 }
 function newStage(n,carryLives=false){
- passage=null;if(n===0)runOpen=true;musicStep=0;nextMusicAt=0;damagePopups=[];answerStreak=0;stopPlayerInput();dodgeReadyAt=0;document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;bossActor=n===2?{born:performance.now()/1000,attackUntil:0,hurtUntil:0,form:0,shiftAt:0,weaponAt:performance.now()/1000+3.5,weaponWarn:0}:null;lives=n===0?3:(carryLives?lives:3);HP=100;energy=carryLives?Math.max(40,energy):40;player={x:500,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextTreeSpawn=performance.now()/1000+rand(22,38)/10;nextGroundShotAt=performance.now()/1000+3.2;nextPlatformSpawnAt=performance.now()/1000+rand(65,115)/10; // Occasional platform patrol, not permanently occupied.
+ passage=null;if(n===0)runOpen=true;musicStep=0;nextMusicAt=0;damagePopups=[];answerStreak=0;stopPlayerInput();dodgeReadyAt=0;document.body.classList.remove('audio-open');stage=n;qIndex=0;bossCount=0;bossCombo=0;ammo=MAX_AMMO;bossActor=n===2?{born:performance.now()/1000,attackUntil:0,hurtUntil:0,form:0,shiftAt:0,weaponAt:performance.now()/1000+3.5,weaponWarn:0}:null;lives=n===0?3:(carryLives?lives:3);HP=100;energy=carryLives?Math.max(40,energy):40;player={x:500,y:G,vx:0,vy:0,level:0,face:1};hurtUntil=0;fireAt=0;usedLastBoost=false;dropUntil=0;lowerMode=false;patrolEnemy={x:1040,y:UP-35,vx:-28,goal:1010,changeAt:0};playerShots=[];ultShot=null;chasers=[];fallingFoe=null;nextFallingSpawn=performance.now()/1000+8;nextTreeSpawn=performance.now()/1000+rand(22,38)/10;nextGroundShotAt=performance.now()/1000+3.2;nextPlatformSpawnAt=performance.now()/1000+rand(65,115)/10; // Occasional platform patrol, not permanently occupied.
 chaserLastHit=0;phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();banner(n===0?'初階：尋找答案':n===1?'進階：炎刃魔將':'最終魔王戰',1.5);if(n===2){hurtUntil=performance.now()/1000+2.2;fireAt=Math.max(fireAt,hurtUntil+1);sound('boss');banner('⚠ 魔王降臨！黑霧聚集・準備閃避',2.8);fx.push({type:'impact',x:878,y:335,life:1.2,maxLife:1.2,col:'#b87cff'});}}
 function banner(m,d=1.3){$('banner').textContent=m;$('banner').classList.add('show');msgUntil=performance.now()/1000+d}
 const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),shuffle=x=>{for(let i=x.length-1;i>0;i--){let j=rand(0,i);[x[j],x[i]]=[x[i],x[j]]}return x};
@@ -643,10 +695,10 @@ function drawDamageFeedback(now){
  for(const p of damagePopups){const age=now-p.time;ctx.globalAlpha=Math.min(1,(1.1-age)*3);const y=Math.max(95,p.y-age*40);ctx.strokeText('-'+p.amount+' HP',p.x,y);ctx.fillStyle='#ffdfb2';ctx.fillText('-'+p.amount+' HP',p.x,y)}
  ctx.restore();
 }
-function updateHUD(){let str=stage===2?`${bossCombo<2?'①鎮魂鐵衛':bossCombo<4?'②炎刃魔將':'③虛空劍尊'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=UNITS.find(v=>v[0]===unit)[1]+'｜'+str;if($('q').dataset.math!==question.q){$('q').innerHTML=question.q;$('q').dataset.math=question.q;syncMathHUD();}$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / 10`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(energy>=70?'✨ 絕技就緒':'短按揮劍<br>長按集氣')}
-function die(reason,wrong=false){answerStreak=0;stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0;bossActor.weaponAt=bossActor.born+3.5;bossActor.wave=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：檢查本單元計算規則。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;nextPlatformSpawnAt=fireAt+rand(50,100)/10;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
+function updateHUD(){let str=stage===2?`${bossCombo<2?'①鎮魂鐵衛':bossCombo<4?'②炎刃魔將':'③虛空劍尊'} · 連對 ${bossCombo}/5`:stage===0?'初階':'進階';$('stage').textContent=UNITS.find(v=>v[0]===unit)[1]+'｜'+str;if($('q').dataset.math!==question.q){$('q').innerHTML=question.q;$('q').dataset.math=question.q;syncMathHUD();}$('lifelabel').textContent='♥'.repeat(Math.max(0,lives));$('hpnum').textContent=Math.ceil(Math.max(0,HP));$('hpfill').style.width=Math.max(0,HP)+'%';$('health').classList.toggle('danger',HP<25);$('energyFill').style.width=Math.min(100,energy)+'%';$('energyNum').textContent=Math.floor(energy)+'%';$('ammoNum').textContent=ammo+'/'+MAX_AMMO;$('ammoStatus').classList.toggle('empty',ammo===0);$('attackHold').classList.toggle('ammo-empty',ammo===0);$('progress').textContent=stage===2?'魔王試煉':`${qIndex+1} / 10`;$('attackHold').classList.toggle('ready',energy>=70);$('attackHold').classList.toggle('lock-ready',energy>=70&&!!aimTarget());$('attackHold').style.setProperty('--charge',String(Math.min(100,energy)));$('attackState').innerHTML=isCharging?(energy>=70?'🔥 放開發射':`集氣 ${Math.floor(energy)}%`):(ammo===0?'無飛劍<br>長按集氣':energy>=70?'✨ 絕技就緒':`短按 ${ammo}/${MAX_AMMO}<br>長按集氣`)}
+function die(reason,wrong=false){answerStreak=0;stopPlayerInput();lives--;sound('death');fx.push({x:player.x,y:player.y-40,life:.7,col:'#f66',radius:15});if(stage===2){bossCombo=0;if(bossActor){bossActor.form=0;bossActor.born=performance.now()/1000;bossActor.hurtUntil=0;bossActor.weaponAt=bossActor.born+3.5;bossActor.wave=0}}if(lives<=0){phase='lost';recordRun(false);panel('💀 挑戰失敗',`<p>${reason}</p><p>通過題數：${qIndex}｜這次學到的重點：檢查本單元計算規則。</p>`,[['重新挑戰',()=>newStage(0)],['返回選單',menu]]);return}HP=100;ammo=Math.max(3,ammo);player.x=500;player.y=G;bullets=[];chasers=[];fallingFoe=null;fireAt=performance.now()/1000+2;nextTreeSpawn=fireAt+1;nextFallingSpawn=fireAt+6;nextPlatformSpawnAt=fireAt+rand(50,100)/10;dropUntil=0;lowerMode=false;player.level=0;player.vy=0;hurtUntil=performance.now()/1000+2;energy=Math.max(30,energy);sound('revive');if(lives===1&&!usedLastBoost){usedLastBoost=true;banner('⚔ 絕境劍魂覺醒！',2);energy=Math.max(energy,70)}if(wrong)showExplanation(reason);else banner('失去一命｜2 秒無敵保護',1.7);updateHUD()}
 function showExplanation(reason){phase='explain';const right=question.choices[question.correct].html;panel('❌ 絕技命中錯誤答案',`<p>${reason}，立即失去一條命。</p><div class="expl"><div>題目：${question.q}</div><div class="key">正解：${'ABCD'[question.correct]}．${right}</div><p>${question.explain}</p><p>請依上面的解題說明檢查。</p></div><p>剩餘生命：${lives}　｜　復活後 2 秒保護</p>`,[['繼續挑戰',()=>{phase='play';document.body.classList.add('in-game');document.body.classList.toggle('big-screen',bigScreen);resize();$('panel').classList.add('hide');$('hud').style.display='block';$('controls').style.display='flex';$('mute').style.display='block';$('audioPanel').style.display='block';nextQuestion();hurtUntil=performance.now()/1000+2}]]);}
-function solved(){sound('ok');answerStreak++;banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);if(answerStreak>=3&&answerStreak%3===0){fx.push({type:'pix-combo',x:player?.x||W*.5,y:(player?.y||G)-118,life:.78,maxLife:.78,col:'#ffe58c',label:`${answerStreak} 連擊`});banner(`✨ ${answerStreak} 連擊！劍氣共鳴`,.85)}energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){if(bossActor)bossActor.hurtUntil=performance.now()/1000+1.15;bossCombo++;if(bossCombo===2||bossCombo===4){if(bossActor){bossActor.form=bossCombo===2?1:2;bossActor.shiftAt=performance.now()/1000+1.15;bossActor.born=performance.now()/1000}banner(bossCombo===2?'🔥 炎刃魔將登場！狂暴突進！':'⚡ 虛空劍尊覺醒！終結劍陣！',2);sound('boss');fx.push({type:'impact',x:884,y:250,life:.9,maxLife:.9,col:bossCombo===2?'#f2a05f':'#b5a8f2',radius:95})}if(bossCombo>=5){phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
+function solved(){sound('ok');ammo=Math.min(MAX_AMMO,ammo+2);answerStreak++;banner(stage===2?'魔王護盾破裂！':'✅ 正確！劍氣爆擊！',1.3);if(answerStreak>=3&&answerStreak%3===0){fx.push({type:'pix-combo',x:player?.x||W*.5,y:(player?.y||G)-118,life:.78,maxLife:.78,col:'#ffe58c',label:`${answerStreak} 連擊`});banner(`✨ ${answerStreak} 連擊！劍氣共鳴`,.85)}energy=Math.max(15,energy-60);HP=Math.min(100,HP+8);if(stage===2){if(bossActor)bossActor.hurtUntil=performance.now()/1000+1.15;bossCombo++;if(bossCombo===2||bossCombo===4){if(bossActor){bossActor.form=bossCombo===2?1:2;bossActor.shiftAt=performance.now()/1000+1.15;bossActor.born=performance.now()/1000}banner(bossCombo===2?'🔥 炎刃魔將登場！狂暴突進！':'⚡ 虛空劍尊覺醒！終結劍陣！',2);sound('boss');fx.push({type:'impact',x:884,y:250,life:.9,maxLife:.9,col:bossCombo===2?'#f2a05f':'#b5a8f2',radius:95})}if(bossCombo>=5){phase='win';recordRun(true);panel('🏆 全員勝利！','<p>你和隊友成功連續答對五道魔王題！</p><p>完成初階、進階及最終試煉！</p>',[['再玩一次',()=>newStage(0)],['選單',menu]]);return}}
 else{qIndex++;if(qIndex>=(10)){beginPassage(stage+1);return}}setTimeout(()=>{if(phase==='play')nextQuestion()},580)}
 function monsterBurst(x,y,key,col){
  fx.push({type:'vanish',x,y,key,col,life:.72,maxLife:.72,radius:50});fx.push({type:'ink',x,y,col:'#171f1c',life:.76,maxLife:.76,radius:54});fx.push({type:'pix-hit',x,y,col,life:.42,maxLife:.42});
@@ -662,7 +714,7 @@ function defeatHazard(c){
  if(c===fallingFoe){fallingFoe=null;nextFallingSpawn=performance.now()/1000+rand(80,130)/10}
  energy=Math.min(100,energy+10);return true;
 }
-function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;attackCD=now+.25;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');fx.push({type:'pix-slash',x:player.x+player.face*48,y:player.y-66,face:player.face,life:.24,maxLife:.24,col:'#b8f4e5'});playerShots.push({x:player.x+player.face*42,y:player.y-60,vx:player.face*740,life:.72});if(playerShots.length>8)playerShots.shift();let range=lives===1?115:90;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95)defeatHazard(c)}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
+function slash(){if(phase!=='play')return;let now=performance.now()/1000;if(now<attackCD)return;if(ammo<=0){banner('飛劍耗盡！閃避並長按集氣作答',.9);updateHUD();return}ammo--;attackCD=now+.42;attackUntil=now+.19;energy=Math.min(100,energy+7);sound('slash');fx.push({type:'pix-slash',x:player.x+player.face*48,y:player.y-66,face:player.face,life:.24,maxLife:.24,col:'#b8f4e5'});playerShots.push({x:player.x+player.face*42,y:player.y-60,vx:player.face*740,life:.72});if(playerShots.length>8)playerShots.shift();let range=lives===1?115:90;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if((c.x-player.x)*player.face>0&&Math.abs(c.x-player.x)<range+12&&Math.abs(c.y-player.y)<95)defeatHazard(c)}for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if((b.x-player.x)*player.face>0&&Math.abs(b.x-player.x)<range&&Math.abs(b.y-(player.y-55))<80){bullets.splice(i,1);energy=Math.min(100,energy+14);fx.push({x:b.x,y:b.y,life:.45,col:'#7ff',radius:12});sound('hit')}}for(let t of targets)if(Math.abs(t.x-player.x)<range&&Math.abs(t.y-player.y)<65&&Math.sign(t.x-player.x)===player.face){t.hitGlow=.22;energy=Math.min(100,energy+6)}updateHUD()}
 function supportedPlayer(){
  return player&&Math.abs(player.vy)<1&&(Math.abs(player.y-G)<3||PLATFORMS.some(p=>player.x>=p.x+10&&player.x<=p.x+p.w-10&&Math.abs(player.y-p.y)<3));
 }
@@ -843,9 +895,9 @@ function update(dt,now){tick+=dt;music(dt);
  const lane=player.y<G-10&&supportedPlayer()?player.y:G;
  const high=(a.wave||0)%2===0;a.wave=(a.wave||0)+1;
  const x=player.x<720?850:Math.min(W-25,player.x+210);
- const y=lane-(high?83:29),v=250+15*p,warning=Math.max(.82,1.15-.08*p);
- const intervals=[2.8,2.4,2.0,1.7,1.4];
- const charged=p>=3&&a.wave%5===0,burst=p>=2&&a.wave%4===0&&!charged;
+ const y=lane-(high?83:29),v=290+28*p,warning=Math.max(.78,1.2-.10*p);
+ const intervals=[2.6,2.15,1.8,1.5,1.16];
+ const charged=p>=3&&a.wave%3===0,burst=p>=2&&a.wave%2===0&&!charged;
  a.weaponAt=now+intervals[p]*(.95+Math.random()*.14)+(burst?.6:charged?.75:0);a.attackUntil=now+warning+.25;
  const dir=player.x<x?-1:1;
  bullets.push({x,y,vx:dir*v,vy:0,r:charged?26:15,life:6,warning:warning+(charged?.3:0),kind:'blade',heavy:false,source:'bossWeapon',lane:high?'high':'low',charged});
@@ -963,7 +1015,7 @@ function update(dt,now){tick+=dt;music(dt);
  }
  chasers=chasers.filter(c=>!c.dead);
  for(let i=playerShots.length-1;i>=0;i--){const shot=playerShots[i];shot.x+=shot.vx*dt;shot.life-=dt;if(shot.life<=0||shot.x<0||shot.x>W){playerShots.splice(i,1);continue}let used=false;for(const c of [...chasers,...(fallingFoe?[fallingFoe]:[])]){if(!(c.warning>0)&&Math.abs(c.x-shot.x)<(c.level===0?TREE_FORMS[c.variant||0].w*.4:32)&&Math.abs(c.y-(c.level===0?TREE_FORMS[c.variant||0].h/2:35)-shot.y)<(c.level===0?TREE_FORMS[c.variant||0].h/2+10:45)){used=defeatHazard(c);if(used)break}}if(!used){for(let j=bullets.length-1;j>=0;j--){if(bullets[j].warning<=0&&Math.hypot(bullets[j].x-shot.x,bullets[j].y-shot.y)<32){fx.push({x:shot.x,y:shot.y,life:.32,col:'#a5f6ff',radius:12});bullets.splice(j,1);energy=Math.min(100,energy+10);used=true;break}}}if(used)playerShots.splice(i,1)}
- for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){if(now<dodgeUntil)continue;bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?(b.charged?42:24+bossCombo*3):stage===2?28:stage===1?24:18);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP,.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
+ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];if(b.warning>0){b.warning=Math.max(0,b.warning-dt);continue}b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(b.life<=0||b.x<0||b.x>W||b.y<185||b.y>G+45){bullets.splice(i,1);continue}if(projectileTouchesPlayer(b)){if(now<dodgeUntil)continue;bullets.splice(i,1);if(now<hurtUntil){energy=Math.min(100,energy+11);continue}if(b.heavy){die('遭大彈擊中！直接失去一命');return}takeDamage(b.source==='bossWeapon'?(b.charged?48:28+bossCombo*4):stage===2?28:stage===1?24:18);const lostAmmo=ammo>0;ammo=Math.max(0,ammo-1);hurtUntil=now+1.15;sound('hurt');banner('小彈擊中！HP '+HP+(lostAmmo?' · 飛劍 -1':''),.9);if(HP<=0){die('HP 歸零，被怪物擊敗');return}updateHUD()}}
  for(let i=fx.length-1;i>=0;i--){fx[i].life-=dt;if(fx[i].life<0)fx.splice(i,1)}for(let t of targets)t.hitGlow=Math.max(0,t.hitGlow-dt);if(now>msgUntil)$('banner').classList.remove('show');updateHUD()
 }
 const MONSTER_RECTS=[[.02073,.10845,.45534,.29984],[.53748,.11643,.44976,.29187],[.01116,.59729,.45056,.30144],[.51675,.58931,.47368,.32057]];
@@ -1100,6 +1152,24 @@ function drawGroundTree(c,now,hop){
  imageDraw('newmob-'+(c.variant||0),-form.w/2,-form.h,form.w,form.h);
 }
 // Three boss forms use existing loaded art, with procedural motion and clear poses.
+// Trim transparent margins once, keeping the visible feet at the floor.
+const bossBounds=new Map();
+function drawGroundedBoss(key,height){
+ const im=loadImage(key);if(!im.complete||!im.naturalWidth)return false;
+ let r=bossBounds.get(key);
+ if(!r){
+  const c=document.createElement('canvas'),w=im.naturalWidth,h=im.naturalHeight;
+  c.width=w;c.height=h;const cctx=c.getContext('2d',{willReadFrequently:true});
+  cctx.drawImage(im,0,0);let left=w,right=-1,top=h,bottom=-1;
+  try{const a=cctx.getImageData(0,0,w,h).data;
+   for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(a[(y*w+x)*4+3]>96){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}
+  }catch(_){}
+  r=right>=left&&bottom>=top?[left,top,right-left+1,bottom-top+1]:[0,0,w,h];
+  bossBounds.set(key,r);
+ }
+ const dw=height*r[2]/r[3];
+ ctx.drawImage(im,...r,-dw/2,-height,dw,height);return true;
+}
 const BOSS_FORMS=[
  {name:'鎮魂鐵衛',key:'art-armor-idle',color:'#d8c28f',w:145,h:168},
  {name:'炎刃魔將',key:'art-lava-idle',color:'#f2a05f',w:165,h:177},
@@ -1115,13 +1185,15 @@ function drawBoss(now){
  const transforming=alive&&now<bossActor.shiftAt;
  // Guard stands grounded, berserker lunges toward the arena, final form levitates and turns.
  const approach=attacking?Math.sin(Math.PI*Math.max(0,Math.min(1,(bossActor.attackUntil-now)/1.4))):0;const entry=1-Math.min(1,t/2.2),x=(form===0?870:form===1?850:835)+Math.sin(now*(form===1?2.7:1.8))*12-approach*(form===2?145:form===1?95:60)+entry*entry*380;
- const foot=form===2?507+Math.sin(now*2.4)*5:form===1?505+Math.sin(now*4.2)*4:508;
- const scale=(form===0?2.02:form===1?2.28:2.55)*(1+Math.sin(now*(form===1?7:3.5))*.025+approach*.23);
+ const foot=G+7;
+ const bossHeight=[310,335,358][form];
+ const breathe=1+Math.sin(now*(form===1?4.2:2.6))*.012;
  const face=(form===2?Math.sin(now*1.8)<0:form===1?Math.sin(now*2.7)>0:true)?-1:1;
  ctx.save();ctx.globalAlpha=appearing;const aura=ctx.createRadialGradient(x,foot-165,18,x,foot-165,225);aura.addColorStop(0,'#b658ff66');aura.addColorStop(.45,'#6428a855');aura.addColorStop(1,'#00000000');ctx.fillStyle=aura;ctx.fillRect(x-225,foot-390,450,450);
  for(let j=0;j<9;j++){let a=now*.55+j*2.399,px=x+Math.sin(a)*135,py=foot-110+Math.cos(a*.83)*105,r=48+20*Math.sin(a+j);let fog=ctx.createRadialGradient(px,py,0,px,py,r);fog.addColorStop(0,'#07041188');fog.addColorStop(.5,'#200d3b55');fog.addColorStop(1,'#05000b00');ctx.fillStyle=fog;ctx.fillRect(px-r,py-r,r*2,r*2)}
  ctx.save();ctx.translate(x,foot-130);ctx.strokeStyle='#c47dff';ctx.shadowColor='#8e35ff';ctx.shadowBlur=15;ctx.lineWidth=3;ctx.globalAlpha=.45*appearing;for(let j=0;j<3;j++){ctx.beginPath();ctx.ellipse(0,80-j*65,142+j*12,23+j*6,Math.sin(now*.8+j)*.16,now*1.5+j,now*1.5+j+Math.PI*1.55);ctx.stroke()}for(let j=0;j<5;j++){let a=now*2+j*1.256;ctx.beginPath();ctx.moveTo(Math.cos(a)*145,Math.sin(a)*105);ctx.lineTo(Math.cos(a+.09)*128,Math.sin(a+.09)*100);ctx.lineTo(Math.cos(a+.16)*153,Math.sin(a+.16)*112);ctx.stroke()}ctx.restore();
  if(t<1.8){ctx.save();ctx.strokeStyle='#e8b4ff';ctx.lineWidth=4;ctx.globalAlpha=(1-t/1.8)*.7;ctx.beginPath();ctx.ellipse(x,foot-8,45+t*135,12+t*32,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
+ ctx.save();ctx.globalAlpha=.65*appearing;ctx.fillStyle='#071018';ctx.beginPath();ctx.ellipse(x,foot,form===2?89:75,11,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.strokeStyle=info.color;ctx.globalAlpha=.24*appearing;ctx.lineWidth=4;
  ctx.beginPath();ctx.ellipse(x,foot+4,form===2?72:63,12,0,0,Math.PI*2);ctx.stroke();
  ctx.globalAlpha=appearing;
@@ -1149,11 +1221,12 @@ function drawBoss(now){
  }
  if(transforming){ctx.shadowColor=info.color;ctx.shadowBlur=35;ctx.globalAlpha=.7+.3*Math.sin(now*22)}
  if(hurt){ctx.filter='brightness(1.8) saturate(.6)';ctx.translate(Math.sin(now*45)*7,0)}
- ctx.translate(x,foot);ctx.scale(face*scale,scale);
- if(attacking){ctx.rotate((form===1?.13:.07)*Math.sin(now*15));ctx.translate(0,-9-approach*12)}else if(transforming){ctx.rotate(Math.sin(now*12)*.055)}else{ctx.rotate(Math.sin(now*1.8+form)*.025)}
- if(form===2)ctx.rotate(Math.sin(now*1.4)*.08);
- const drawn=imageDraw(info.key,-info.w/2,-info.h,info.w,info.h);
- if(!drawn){ctx.fillStyle=info.color;ctx.fillRect(-35,-130,70,120)}
+ ctx.translate(x,foot);
+ // Lean into the wind-up and recover, with an invariant ground contact point.
+ const lean=attacking?(form===1?.20:.11)*approach:transforming?.03*Math.sin(now*12):.008*Math.sin(now*2);
+ ctx.transform(face*(1+approach*.035),0,lean,breathe*(1-approach*.035),0,0);
+ const drawn=drawGroundedBoss(info.key,bossHeight);
+ if(!drawn){ctx.fillStyle=info.color;ctx.fillRect(-40,-bossHeight,80,bossHeight)}
  ctx.filter='none';
  ctx.restore();
  ctx.save();ctx.textAlign='center';ctx.font='900 23px system-ui';ctx.fillStyle='#f7eacb';ctx.strokeStyle='#192022';ctx.lineWidth=5;
@@ -1371,7 +1444,26 @@ if(lives===1){ctx.fillStyle='#ffda73';ctx.font='bold 18px system-ui';ctx.fillTex
 function frame(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform(C.width/W,0,0,C.height/H,0,0);ctx.clearRect(0,0,W,H);update(dt,now);draw(now);requestAnimationFrame(frame)}
 // Fixed aspect ratio canvas via CSS pixels, letterbox on different screens.
 function frame2(ms){let now=ms/1000,dt=Math.min(.032,last?(ms-last)/1000:.016);last=ms;ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='#101b2b';ctx.fillRect(0,0,C.width,C.height);ctx.setTransform((C.width/vw)*s,0,0,(C.height/vh)*scaleY,(C.width/vw)*offX,(C.height/vh)*offY);update(dt,now);draw(now);drawDamageFeedback(now);requestAnimationFrame(frame2)}
-addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD','KeyJ','KeyL','KeyF','KeyC','ControlLeft','ControlRight','KeyX','ShiftLeft','ShiftRight'].includes(e.code))e.preventDefault();if(!keys[e.code]&&phase==='play'){if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='Space')jump();if(e.code==='KeyS'||e.code==='ArrowDown')drop();if(e.code==='KeyJ'||e.code==='KeyF'){chargeBegin({preventDefault(){},pointerId:'keyboard'})};if(e.code==='KeyL')ultimate();if(['KeyX','ShiftLeft','ShiftRight'].includes(e.code))dodge()}keys[e.code]=true});addEventListener('keyup',e=>{keys[e.code]=false;if((e.code==='KeyJ'||e.code==='KeyF')&&chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
+const attackKeys=['Enter','NumpadEnter','KeyJ','KeyF'];
+const gameKeys=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','KeyW','KeyA','KeyS','KeyD',...attackKeys,'KeyL','KeyC','ControlLeft','ControlRight','KeyX','ShiftLeft','ShiftRight'];
+addEventListener('keydown',e=>{
+ if(phase!=='play'||e.target?.matches?.('input,select,textarea,[contenteditable]'))return;
+ if(!gameKeys.includes(e.code))return;
+ e.preventDefault();
+ if(keys[e.code])return;
+ keys[e.code]=true;
+ if(['KeyW','ArrowUp','Space'].includes(e.code))jump();
+ if(['KeyS','ArrowDown'].includes(e.code))drop();
+ if(attackKeys.includes(e.code)&&chargePointer===null){
+  keyboardAttackKey=e.code;chargeBegin({preventDefault(){},pointerId:'keyboard'});
+ }
+ if(e.code==='KeyL')ultimate();
+ if(['KeyX','ShiftLeft','ShiftRight'].includes(e.code))dodge();
+});
+addEventListener('keyup',e=>{
+ keys[e.code]=false;
+ if(e.code===keyboardAttackKey){keyboardAttackKey=null;if(chargePointer==='keyboard')chargeEnd({preventDefault(){},pointerId:'keyboard'})}
+});addEventListener('blur',()=>{keys={};axis=0;isCharging=false;chargePointer=null;chargeAnnounced=false;$('attackHold').classList.remove('charging');resetStick()});const move=$('move');const heldDirs=new Map();function syncDirection(){axis=[...heldDirs.values()].at(-1)||0}function resetStick(){heldDirs.clear();axis=0;joyID=null;const thumb=$('soloThumb');if(thumb)thumb.style.transform='translate(0px,0px)';move.querySelectorAll('.direction').forEach(x=>x.classList.remove('pressed'))}
 function releaseDirection(pointerId){
  if(!heldDirs.has(pointerId))return;
  resetStick();
@@ -1409,7 +1501,7 @@ soloStick.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'&&e.butto
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])soloStick.addEventListener(ev,e=>{if(joyID===e.pointerId){resetStick();if(player)player.vx=0}});
 $('controlMode').onclick=()=>{stopPlayerInput();const on=document.body.classList.toggle('stick-mode');$('controlMode').textContent=on?'操作：搖桿 ⇄ 方向鍵':'操作：方向鍵 ⇄ 搖桿'};
 function stopPlayerInput(){
- jumpBufferUntil=0;lastGroundedAt=-10;crouchPointer=null;dodgeUntil=0;dodgeMoveUntil=0;
+ keyboardAttackKey=null;jumpBufferUntil=0;lastGroundedAt=-10;crouchPointer=null;dodgeUntil=0;dodgeMoveUntil=0;
  keys={};resetStick();if(player)player.vx=0;
  isCharging=false;chargePointer=null;chargeAnnounced=false;
  $('attackHold').classList.remove('charging','pressed');
