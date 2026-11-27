@@ -80,4 +80,7 @@ if(z.attack>0){for(let i=0;i<10;i++){let angle=i*Math.PI*2/10,dist=12+a*55;g.str
 const oldDecor51=decor32;
 decor32=function(s){oldDecor51(s);let p=project(s.x+.5,s.y+.5);if(p.d<1.4)return;let k=Math.min(3,p.k/45),n=(s.x*37+s.y*71)%97;g.save();g.translate(p.x,p.y);g.scale(k,k);g.strokeStyle=['#b6a079','#bea488','#76c7b4','#9ea9a5','#d3bb8c'][stage];g.lineWidth=.8;g.globalAlpha=.45;
 for(let i=0;i<5;i++){let x=(n*7+i*13)%48-24,y=-7-i*3;g.beginPath();g.moveTo(x,y);g.lineTo(x+3+(n+i)%8,y-1);g.stroke()}g.restore()};
+
+const pose52=['idle','walk','run','roll','crouch','inspect','hurt','win'],heroImages52={};for(const sex of ['male','female'])for(const pose of pose52){let img=new Image();img.src='../v52-assets/'+sex+'-'+pose+'.webp';heroImages52[sex+'-'+pose]=img}
+const fallback52=actor;actor=function(x,y,enemy,z={}){if(enemy)return fallback52(x,y,enemy,z);let moving=Math.hypot(jx,jy)>.1||Object.values(keys).some(Boolean),pose=hit2>.2?'hurt':dash>0?'roll':crouch50?'crouch':modal?'inspect':moving?'walk':'idle',img=heroImages52[$('hero50').value+'-'+pose];if(!img||!img.complete||!img.naturalWidth)return fallback52(x,y,enemy,z);let p=project(x+.5,y+.5);if(p.d<1)return;let k=p.k/45*1.65,h=110*k,w=h*img.naturalWidth/img.naturalHeight;g.save();g.translate(p.x,p.y);g.fillStyle='#0007';g.beginPath();g.ellipse(0,0,25*k,8*k,0,0,7);g.fill();g.translate(0,moving?-Math.abs(Math.sin(phase*8))*3*k:0);g.drawImage(img,-w/2,-h,w,h);g.restore()};
 </script></html>
